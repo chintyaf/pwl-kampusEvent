@@ -7,7 +7,7 @@
                 background-position: right bottom;
                 background-repeat: no-repeat;
                 background-size: cover;
-                padding: 170px 0px 120px 0px;
+                padding: 120px 0px 120px 0px;
             }
 
     .main-banner .item-1 {
@@ -31,49 +31,50 @@
           <div class="owl-carousel owl-banner">
             <div class="item item-1">
               <div class="header-text">
-                <span class="category">Our Courses</span>
-                <h2>With Scholar Teachers, Everything Is Easier</h2>
-                <p>Scholar is free CSS template designed by TemplateMo for online educational related websites. This
-                  layout is based on the famous Bootstrap v5.3.0 framework.</p>
+                <span class="category">Friday, 12 July 2025</span>
+                <h2>AI Innovations Summit 2025</h2>
+                <p>
+                A full-day conference showcasing the latest in artificial intelligence, featuring keynote speakers from OpenAI, Google DeepMind, and more.
+                </p>
                 <div class="buttons">
                   <div class="main-button">
-                    <a href="#">Request Demo</a>
+                    <a href="#">Learn More</a>
                   </div>
-                  <div class="icon-button">
+                  <!-- <div class="icon-button">
                     <a href="#"><i class="fa fa-play"></i> What's Scholar?</a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
             <div class="item item-2">
               <div class="header-text">
-                <span class="category">Best Result</span>
-                <h2>Get the best result out of your effort</h2>
-                <p>You are allowed to use this template for any educational or commercial purpose. You are not allowed
-                  to re-distribute the template ZIP file on any other website.</p>
+                <span class="category">Tuesday, 5 May 2025</span>
+                <h2>Mobile App Hackathon</h2>
+                <p>
+                24-hour hackathon for developers and designers to build innovative mobile apps. Prizes for best UI/UX, functionality, and creativity.
+                </p>
                 <div class="buttons">
                   <div class="main-button">
-                    <a href="#">Request Demo</a>
+                    <a href="#">Learn More</a>
                   </div>
-                  <div class="icon-button">
+                  <!-- <div class="icon-button">
                     <a href="#"><i class="fa fa-play"></i> What's the best result?</a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
             <div class="item item-3">
               <div class="header-text">
-                <span class="category">Online Learning</span>
-                <h2>Online Learning helps you save the time</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temporious incididunt ut
-                  labore et dolore magna aliqua suspendisse.</p>
+                <span class="category">Monday, 1 December 2025</span>
+                <h2>Intro to Cybersecurity Workshop</h2>
+                <p>Description: Hands-on workshop covering the fundamentals of cybersecurity, ethical hacking basics, and securing web applications.</p>
                 <div class="buttons">
                   <div class="main-button">
-                    <a href="#">Request Demo</a>
+                    <a href="#">Learn More</a>
                   </div>
-                  <div class="icon-button">
+                  <!-- <div class="icon-button">
                     <a href="#"><i class="fa fa-play"></i> What's Online Course?</a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -82,8 +83,50 @@
       </div>
     </div>
   </div>
-`
 
+  <section class="section courses" id="courses" >
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="section-heading">
+            <!-- <h6>Latest Events</h6> -->
+            <h2>Upcoming Event</h2>
+          </div>
+        </div>
+      </div>
+      <!-- <ul class="event_filter">
+        <li>
+          <a class="is_active" href="#!" data-filter="*">Show All</a>
+        </li>
+        <li>
+          <a href="#!" data-filter=".design">Webdesign</a>
+        </li>
+        <li>
+          <a href="#!" data-filter=".development">Development</a>
+        </li>
+        <li>
+          <a href="#!" data-filter=".wordpress">Wordpress</a>
+        </li>
+      </ul> -->
+      <div class="row event_box">
+        <div class="col-lg-4 col-md-6 align-self-center mb-30 event_outer col-md-6 design">
+          <div class="events_item">
+            <div class="thumb">
+              <a href="/event1"><img src="assets/images/course-01.jpg" alt=""></a>
+              <!-- <span class="category">Webdesign</span> -->
+              <!-- <span class="price"><h6><em>$</em>160<   /h6></span> -->
+            </div>
+            <div class="down-content">
+                <h4>Learn Web Design</h4>
+                <span class="author">21 Mei 2025</span>
+                <p class="price">Rp10.000,000</p>
+            </div>
+          </div>
+        </div>
+          </div>
+    </div>
+  </section>
+<!--
 <div class="section events" id="events">
     <div class="container">
       <div class="row">
@@ -191,5 +234,8 @@
         </div>
       </div>
     </div>
-  </div>
-@endsection
+  </div> -->
+
+
+
+  @endsection

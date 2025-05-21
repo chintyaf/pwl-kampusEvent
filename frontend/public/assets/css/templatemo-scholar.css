@@ -428,7 +428,7 @@ Header Style
 .header-area .main-nav #search input {
     background-color: rgba(255, 255, 255, 0.1);
     height: 44px;
-    width: 250px;
+    width: 550px;
     border-radius: 23px;
     border: none;
     color: #fff;
@@ -439,6 +439,10 @@ Header Style
 
 .header-area .main-nav #search input::placeholder {
     color: rgba(250, 250, 250, 0.75);
+}
+
+.header-area .main-nav #search input[type="text"]::focus {
+    border: 3px solid #ff0000 !important;
 }
 
 .header-area .main-nav #search i {
@@ -772,8 +776,9 @@ Banner Style
     background-position: center center;
     background-size: cover;
     border-radius: 25px;
-    padding: 100px 100px;
+    padding: 50px 70px;
     margin-left: 130px;
+    height: 550px;
 }
 
 .main-banner .item span.category {
@@ -793,7 +798,7 @@ Banner Style
     color: #fff;
     line-height: 70px;
     width: 60%;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .main-banner .item p {
@@ -1067,8 +1072,9 @@ Courses Style
 
 .events_item .thumb {
     position: relative;
-    border-radius: 25px;
+    border-radius: 20px 20px 0px 0px;
     overflow: hidden;
+    max-height: 250px;
 }
 
 .events_item .thumb img {
@@ -1118,16 +1124,18 @@ Courses Style
 }
 
 .events_item {
-    background-color: #f1f0fe;
+    background-color: #ffffff;
+    border: 2px rgba(54, 40, 74, 0.26) solid;
     border-radius: 25px;
     margin-bottom: 30px;
     position: relative;
     justify-content: center;
     align-items: center;
+    height: 500px;
 }
 
 .events_item .down-content {
-    padding: 20px 30px 25px 30px;
+    padding: 30px 30px 25px 30px;
 }
 
 .events_item .down-content span.author {
@@ -1140,7 +1148,15 @@ Courses Style
 .events_item .down-content h4 {
     font-size: 22px;
     font-weight: 600;
+    margin: 20px 0px;
     transition: all 0.3s;
+}
+
+.events_item .down-content .price {
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    margin: 20px 0px;
 }
 
 .events_item:hover .down-content h4 {
@@ -1178,7 +1194,7 @@ Facts Style
 }
 
 .fun-facts:after {
-    background: url({{asset(images/contact-dec-01.png)}});
+    /* background: url({}); */
     position: absolute;
     left: 15%;
     opacity: 0.5;
@@ -1758,6 +1774,7 @@ Responsive Style
 
 body {
     overflow-x: hidden;
+    background-color: #eee;
 }
 
 @media (max-width: 767px) {

@@ -5,7 +5,7 @@
         <div class="col-12">
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
+            <a href="{{ route('home') }}" class="logo">
               <h1>Evoria</h1>
             </a>
             <!-- ***** Logo End ***** -->
@@ -21,11 +21,12 @@
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
               <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-              <li class="scroll-to-section"><a href="#services">Services</a></li>
-              <li class="scroll-to-section"><a href="#courses">Courses</a></li>
-              <li class="scroll-to-section"><a href="#team">Team</a></li>
+              <!-- <li class="scroll-to-section"><a href="#services">Services</a></li> -->
+              <!-- <li class="scroll-to-section"><a href="#courses">Courses</a></li> -->
+              <!-- <li class="scroll-to-section"><a href="#team">Team</a></li> -->
               <li class="scroll-to-section"><a href="#events">Events</a></li>
-              <li class="scroll-to-section"><a href="#contact">Register Now!</a></li>
+              <li class="scroll-to-section"><a href="#contact">Log in</a></li>
+              <li class="scroll-to-section"><a href="#contact">Register</a></li>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
