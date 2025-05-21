@@ -21,3 +21,31 @@ Route::get('/login', function () {
 Route::get('/home', function () {
     return view('home'); // resources/views/home.blade.php
 });
+
+Route::get('/admin', function () {
+    return view('admin.index');
+});
+
+Route::get('/admin/manage-users', function () {
+    return view('admin.manage-users');
+});
+
+Route::get('/committee', function () {
+    return view('committee.index');
+});
+
+Route::get('/finance', function () {
+    return view('finance.index');
+});
+
+Route::get('/finance/update-status', function () {
+    return view('finance.update-status');
+});
+
+Route::get('/member', function () {
+    return view('member.index');
+});
+
+Route::get('/staff', function () {
+    return view('staff.index');
+});

@@ -19,30 +19,35 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
+  role: { type: String, default: "member" } // bisa 'admin', 'user', 'staff', dll
 });
 
 const User = mongoose.model("User", userSchema);
 
 // Register route (sama seperti sebelumnya)
-app.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: "Missing name, email, or password" });
-  }
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, email, password: hashedPassword });
-    await user.save();
-    res.json({ message: "User registered successfully", userId: user._id });
-  } catch (err) {
-    if (err.code === 11000) {
-      return res.status(400).json({ message: "Email already registered" });
+app.post('/register', async (req, res) => {
+    const { name, email, password } = req.body;
+  
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-    res.status(500).json({ message: "Error registering user", error: err.message });
-  }
-});
+  
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(409).json({ message: "Email already registered" });
+  
+    const hashedPassword = password; // (Gunakan bcrypt di real case)
+  
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: 'member' // otomatis jadi member
+    });
+  
+    await user.save();
+    res.json({ message: 'Registered as member successfully' });
+  });
+  
 
 // Login route
 app.post("/login", async (req, res) => {
