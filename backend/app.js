@@ -1,16 +1,16 @@
-// node-backend/index.js
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = 5000;
+const myRouter = require("./routes/myRouter");
 
-app.use(cors()); // Allow requests from Laravel
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/api/message", (req, res) => {
-    res.json({ message: "Hello from Node.js backend!" });
-});
+// Use router
+app.use("/", myRouter);
 
-app.listen(port, () => {
-    console.log(`Node.js backend running at http://localhost:${port}`);
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`Node.js backend running on http://localhost:${PORT}`);
 });
