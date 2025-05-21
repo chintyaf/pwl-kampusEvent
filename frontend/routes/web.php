@@ -26,7 +26,7 @@ Route::get('/event1/registered', function () {
     return view('event-register.registered');
 });
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
     // $response = Http::get('http://localhost:5000/api/messages');
     // $messages = $response->json(); // this will be an array
