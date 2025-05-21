@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-
-
 Route::get('/', function () {
     return view('index');
 })->name("home");
@@ -26,14 +23,13 @@ Route::get('/event1/registered', function () {
     return view('event-register.registered');
 });
 
-Route::get('/welcome', function () {
+Route::get('/', function () {
     return view('welcome');
     // $response = Http::get('http://localhost:5000/api/messages');
     // $messages = $response->json(); // this will be an array
 
     // return view('welcome', compact('messages'));
 });
-
 Route::get('/register', function () {
     return view('register'); // resources/views/register.blade.php
 });

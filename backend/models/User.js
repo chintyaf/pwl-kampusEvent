@@ -1,11 +1,25 @@
 const mongoose = require("mongoose");
 
+// User Schema & Model
 const userSchema = new mongoose.Schema({
-    name: {
+    name: String,
+    email: String,
+    password: String,
+    role: {
         type: String,
-        required: true,
+        enum: [
+            "guest",
+            "member",
+            "admin",
+            "finance_team",
+            "event_committee",
+            "event_staff",
+        ],
+        default: "guest",
     },
-    age: Number,
+    is_active: { type: Boolean, default: true },
+    created_at: { type: Date, default: Date.now },
+    updated_at: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("User", userSchema);
