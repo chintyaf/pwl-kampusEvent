@@ -38,6 +38,30 @@ const User = mongoose.model("User", userSchema);
 
 // -------------------- ROUTES --------------------
 
+// Register route (sama seperti sebelumnya)
+app.post('/register', async (req, res) => {
+    const { name, email, password } = req.body;
+  
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+  
+    const existing = await User.findOne({ email });
+    if (existing) return res.status(409).json({ message: "Email already registered" });
+  
+    const hashedPassword = password; // (Gunakan bcrypt di real case)
+  
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      role: 'member' // otomatis jadi member
+    });
+  
+    await user.save();
+    res.json({ message: 'Registered as member successfully' });
+  });
+
 // Login endpoint
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;

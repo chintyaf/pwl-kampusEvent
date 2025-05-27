@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,4 +9,8 @@
 <body>
     <h1>Ini Dashboard Finance Team</h1>
 </body>
-</html>
+</html> --}}
+
+@extends('layouts.finance')
+@section('content')
+@endsection
