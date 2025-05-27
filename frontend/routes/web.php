@@ -61,9 +61,9 @@ Route::get('/admin/manage-users', function () {
     return view('admin.manage-users');
 });
 
-Route::get('/committee', function () {
-    return view('committee.index');
-});
+// Route::get('/committee', function () {
+//     return view('committee.index');
+// });
 
 Route::get('/finance', function () {
     return view('finance.index');
