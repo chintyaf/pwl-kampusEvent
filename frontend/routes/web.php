@@ -1,10 +1,21 @@
 <?php
 
+use App\Http\Controllers\ComiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-})->name("home");
+})->name('home');
+
+Route::get('/backsie', function () {
+    return view('layouts.back');
+});
+
+Route::get('/fronties', function () {
+    return view('layouts.front');
+});
+
+
 
 Route::get('/event1', function () {
     return view('event-register.detail');
@@ -23,8 +34,8 @@ Route::get('/event1/registered', function () {
     return view('event-register.registered');
 });
 
-// Route::get('/', function () {
-//     return view('welcome');
+Route::get('/', function () {
+    return view('welcome');
     // $response = Http::get('http://localhost:5000/api/messages');
     // $messages = $response->json(); // this will be an array
 
@@ -69,3 +80,18 @@ Route::get('/member', function () {
 Route::get('/staff', function () {
     return view('staff.index');
 });
+
+
+// COMITE
+Route::controller(ComiteController::class)->prefix('committee')->group(function () {
+
+        Route::get('', 'index')->name('comite.index');
+
+        Route::get('add', 'add')->name('comite.add');
+        Route::post('store', 'store')->name('comite.store');
+        Route::get('edit/{id}', 'edit')->name('comite.edit');
+        Route::put('update/{id}', 'update')->name('comite.update');
+        Route::get('delete/{id}', 'delete')->name('comite.delete');
+
+});
+
