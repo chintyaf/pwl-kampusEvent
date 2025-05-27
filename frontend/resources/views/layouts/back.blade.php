@@ -5,7 +5,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Evoria - Staff</title>
 
@@ -22,7 +23,7 @@
         rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="{{ asset('back/assets/vendor/fonts/boxicons.css') }}" />
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('back/assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
@@ -32,7 +33,6 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('back/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-
     <link rel="stylesheet" href="{{ asset('back/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <!-- Page CSS -->
@@ -40,21 +40,15 @@
     <!-- Helpers -->
     <script src="{{ asset('back/assets/vendor/js/helpers.js') }}"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('back/assets/js/config.js') }}"></script>
 </head>
 
 <body>
-    <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            <!-- Menu -->
 
             @include('layouts.partials-back.sidebar')
-            <!-- / Menu -->
 
-            <!-- Layout container -->
             <div class="layout-page">
                 <!-- Navbar -->
                 @include('layouts.partials-back.navbar')
@@ -63,11 +57,11 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
-
+                    @yield('content')
                     <!-- / Content -->
 
                     <!-- Footer -->
-                        @include('layouts.partials-back.footer')
+                    @include('layouts.partials-back.footer')
                     <!-- / Footer -->
 
                     <div class="content-backdrop fade">
@@ -76,7 +70,6 @@
                 </div>
                 <!-- Content wrapper -->
             </div>
-            <!-- / Layout page -->
         </div>
 
         <!-- Overlay -->
@@ -84,10 +77,7 @@
     </div>
     <!-- / Layout wrapper -->
 
-    <div class="buy-now">
-        <a href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/" target="_blank"
-            class="btn btn-danger btn-buy-now">Upgrade to Pro</a>
-    </div>
+    @yield('extraJS')
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

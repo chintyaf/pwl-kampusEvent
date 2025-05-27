@@ -53,7 +53,7 @@ https://templatemo.com/tm-586-scholar
 
     </style>
 
-    @yield("content")
+    @yield('content')
 
 
 
