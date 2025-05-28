@@ -12,12 +12,12 @@
                         <!-- <small class="text-muted float-end">Default label</small> -->
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="formInput">
                             <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">Event Name</label>
+                                <label class="col-sm-2 col-form-label" for="">Event Name</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="basic-default-name"
+                                        <input type="text" class="form-control" id="" name="name"
                                             placeholder="e.g., Digital Marketing 101" />
                                     </div>
                                     <div class="form-text">Enter a clear and concise title for your event.</div>
@@ -29,7 +29,7 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-company">Date</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <input type="date" class="form-control" id="basic-default-name"
+                                        <input type="date" class="form-control" id="" name="date"
                                             placeholder="Select date for your event" />
                                     </div>
                                     <div class="form-text">Choose the scheduled start date and time for the event.</div>
@@ -45,12 +45,9 @@
                                             <label for="startDate" class="form-label">Start</label>
                                             <div class="input-group" id="startPicker" data-td-target-input="nearest"
                                                 data-td-target-toggle="nearest">
-                                                <input type="time" class="form-control" data-td-target="#startPicker"
+                                                <input type="time" class="form-control" data-td-target="#startPicker" name="start_time"
                                                     id="startDate" />
-                                                <!-- <span class="input-group-text" data-td-target="#startPicker"
-                                                                                                                                                                data-td-toggle="datetimepicker">
-                                                                                                                                                                <i class="bi bi-calendar"></i>
-                                                                                                                                                            </span> -->
+                                                <!-- <span class="input-group-text" data-td-target="#startPicker" --->
                                             </div>
                                         </div>
 
@@ -58,12 +55,9 @@
                                             <label for="endDate" class="form-label">End</label>
                                             <div class="input-group" id="endPicker" data-td-target-input="nearest"
                                                 data-td-target-toggle="nearest">
-                                                <input type="time" class="form-control" data-td-target="#endPicker"
+                                                <input type="time" class="form-control" data-td-target="#endPicker" name="end_time"
                                                     id="endDate" />
-                                                <!-- <span class="input-group-text" data-td-target="#endPicker"
-                                                                                                                                                                data-td-toggle="datetimepicker">
-                                                                                                                                                                <i class="bi bi-clock"></i>
-                                                                                                                                                            </span> -->
+                                                <!-- <span class="input-group-text" data-td-target="#endPicker" --->
                                             </div>
                                         </div>
                                     </div>
@@ -76,7 +70,7 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-company">Location</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <textarea id="basic-default-message" class="form-control" placeholder="e.g., Auditorium A, Campus Center"
+                                        <textarea id="basic-default-message" class="form-control" placeholder="e.g., Auditorium A, Campus Center" name="location"
                                             aria-label="e.g., Auditorium A, Campus Center" aria-describedby="basic-icon-default-message2"></textarea>
                                     </div>
                                     <div class="form-text">Provide a physical address or online meeting link.</div>
@@ -103,7 +97,7 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-company">Event Poster</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <input class="form-control" type="file" id="formFile" />
+                                        <input class="form-control" type="file" id="formFile" name="poster_url" />
                                     </div>
                                     <div class="form-text">Upload a visual poster or banner for the event. Max file size
                                         2MB.</div>
@@ -118,7 +112,7 @@
                                 <div class="col-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-text">Rp</span>
-                                        <input type="text" class="form-control" placeholder="Amount"
+                                        <input type="text" class="form-control" placeholder="Amount" name="registration_fee"
                                             aria-label="Amount (to the nearest dollar)" />
                                         <span class="input-group-text">/ person</span>
                                     </div>
@@ -134,7 +128,7 @@
                                     Participants</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <input type="number" class="form-control" id="basic-default-name"
+                                        <input type="number" class="form-control" id="max_participants" name="max_participants"
                                             placeholder="e.g., 100" />
                                     </div>
                                     <div class="form-text">Set a cap for the number of attendees. Use numeric values only.
@@ -188,5 +182,61 @@
             const inputGroup = button.parentNode;
             inputGroup.remove();
         }
+    </script>
+
+    <script>
+        const formInput = document.getElementById('formInput');
+
+        formInput.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const form = e.target;
+
+            const speakerInputs = document.querySelectorAll('#speakers-list > div');
+            const speakers = [];
+
+            speakerInputs.forEach(group => {
+                const name = group.querySelector('input[name="speakers[]"]')?.value;
+                if (name) {
+                    speakers.push(name);
+                }
+            });
+
+            const data = {
+                name : form.name.value,
+                date : form.date.value,
+                start_time : form.start_time.value,
+                end_time : form.end_time.value,
+                location : form.location.value,
+                speaker : speakers,
+                poster_url : form.poster_url.value, // Perlu diganti oh well
+                registration_fee : form.registration_fee.value,
+                max_participants : form.max_participants.value,
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/events/store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message || 'New event added successfully!');
+                    form.reset();
+                    window.location.href = "/events";  // pindah ke halaman login setelah register berhasil
+                } else {
+                    alert(result.message || 'Fail to add event');
+                }
+            } catch (error) {
+                alert('Error connecting to server');
+                console.error(error);
+            }
+        });
     </script>
 @endsection
