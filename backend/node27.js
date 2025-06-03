@@ -177,6 +177,49 @@ app.delete('/admin/users/:id', async (req, res) => {
   }
 });
 
+// Statistik jumlah member tiap bulan
+app.get("/admin/statistics/member-growth", async (req, res) => {
+  try {
+    const result = await User.aggregate([
+      { $match: { role: "member" } },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$created_at" },
+            month: { $month: "$created_at" }
+          },
+          total: { $sum: 1 }
+        }
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1 } }
+    ]);
+
+    const data = result.map(item => ({
+      label: `${item._id.month}/${item._id.year}`,
+      total: item.total
+    }));
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: "Gagal mengambil data", error: err });
+  }
+});
+
+// GET JUMLAH MEMBER
+app.get('/admin/statistics/member-count', async (req, res) => {
+  try {
+    const count = await User.countDocuments({ role: 'member' });
+    res.json({ totalMembers: count });
+  } catch (err) {
+    res.status(500).json({ message: "Gagal mengambil jumlah member", error: err });
+  }
+});
+app.get('/admin/users/member', async (req, res) => {
+  const members = await User.find({ role: 'member' });
+  res.json(members);
+});
+
+
 // ========== START SERVER ==========
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
