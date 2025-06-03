@@ -13,3 +13,7 @@ Route::post('/users', function (Request $request) {
         'data' => $data
     ]);
 });
+
+return [
+    'node_url' => env('NODE_API_URL', 'http://localhost:3000/api'),
+];

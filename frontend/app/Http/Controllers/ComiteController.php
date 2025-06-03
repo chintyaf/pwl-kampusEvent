@@ -15,7 +15,7 @@ class ComiteController extends Controller
 
     public function add()
     {
-        return view('program-studi.add');
+        return view('comite.add');
     }
 
     public function store(Request $request)
@@ -28,7 +28,7 @@ class ComiteController extends Controller
 
     public function edit($id)
     {
-        return view('program-studi.edit', []);
+        return view('comite.edit', []);
     }
 
     public function update(Request $request, $id)

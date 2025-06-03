@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ComiteController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,6 +41,7 @@ Route::get('/', function () {
     // $messages = $response->json(); // this will be an array
 
     // return view('welcome', compact('messages'));
+// });
 });
 Route::get('/register', function () {
     return view('register'); // resources/views/register.blade.php
@@ -62,9 +64,9 @@ Route::get('/admin/manage-users', function () {
     return view('admin.manage-users');
 });
 
-Route::get('/committee', function () {
-    return view('committee.index');
-});
+// Route::get('/committee', function () {
+//     return view('committee.index');
+// });
 
 Route::get('/admin/users/member', function () {
     return view('admin.list-member');
@@ -105,15 +107,20 @@ Route::get('/staff', function () {
 
 
 // COMITE
-Route::controller(ComiteController::class)->prefix('committee')->group(function () {
+Route::prefix('committee')->group(function () {
+        Route::controller(EventController::class)->group(function(){
+            // Route::get('', 'index')->name('comite.index');
+        });
 
-        Route::get('', 'index')->name('comite.index');
-
-        Route::get('add', 'add')->name('comite.add');
-        Route::post('store', 'store')->name('comite.store');
-        Route::get('edit/{id}', 'edit')->name('comite.edit');
-        Route::put('update/{id}', 'update')->name('comite.update');
-        Route::get('delete/{id}', 'delete')->name('comite.delete');
+        Route::controller(EventController::class)->prefix('events')->group(function(){
+            Route::get('', 'index')->name('event.index');
+            Route::get('add', 'add')->name('event.add');
+            Route::post('store', 'store')->name('comite.store');
+            Route::get('edit/{id}', 'edit')->name('comite.edit');
+            Route::put('update/{id}', 'update')->name('comite.update');
+            Route::get('delete/{id}', 'delete')->name('comite.delete');
+        });
 
 });
+
 
