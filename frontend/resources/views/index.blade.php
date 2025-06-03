@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.front')
 @section('content')
 
 <style>
         .main-banner {
-                background-image: url("{{ asset('assets/images/banner-bg.jpg') }}");
+                background-image: url("{{ asset('front/assets/images/banner-bg.jpg') }}");
                 background-position: right bottom;
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -11,15 +11,15 @@
             }
 
     .main-banner .item-1 {
-    background-image: url(" {{ asset('assets/images/banner-item-01.jpg') }} ");
+    background-image: url(" {{ asset('front/assets/images/banner-item-01.jpg') }} ");
 }
 
 .main-banner .item-2 {
-    background-image: url(" {{ asset('assets/images/banner-item-02.jpg') }} ");
+    background-image: url(" {{ asset('front/assets/images/banner-item-02.jpg') }} ");
 }
 
 .main-banner .item-3 {
-    background-image: url(" {{ asset('assets/images/banner-item-03.jpg') }} ");
+    background-image: url(" {{ asset('front/assets/images/banner-item-03.jpg') }} ");
 }
 </style>
 
@@ -112,7 +112,9 @@
         <div class="col-lg-4 col-md-6 align-self-center mb-30 event_outer col-md-6 design">
           <div class="events_item">
             <div class="thumb">
-              <a href="/event1"><img src="assets/images/course-01.jpg" alt=""></a>
+              <a href="/event1"><img src="{{ asset('front/assets/images/course-01.jpg') }}" alt="">
+
+            </a>
               <!-- <span class="category">Webdesign</span> -->
               <!-- <span class="price"><h6><em>$</em>160<   /h6></span> -->
             </div>
@@ -141,7 +143,7 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="image">
-                  <img src="{{ asset('assets/images/event-01.jpg') }}" alt="">
+                  <img src="{{ asset('front/assets/images/event-01.jpg') }}" alt="">
                 </div>
               </div>
               <div class="col-lg-9">
@@ -173,7 +175,7 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="image">
-                  <img src="{{ asset('assets/images/event-02.jpg') }}" alt="">
+                  <img src="{{ asset('front/assets/images/event-02.jpg') }}" alt="">
                 </div>
               </div>
               <div class="col-lg-9">

@@ -17,7 +17,7 @@
                                 <label class="col-sm-2 col-form-label" for="">Event Name</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="" name="name"
+                                        <input type="text" class="form-control" id="" name="name" value="{{ $event['name'] }}"
                                             placeholder="e.g., Digital Marketing 101" />
                                     </div>
                                     <div class="form-text">Enter a clear and concise title for your event.</div>
@@ -29,7 +29,7 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-company">Date</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <input type="date" class="form-control" id="" name="date"
+                                        <input type="date" class="form-control" id="" name="date" value="{{ $event['date'] }}"
                                             placeholder="Select date for your event" />
                                     </div>
                                     <div class="form-text">Choose the scheduled start date and time for the event.</div>
@@ -45,7 +45,7 @@
                                             <label for="startDate" class="form-label">Start</label>
                                             <div class="input-group" id="startPicker" data-td-target-input="nearest"
                                                 data-td-target-toggle="nearest">
-                                                <input type="time" class="form-control" data-td-target="#startPicker" name="start_time"
+                                                <input type="time" class="form-control" data-td-target="#startPicker" name="start_time" value="{{ $event['start_time'] }}"
                                                     id="startDate" />
                                                 <!-- <span class="input-group-text" data-td-target="#startPicker" --->
                                             </div>
@@ -55,7 +55,7 @@
                                             <label for="endDate" class="form-label">End</label>
                                             <div class="input-group" id="endPicker" data-td-target-input="nearest"
                                                 data-td-target-toggle="nearest">
-                                                <input type="time" class="form-control" data-td-target="#endPicker" name="end_time"
+                                                <input type="time" class="form-control" data-td-target="#endPicker" name="end_time" value="{{ $event['end_time'] }}"
                                                     id="endDate" />
                                                 <!-- <span class="input-group-text" data-td-target="#endPicker" --->
                                             </div>
@@ -71,7 +71,7 @@
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
                                         <textarea id="basic-default-message" class="form-control" placeholder="e.g., Auditorium A, Campus Center" name="location"
-                                            aria-label="e.g., Auditorium A, Campus Center" aria-describedby="basic-icon-default-message2"></textarea>
+                                            aria-label="e.g., Auditorium A, Campus Center" aria-describedby="basic-icon-default-message2">{{ $event['location'] }}</textarea>
                                     </div>
                                     <div class="form-text">Provide a physical address or online meeting link.</div>
                                 </div>
@@ -83,7 +83,14 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-company">Speaker(s)</label>
                                 <div class="col-sm-10">
                                     <div id="speakers-list">
-
+                                        @if(isset($event['speaker']) && is_array($event['speaker']))
+                                            @foreach($event['speaker'] as $speaker)
+                                                <div class="input-group input-group-merge mb-2">
+                                                    <input type="text" class="form-control" name="speakers[]" value="{{ $speaker }}" placeholder="e.g., Jane Smith, CEO of TechCorp">
+                                                    <button type="button" class="btn btn-outline-danger" onclick="removeSpeaker(this)">&times;</button>
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </div>
                                     <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSpeaker()">Add
                                         Speaker</button>
@@ -112,7 +119,7 @@
                                 <div class="col-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-text">Rp</span>
-                                        <input type="text" class="form-control" placeholder="Amount" name="registration_fee"
+                                        <input type="text" class="form-control" placeholder="Amount" name="registration_fee" value="{{ $event['registration_fee'] }}"
                                             aria-label="Amount (to the nearest dollar)" />
                                         <span class="input-group-text">/ person</span>
                                     </div>
@@ -128,7 +135,7 @@
                                     Participants</label>
                                 <div class="col-sm-10">
                                     <div class="input-group input-group-merge">
-                                        <input type="number" class="form-control" id="max_participants" name="max_participants"
+                                        <input type="number" class="form-control" id="max_participants" name="max_participants" value="{{ $event['max_participants'] }}"
                                             placeholder="e.g., 100" />
                                     </div>
                                     <div class="form-text">Set a cap for the number of attendees. Use numeric values only.
@@ -139,7 +146,8 @@
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Send</button>
+                                    <a href="#" class="btn btn-primary">Update</a>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
                             </div>
                         </form>
@@ -185,58 +193,49 @@
     </script>
 
     <script>
-        const formInput = document.getElementById('formInput');
+            document.getElementById('formInput').addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-        formInput.addEventListener('submit', async function (e) {
-            e.preventDefault();
+        const form = e.target;
+        const formData = new FormData();
 
-            const form = e.target;
+        formData.append("name", form.name.value);
+        formData.append("date", form.date.value);
+        formData.append("start_time", form.start_time.value);
+        formData.append("end_time", form.end_time.value);
+        formData.append("location", form.location.value);
+        formData.append("registration_fee", form.registration_fee.value);
+        formData.append("max_participants", form.max_participants.value);
 
-            const speakerInputs = document.querySelectorAll('#speakers-list > div');
-            const speakers = [];
+        const speakers = document.querySelectorAll('input[name="speakers[]"]');
+        speakers.forEach(input => {
+            if (input.value) formData.append("speaker[]", input.value);
+        });
 
-            speakerInputs.forEach(group => {
-                const name = group.querySelector('input[name="speakers[]"]')?.value;
-                if (name) {
-                    speakers.push(name);
-                }
+        const fileInput = form.poster_url;
+        if (fileInput.files.length > 0) {
+            formData.append("poster_url", fileInput.files[0]);
+        }
+
+        try {
+            const eventId = `{{ $event['_id'] }}`;
+            const response = await fetch(`http://localhost:3000/api/events/update/${eventId}`, {
+                method: 'PUT',
+                body: formData,
             });
 
-            const data = {
-                name : form.name.value,
-                date : form.date.value,
-                start_time : form.start_time.value,
-                end_time : form.end_time.value,
-                location : form.location.value,
-                speaker : speakers,
-                poster_url : form.poster_url.value, // Perlu diganti oh well
-                registration_fee : form.registration_fee.value,
-                max_participants : form.max_participants.value,
-            };
+            const result = await response.json();
 
-            try {
-                const response = await fetch('http://localhost:3000/api/events/store', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert(result.message || 'New event added successfully!');
-                    form.reset();
-                    window.location.href = "/events";  // pindah ke halaman login setelah register berhasil
-                } else {
-                    alert(result.message || 'Fail to add event');
-                }
-            } catch (error) {
-                alert('Error connecting to server');
-                console.error(error);
+            if (response.ok) {
+                alert(result.message || "Event updated successfully!");
+                window.location.href = "/events";
+            } else {
+                alert(result.message || "Update failed");
             }
-        });
+        } catch (err) {
+            console.error(err);
+            alert("Server error");
+        }
+    })
     </script>
 @endsection

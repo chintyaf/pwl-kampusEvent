@@ -4,7 +4,7 @@ use App\Http\Controllers\ComiteController;
 use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('index');
 })->name('home');
 
@@ -15,6 +15,10 @@ Route::get('/backsie', function () {
 Route::get('/fronties', function () {
     return view('layouts.front');
 });
+
+Route::get('/events/detail', function () {
+    return view('events.detail');
+})->name('home');
 
 
 
@@ -93,10 +97,10 @@ Route::prefix('committee')->group(function () {
         Route::controller(EventController::class)->prefix('events')->group(function(){
             Route::get('', 'index')->name('event.index');
             Route::get('add', 'add')->name('event.add');
-            Route::post('store', 'store')->name('comite.store');
-            Route::get('edit/{id}', 'edit')->name('comite.edit');
-            Route::put('update/{id}', 'update')->name('comite.update');
-            Route::get('delete/{id}', 'delete')->name('comite.delete');
+            Route::post('store', 'store')->name('events.store');
+            Route::get('edit/{id}', 'edit')->name('events.edit');
+            // Route::put('update/{id}', 'update')->name('events.update');
+            Route::get('delete/{id}', 'delete')->name('events.delete');
         });
 
 });
