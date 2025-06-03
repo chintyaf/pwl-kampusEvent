@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class ComiteController extends Controller
+{
+    public function dashboard()
+    {
+        $unverifiedPayments = Payment::with('user', 'event')
+            ->where('status', 'pending')->latest()->get();
+
+        $verifiedPayments = Payment::with('user', 'event')
+            ->where('status', 'verified')->latest()->get();
+
+        return view('finance.dashboard', compact('unverifiedPayments', 'verifiedPayments'));
+    }
+
+    public function approve($id)
+    {
+        $payment = Payment::findOrFail($id);
+        $payment->status = 'verified';
+        $payment->updated_at = now();
+        $payment->save();
+
+        return redirect()->back()->with('success', 'Pembayaran berhasil diverifikasi.');
+    }
+
+}

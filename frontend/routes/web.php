@@ -59,9 +59,10 @@ Route::get('/home', function () {
     return view('home'); // resources/views/home.blade.php
 });
 
+// ADMIN
 Route::get('/admin', function () {
     return view('admin.index');
-});
+})->name('admin.index');
 
 Route::get('/admin/manage-users', function () {
     return view('admin.manage-users');
@@ -71,9 +72,30 @@ Route::get('/admin/manage-users', function () {
 //     return view('committee.index');
 // });
 
-Route::get('/finance', function () {
-    return view('finance.index');
+Route::get('/admin/users/member', function () {
+    return view('admin.list-member');
+})->name('admin.list-member');
+
+
+// FINANCE
+Route::prefix('finance')->group(function () {
+    Route::get('/', function () {
+        return view('finance.index');
+    })->name('finance.index');
+
+    Route::get('/add', function () {
+        return view('finance.add');
+    })->name('finance.add');
+
+    Route::get('/edit', function () {
+        return view('finance.edit');
+    })->name('finance.edit');
+
+    Route::get('/disable', function () {
+        return view('finance.disable');
+    })->name('finance.disable');
 });
+
 
 Route::get('/finance/update-status', function () {
     return view('finance.update-status');
