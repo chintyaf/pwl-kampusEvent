@@ -20,6 +20,7 @@ exports.store = async (req, res) => {
         poster_url,
         registration_fee,
         max_participants,
+        description,
     } = req.body;
 
     const event = new Event({
@@ -32,11 +33,10 @@ exports.store = async (req, res) => {
         poster_url,
         registration_fee,
         max_participants,
+        description,
         total_participants: 0,
     });
 
-    console.log("test");
-    console.log(req.body);
     await event.save();
     res.json({ message: "New event added successfully" });
 };

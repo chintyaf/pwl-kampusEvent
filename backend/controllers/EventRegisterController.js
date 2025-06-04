@@ -1,11 +1,12 @@
-const Event = require("../models/Event");
+const EventRegis = require("../models/EventRegister");
 
-exports.store = async (req, res) => {
+exports.register = async (req, res) => {
     const { user_id, event_id, visitor, registration_date, payment } = req.body;
 
-    const event = new Event({
-        user_id,
-        event_id,
+    console.log(req.body);
+    const eventReg = new EventRegis({
+        // user_id,
+        // event_id,
         visitor,
         registration_date,
         payment,
@@ -14,7 +15,7 @@ exports.store = async (req, res) => {
 
     console.log("test");
     console.log(req.body);
-    await event.save();
+    // await eventReg.save();
     res.json({
         message:
             "Successfully registered, please wait until we confirmed your payment",

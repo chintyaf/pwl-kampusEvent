@@ -16,6 +16,7 @@ const objSchema = new mongoose.Schema({
     registration_fee: Number,
     max_participants: Number,
     total_participants: Number,
+    description: String,
     status: {
         type: String,
         enum: ["Upcoming", "On Going", "Finished?"],

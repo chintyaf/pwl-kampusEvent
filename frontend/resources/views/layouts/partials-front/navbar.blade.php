@@ -5,7 +5,7 @@
         <div class="col-12">
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
-            <a href="{{ route('home') }}" class="logo">
+            <a href="/" class="logo">
               <h1>Evoria</h1>
             </a>
             <!-- ***** Logo End ***** -->

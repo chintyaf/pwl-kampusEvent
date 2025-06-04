@@ -2,19 +2,19 @@
 @section('content')
     <section class="section" style="margin: 80px; margin-top: 0px;">
         <!-- Event Detail Banner
-                            <div class="event-detail-banner">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="event-header">
-                                                <span class="event-date-badge">Friday, 12 July 2025</span>
-                                                <h1 class="event-title">AI Innovations Summit 2025</h1>
-                                                <p class="event-subtitle">A full-day conference showcasing the latest in artificial intelligence, featuring keynote speakers from OpenAI, Google DeepMind, and more.</p>
+                                <div class="event-detail-banner">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="event-header">
+                                                    <span class="event-date-badge">Friday, 12 July 2025</span>
+                                                    <h1 class="event-title">AI Innovations Summit 2025</h1>
+                                                    <p class="event-subtitle">A full-day conference showcasing the latest in artificial intelligence, featuring keynote speakers from OpenAI, Google DeepMind, and more.</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div> -->
+                                </div> -->
 
         <!-- Event Details Section -->
         <div class="detail-section">
@@ -26,10 +26,7 @@
                                 alt="">
                         </div>
                         <div class="col-6">
-                            <h4>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, id!
-                                Lorem, ipsum dolor. Lorem, ipsum dolor sit amet
-                            </h4>
+                            <h4>{{ $event['name'] }}</h4>
 
                             <div class="">
 
@@ -39,7 +36,9 @@
                                     </div>
                                     <div class="info-content">
                                         <h6>Date & Time</h6>
-                                        <p>Friday, July 12, 2025 | 09:00 AM - 06:00 PM</p>
+                                        <p>{{ \Carbon\Carbon::parse($event['date'])->format('l, F j, Y') }}
+                                            | {{ $event['start_time'] }} - {{ $event['end_time'] }}</p>
+                                        {{-- <p>Friday, July 12, 2025 | 09:00 AM - 06:00 PM</p> --}}
                                     </div>
                                 </div>
 
@@ -69,12 +68,13 @@
                                     </div>
                                     <div class="info-content">
                                         <h6>Price</h6>
-                                        <p style="font-size: 20px; font-weight:600; color:black">RP750,000 /person </p>
+                                        <p style="font-size: 20px; font-weight:600; color:black">
+                                            RP{{ $event['registration_fee'] }} /person </p>
                                     </div>
                                 </div>
 
                                 <div class="d-flex justify-content-end">
-                                    <a href="/event1/register" class="register-btn">Register Now</a>
+                                    <a href="{{ route('event.register', ['id' => (string) $event['_id']]) }}" class="register-btn">Register Now</a>
                                 </div>
 
                             </div>
@@ -97,9 +97,9 @@
                     <h4>Featured Speakers</h4>
 
                     <div class="col-4 speaker-card" style="margin-bottom: 20px; padding: 20px;">
-                        <div class="speaker-avatar">
+                        {{-- <div class="speaker-avatar">
                             <i class="fa fa-user" style="font-size: 40px; color: #ccc;"></i>
-                        </div>
+                        </div> --}}
                         <h6>Dr. Sarah Chen</h6>
                         <p style="font-size: 12px; color: #666; margin: 0;">Head of AI Research, OpenAI</p>
                     </div>

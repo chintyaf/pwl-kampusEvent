@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const objSchema = new mongoose.Schema({
-    user_id: ObjectId,
-    event_id: ObjectId,
+    user_id: { type: mongoose.Schema.Types.ObjectId },
+    event_id: { type: mongoose.Schema.Types.ObjectId },
     visitor: {
         type: [
             {
@@ -13,26 +13,48 @@ const objSchema = new mongoose.Schema({
         ],
         default: [],
     },
-    registration_date: Date,
-    status: "pending" | "paid" | "cancelled" | "attended",
+    registration_date: { type: Date, default: Date.now },
+    status: {
+        type: String,
+        enum: ["pending", "paid", "cancelled", "attended"],
+        default: "pending",
+    },
     qr_code: String,
     payment: {
-        proof_image_url: String,
-        payment_date: Date,
-        status: "waiting" | "approved" | "rejected",
-        verified_by: ObjectId, // reference to users._id (finance team)
+        proof_image_url: {
+            type: String,
+            required: true,
+        },
+        payment_date: {
+            type: Date,
+            default: Date.now,
+        },
+        status: {
+            type: String,
+            enum: ["waiting", "approved", "rejected"],
+            default: "waiting",
+        },
+        // verified_by: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "User",
+        // },
+        method: {
+            type: String,
+            enum: ["bca", "mandiri", "bni", "bri"],
+            required: true,
+        },
     },
     attendance: {
-        scanned_by: ObjectId, // reference to users._id (event committee)
+        scanned_by: { type: mongoose.Schema.Types.ObjectId }, // reference to users._id (event committee)
         scan_time: Date,
     },
     certificate: {
         file_url: String,
-        uploaded_by: ObjectId, // reference to users._id (event committee)
+        uploaded_by: { type: mongoose.Schema.Types.ObjectId }, // reference to users._id (event committee)
         upload_date: Date,
     },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Event", objSchema);
+module.exports = mongoose.model("EventRegist", objSchema);

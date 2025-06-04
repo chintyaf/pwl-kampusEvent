@@ -2,25 +2,25 @@
 
 use App\Http\Controllers\ComiteController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/welcome', function () {
-    return view('index');
-})->name('home');
-
-Route::get('/backsie', function () {
-    return view('layouts.back');
+// FRONT - MEMBER
+// HOME
+Route::controller(HomeController::class)->group(function () {
+    Route::get('', 'index')->name('home');
+    Route::get('event/{id}', 'view')->name('event.view');
 });
 
-Route::get('/fronties', function () {
-    return view('layouts.front');
+Route::controller(EventRegistrationController::class)->group(function(){
+    Route::get('event/{id}/register', 'register')->name('event.register');
+
 });
 
 Route::get('/events/detail', function () {
     return view('events.detail');
-})->name('home');
-
-
+});
 
 Route::get('/event1', function () {
     return view('event-register.detail');
@@ -30,7 +30,6 @@ Route::get('/event1/register', function () {
     return view('event-register.register');
 });
 
-
 Route::get('/event1/payment', function () {
     return view('event-register.payment');
 });
@@ -39,14 +38,7 @@ Route::get('/event1/registered', function () {
     return view('event-register.registered');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-    // $response = Http::get('http://localhost:5000/api/messages');
-    // $messages = $response->json(); // this will be an array
-
-    // return view('welcome', compact('messages'));
-// });
-});
+// AUTH
 Route::get('/register', function () {
     return view('register'); // resources/views/register.blade.php
 });
@@ -59,6 +51,8 @@ Route::get('/home', function () {
     return view('home'); // resources/views/home.blade.php
 });
 
+
+// BACK - ADMIN, FINANCE, COMITE
 // ADMIN
 Route::get('/admin', function () {
     return view('admin.index');
@@ -75,7 +69,6 @@ Route::get('/admin/manage-users', function () {
 Route::get('/admin/users/member', function () {
     return view('admin.list-member');
 })->name('admin.list-member');
-
 
 // FINANCE
 Route::prefix('finance')->group(function () {
@@ -96,7 +89,6 @@ Route::prefix('finance')->group(function () {
     })->name('finance.disable');
 });
 
-
 Route::get('/finance/update-status', function () {
     return view('finance.update-status');
 });
@@ -109,14 +101,15 @@ Route::get('/staff', function () {
     return view('staff.index');
 });
 
-
 // COMITE
-Route::prefix('committee')->group(function () {
-        Route::controller(EventController::class)->group(function(){
-            // Route::get('', 'index')->name('comite.index');
-        });
+Route::prefix('committee')->prefix('committee')->group(function () {
+    Route::controller(EventController::class)->group(function () {
+        // Route::get('', 'index')->name('comite.index');
+    });
 
-        Route::controller(EventController::class)->prefix('events')->group(function(){
+    Route::controller(EventController::class)
+        ->prefix('events')
+        ->group(function () {
             Route::get('', 'index')->name('event.index');
             Route::get('add', 'add')->name('event.add');
             Route::post('store', 'store')->name('events.store');
@@ -124,7 +117,4 @@ Route::prefix('committee')->group(function () {
             // Route::put('update/{id}', 'update')->name('events.update');
             Route::get('delete/{id}', 'delete')->name('events.delete');
         });
-
 });
-
-

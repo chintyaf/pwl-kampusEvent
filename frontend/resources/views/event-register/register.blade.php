@@ -3,7 +3,7 @@
     <section id="event-register" class="section" style="margin: 40px; margin-top: 0px;">
         <div class="detail-section">
             <div class="container">
-                <form action="">
+                <form id="formInput">
                     <!-- Informasi Event -->
                     <div class="detail-card">
                         <div class="mb-4">
@@ -12,18 +12,19 @@
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Nama Event</label>
                                 <div class="col-sm-10">
-                                    <input type="text" readonly class="form-control"
-                                        value="Workshop Web Development 2025" disabled>
+                                    <input type="text" readonly class="form-control" value="{{ $event['name'] }}"
+                                        disabled>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Tanggal</label>
                                 <div class="col-sm-4">
-                                    <input type="text" readonly class="form-control" value="15 Juni 2025" disabled>
+                                    <input type="text" readonly class="form-control"
+                                        value="{{ \Carbon\Carbon::parse($event['date'])->format('l, F j Y') }}" disabled>
                                 </div>
                                 <label class="col-sm-2 col-form-label">Harga per Tiket</label>
                                 <div class="col-sm-4">
-                                    <input type="text" readonly class="form-control" value="Rp 150.000" disabled>
+                                    <input type="text" readonly class="form-control" value="Rp 150.000 /person" disabled>
                                 </div>
                             </div>
                         </div>
@@ -42,43 +43,48 @@
                             </div>
                             <div id="visitorsContainer" class="mb-3">
                                 <!-- Dynamic visitors will be appended here -->
-                                <div class="visitor-item">
-                                    <div class="visitor-header d-flex justify-content-between mb-1">
-                                        <span class="visitor-number fw-semibold ">Pengunjung 1</span>
-                                        <button type="button" class="remove-visitor"
-                                            onclick="removeVisitor(${visitorCount})">X
-                                        </button>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="mainName" class="col-sm-2 col-form-label">Nama Lengkap <span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="mainName" required>
+                                <div class="visitor-list" id="visitorsContainer">
+                                    <div class="visitor-item" id="visitor-0">
+                                        <div class="visitor-header d-flex justify-content-between mb-1">
+                                            <span class="visitor-number fw-semibold">Pengunjung 1</span>
                                         </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="mainEmail" class="col-sm-2 col-form-label">Email <span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="mainEmail" required>
+                                        <div class="row mb-3">
+                                            <label for="mainName" class="col-sm-2 col-form-label">Nama Lengkap <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" name="visitors[0][name]"
+                                                    id="mainName" value="Chin" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="mainPhone" class="col-sm-2 col-form-label">No. Telepon <span
-                                                class="text-danger">*</span></label>
-                                        <div class="col-sm-10">
-                                            <input type="tel" class="form-control" id="mainPhone" required>
+                                        <div class="row mb-3">
+                                            <label for="mainEmail" class="col-sm-2 col-form-label">Email <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" name="visitors[0][email]"
+                                                    value="chin@gmail.com" id="mainEmail" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="mainPhone" class="col-sm-2 col-form-label">No. Telepon <span
+                                                    class="text-danger">*</span></label>
+                                            <div class="col-sm-10">
+                                                <input type="tel" class="form-control" name="visitors[0][phone_num]"
+                                                    value="089693569965" id="mainPhone" required>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
                     </div>
 
+                    <!-- Total Pembayaran -->
                     <div class="detail-card">
 
-                        <!-- Total Pembayaran -->
+
+
                         <div class="mb-4">
                             <h4 class="mb-3 form-title">Total Payments</h4>
                             <hr>
@@ -98,28 +104,30 @@
 
                     </div>
 
+                    <!-- Payment Confirmation Form Section -->
                     <div class="detail-card">
-                        <!-- Konfirmasi Pembayaran -->
                         <div class="mb-4">
                             <h4 class="mb-3 form-title">Payment Confirmations</h4>
                             <hr>
+
+                            <!-- Order Details -->
                             <div class="mb-3">
-                                <h6 class="mb-2">Order detail : </h6>
+                                <h6 class="mb-2">Order detail:</h6>
                                 <div class="d-flex justify-content-between mb-4">
                                     <span>Workshop Web Development 2025</span>
                                     <span id="summaryTickets">1 x Rp 150.000</span>
                                 </div>
-
                                 <div class="d-flex justify-content-between">
                                     <strong>Total Pembayaran</strong>
                                     <strong id="summaryTotal">Rp 150.000</strong>
                                 </div>
                             </div>
 
+                            <!-- Payment Method -->
                             <div class="row mb-3">
                                 <label for="paymentMethod" class="col-sm-2 col-form-label">Metode Pembayaran</label>
                                 <div class="col-sm-10">
-                                    <select id="paymentMethod" class="form-select" required>
+                                    <select id="paymentMethod" name="payment[method]" class="form-select" required>
                                         <option value="">Pilih Metode Pembayaran</option>
                                         <option value="bca">Transfer BCA - 1234567890 a.n. Event Organizer</option>
                                         <option value="mandiri">Transfer Mandiri - 9876543210 a.n. Event Organizer</option>
@@ -129,6 +137,7 @@
                                 </div>
                             </div>
 
+                            <!-- Upload Bukti Pembayaran -->
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Upload Bukti</label>
                                 <div class="col-sm-10">
@@ -137,8 +146,8 @@
                                         <p><strong>Klik untuk upload</strong> atau drag & drop file di sini</p>
                                         <small class="text-muted">Format: JPG, PNG, PDF (Max. 5MB)</small>
                                     </div>
-                                    <input type="file" id="paymentProof" accept="image/*,.pdf" style="display: none;"
-                                        required>
+                                    <input type="file" name="payment_proof" id="paymentProof" accept="image/*,.pdf"
+                                        style="display: none;" required>
                                     <div class="mt-2 d-flex justify-content-between align-items-center" id="filePreview"
                                         style="display: none;">
                                         <span id="fileName"></span>
@@ -147,19 +156,15 @@
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Catatan Tambahan</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" rows="3" placeholder="Catatan atau informasi tambahan (opsional)"></textarea>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
+
+
+
                     <!-- Submit Button -->
                     <div class="row mb-5">
                         <div class="col-sm-10 offset-sm-2">
-                            <button type="submit" class="btn btn-primary">🚀 Daftar Event Sekarang</button>
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                     </div>
                 </form>
@@ -172,13 +177,11 @@
     </section>
 @endsection
 @section('extraJS')
-
     <script>
         let visitorCount = 1;
         const ticketPrice = 150000;
 
         function addVisitor() {
-            visitorCount++;
             const visitorsContainer = document.getElementById('visitorsContainer');
 
             const visitorDiv = document.createElement('div');
@@ -186,38 +189,36 @@
             visitorDiv.id = `visitor-${visitorCount}`;
 
             visitorDiv.innerHTML = `
-                <div class="visitor-header d-flex justify-content-between mb-1">
-                    <span class="visitor-number fw-semibold ">Pengunjung ${visitorCount}</span>
-                    <button type="button" class="remove-visitor"
-                        onclick="removeVisitor(${visitorCount})">X
-                    </button>
-                </div>
-                <div class="row mb-3">
-                    <label for="mainName" class="col-sm-2 col-form-label">Nama Lengkap <span
-                            class="text-danger">*</span></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="mainName" required>
+                    <div class="visitor-header d-flex justify-content-between mb-1">
+                        <span class="visitor-number fw-semibold">Pengunjung ${visitorCount + 1}</span>
+                        <button type="button" class="remove-visitor" onclick="removeVisitor(${visitorCount})">X</button>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="mainEmail" class="col-sm-2 col-form-label">Email <span
-                            class="text-danger">*</span></label>
-                    <div class="col-sm-10">
-                        <input type="email" class="form-control" id="mainEmail" required>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="visitors[${visitorCount}][name]" required>
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="mainPhone" class="col-sm-2 col-form-label">No. Telepon <span
-                            class="text-danger">*</span></label>
-                    <div class="col-sm-10">
-                        <input type="tel" class="form-control" id="mainPhone" required>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Email <span class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" name="visitors[${visitorCount}][email]" required>
+                        </div>
                     </div>
-                </div>
-            `;
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">No. Telepon <span class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="tel" class="form-control" name="visitors[${visitorCount}][phone_num]" required>
+                        </div>
+                    </div>
+                `;
 
             visitorsContainer.appendChild(visitorDiv);
             updateTotal();
+            visitorCount++;
         }
+
+
 
         function removeVisitor(id) {
             const visitorDiv = document.getElementById(`visitor-${id}`);
@@ -284,7 +285,6 @@
         });
 
         fileInput.addEventListener('change', (e) => {
-            console.log("Hia")
 
             if (e.target.files.length > 0) {
                 handleFileUpload(e.target.files[0]);
@@ -292,7 +292,6 @@
         });
 
         function handleFileUpload(file) {
-            console.log("Hia")
             if (file.size > 5 * 1024 * 1024) {
                 alert('Ukuran file terlalu besar. Maksimal 5MB.');
                 return;
@@ -308,37 +307,104 @@
         }
 
         // Form submission
-        document.getElementById('eventForm').addEventListener('submit', (e) => {
-            e.preventDefault();
+        // document.getElementById('eventForm').addEventListener('submit', (e) => {
+        //     e.preventDefault();
 
-            // Validate required fields
-            const requiredFields = document.querySelectorAll('[required]');
-            let isValid = true;
+        //     // Validate required fields
+        //     const requiredFields = document.querySelectorAll('[required]');
+        //     let isValid = true;
 
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.style.borderColor = '#ff4757';
-                    isValid = false;
-                } else {
-                    field.style.borderColor = '#e0e0e0';
-                }
-            });
+        //     requiredFields.forEach(field => {
+        //         if (!field.value.trim()) {
+        //             field.style.borderColor = '#ff4757';
+        //             isValid = false;
+        //         } else {
+        //             field.style.borderColor = '#e0e0e0';
+        //         }
+        //     });
 
-            if (!isValid) {
-                alert('Mohon lengkapi semua field yang wajib diisi!');
-                return;
-            }
+        //     if (!isValid) {
+        //         alert('Mohon lengkapi semua field yang wajib diisi!');
+        //         return;
+        //     }
 
-            // Success message
-            alert(
-                '🎉 Registrasi berhasil! Kami akan mengirimkan konfirmasi ke email Anda dalam 1x24 jam setelah verifikasi pembayaran.'
-            );
+        //     // Success message
+        //     // alert(
+        //     //     'Registrasi berhasil! Kami akan mengirimkan konfirmasi ke email Anda dalam 1x24 jam setelah verifikasi pembayaran.'
+        //     // );
 
-            // Here you would normally send the form data to your server
-            console.log('Form submitted successfully!');
-        });
+        //     // Here you would normally send the form data to your server
+        //     // console.log('Form submitted successfully!');
+        // });
 
         // Initialize
         updateTotal();
+    </script>
+
+    <script>
+        document.querySelector('#formInput').addEventListener('submit', async function(e) {
+            console.log(document.querySelector('#formInput'));
+            e.preventDefault();
+
+            const form = e.target;
+            const visitorGroups = document.querySelectorAll('.visitor-item');
+            const visitors = [];
+
+            visitorGroups.forEach(group => {
+                const name = group.querySelector('input[name*="[name]"]')?.value;
+                const email = group.querySelector('input[name*="[email]"]')?.value;
+                const phone_num = group.querySelector('input[name*="[phone_num]"]')?.value;
+
+                if (name && email && phone_num) {
+                    visitors.push({
+                        name: name,
+                        email: email,
+                        phone_num: phone_num
+                    });
+                }
+            });
+
+            console.log(visitors)
+
+            const method = document.querySelector('#paymentMethod')?.value;
+            const proofFile = document.querySelector('#paymentProof')?.files[0];
+
+            // You must upload the file first to get the URL
+            // const proof_image_url = await uploadFileToCloud(proofFile); // implement this
+            const proof_image_url = "test.png"
+
+            const data = {
+                visitors: visitors,
+                payment: {
+                    method,
+                    proof_image_url
+                }
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/member/event/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log(response)
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message || 'New event added successfully!');
+                    form.reset();
+                    // window.location.href = "/events";
+                } else {
+                    alert(result.message || 'Failed to add event');
+                }
+            } catch (error) {
+                alert('Error connecting to server');
+                console.error(error);
+            }
+        });
     </script>
 @endsection
