@@ -21,7 +21,6 @@
                             <div class="col-lg-9">
                                 <ul>
                                     <li>
-                                        <!-- <span class="category">{{ $event['name'] }}</span> -->
                                         <h4>{{ $event['name'] }}</h4>
                                     </li>
                                     <li>
@@ -37,7 +36,7 @@
                                         <h6>{{ $event['registration_fee'] }}</h6>
                                     </li>
                                 </ul>
-                                <a href="#"><i class="fa fa-angle-right"></i></a>
+                                <a href="{{ route('events.edit', $event['_id']) }}"><i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
