@@ -45,11 +45,11 @@ Route::get('/register', function () {
 
 Route::get('/login', function () {
     return view('login'); // resources/views/login.blade.php
-})-> name('login');
+});
 
 Route::get('/home', function () {
     return view('home'); // resources/views/home.blade.php
-}) -> name('home');
+});
 
 
 // BACK - ADMIN, FINANCE, COMITE
