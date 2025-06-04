@@ -1,61 +1,155 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html
+  lang="en"
+  class="light-style customizer-hide"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="{{ asset('assets/') }}/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-</head>
-<body>
-    <h1>Login</h1>
 
-    <form id="loginForm">
-        <input type="email" name="email" placeholder="Email" required><br><br>
-        <input type="password" name="password" placeholder="Password" required><br><br>
-        <button type="submit">Login</button>
-    </form>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" />
+
+    <!-- Helpers -->
+    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
+  </head>
+
+  <body>
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Login Card -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="{{ url('/') }}" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                    <img src="{{ asset('assets/img/favicon/favicon.ico') }}" width="25" />
+                  </span>
+                  <span class="app-brand-text demo text-body fw-bolder">Evoria</span>
+                </a>
+              </div>
+
+              <h4 class="mb-2">Welcome to Evoria! 👋</h4>
+              <p class="mb-4">Please log in to your account</p>
+
+              <form id="loginForm" class="mb-3">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div class="mb-3 form-password-toggle">
+                  <label class="form-label" for="password">Password</label>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="••••••••"
+                      required
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-primary d-grid w-100">Login</button>
+                </div>
+              </form>
+
+              <p class="text-center">
+                <span>Don't have an account?</span>
+                <a href="{{ url('/register') }}">Create an account</a>
+              </p>
+
+              <div id="error-message" class="text-danger text-center"></div>
+            </div>
+          </div>
+          <!-- /Login Card -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Core JS -->
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    <!-- Login Script -->
     <script>
-        const loginForm = document.getElementById('loginForm');
+      document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-        loginForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
 
-            const form = e.target;
-            const data = {
-                email: form.email.value,
-                password: form.password.value
-            };
+        try {
+          const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          });
 
-            const response = await fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+          const result = await response.json();
 
-            const result = await response.json();
-
-            if (response.ok) {
-                // Redirect based on role
-                const role = result.user.role;
-                if (role === "admin") {
-                    window.location.href = "/admin";
-                } else if (role === "finance_team") {
-                    window.location.href = "/finance";
-                } else if (role === "event_committee") {
-                    window.location.href = "/committee";
-                } else if (role === "event_staff") {
-                    window.location.href = "/staff";
-                } else if (role === "member") {
-                    window.location.href = "/member";
-                } else {
-                    window.location.href = "/guest";
-                }
+          if (response.ok) {
+            const role = result.user.role;
+            if (role === 'admin') {
+              window.location.href = '/admin';
+            } else if (role === 'finance_team') {
+              window.location.href = '/finance';
+            } else if (role === 'event_committee') {
+              window.location.href = '/event-committee';
+            } else if (role === 'member') {
+              window.location.href = '/member';
             } else {
-                alert(result.message || "Login failed");
+              window.location.href = '/';
             }
-        });
+          } else {
+            errorMessage.textContent = result.message || 'Login failed.';
+          }
+        } catch (error) {
+          console.error(error);
+          errorMessage.textContent = 'Something went wrong. Please try again.';
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
