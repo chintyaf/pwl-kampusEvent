@@ -82,14 +82,11 @@
                             <div class="row mb-4">
                                 <label class="col-sm-2 col-form-label" for="basic-default-company">Speaker(s)</label>
                                 <div class="col-sm-10">
-                                    <div id="speakers-list">
-
-                                    </div>
+                                    <div id="speakers-list"></div>
                                     <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSpeaker()">Add
                                         Speaker</button>
-                                    <div class="form-text">List the main speaker(s)</div>
+                                    <div class="form-text">List the main speaker(s) and their session time</div>
                                 </div>
-
                             </div>
 
 
@@ -157,48 +154,46 @@
             const container = document.getElementById("speakers-list");
 
             const inputGroup = document.createElement("div");
-            inputGroup.className = "input-group input-group-merge mb-2";
+            inputGroup.className = "row g-2 align-items-end mb-2";
 
-            const input = document.createElement("input");
-            input.type = "text";
-            input.className = "form-control";
-            input.name = "speakers[]";
-            input.placeholder = "e.g., Jane Smith, CEO of TechCorp";
+            inputGroup.innerHTML = `
+            <div class="col-md-6">
+                <input type="text" name="speaker_names[]" class="form-control" placeholder="e.g., Jane Smith, CEO of TechCorp">
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="session_times[]" class="form-control" placeholder="e.g., 10:00 AM - 11:00 AM">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-danger w-100" onclick="removeSpeaker(this)">&times;</button>
+            </div>
+        `;
 
-            const removeBtn = document.createElement("button");
-            removeBtn.type = "button";
-            removeBtn.className = "btn btn-outline-danger";
-            removeBtn.innerHTML = "&times;";
-            removeBtn.onclick = function() {
-                removeSpeaker(removeBtn);
-            };
-
-            inputGroup.appendChild(input);
-            inputGroup.appendChild(removeBtn);
             container.appendChild(inputGroup);
         }
 
         function removeSpeaker(button) {
-            const inputGroup = button.parentNode;
+            const inputGroup = button.closest('.row');
             inputGroup.remove();
         }
-    </script>
 
-    <script>
         const formInput = document.getElementById('formInput');
 
         formInput.addEventListener('submit', async function(e) {
             e.preventDefault();
-
             const form = e.target;
 
-            const speakerInputs = document.querySelectorAll('#speakers-list > div');
-            const speakers = [];
+            const speakerNameInputs = document.querySelectorAll('input[name="speaker_names[]"]');
+            const sessionTimeInputs = document.querySelectorAll('input[name="session_times[]"]');
 
-            speakerInputs.forEach(group => {
-                const name = group.querySelector('input[name="speakers[]"]')?.value;
+            const speakers = [];
+            speakerNameInputs.forEach((input, index) => {
+                const name = input.value;
+                const session_time = sessionTimeInputs[index]?.value || "";
                 if (name) {
-                    speakers.push(name);
+                    speakers.push({
+                        name,
+                        session_time
+                    });
                 }
             });
 
@@ -209,7 +204,7 @@
                 end_time: form.end_time.value,
                 location: form.location.value,
                 speaker: speakers,
-                poster_url: form.poster_url.value, // Perlu diganti oh well
+                poster_url: form.poster_url.value,
                 registration_fee: form.registration_fee.value,
                 max_participants: form.max_participants.value,
             };
@@ -229,7 +224,7 @@
                 if (response.ok) {
                     alert(result.message || 'New event added successfully!');
                     form.reset();
-                    window.location.href = "/events"; // pindah ke halaman login setelah register berhasil
+                    window.location.href = "/events";
                 } else {
                     alert(result.message || 'Fail to add event');
                 }

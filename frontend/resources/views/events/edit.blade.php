@@ -85,17 +85,24 @@
                                     <div id="speakers-list">
                                         @if(isset($event['speaker']) && is_array($event['speaker']))
                                             @foreach($event['speaker'] as $speaker)
-                                                <div class="input-group input-group-merge mb-2">
-                                                    <input type="text" class="form-control" name="speakers[]" value="{{ $speaker }}" placeholder="e.g., Jane Smith, CEO of TechCorp">
-                                                    <button type="button" class="btn btn-outline-danger" onclick="removeSpeaker(this)">&times;</button>
+                                                <div class="row g-2 align-items-end mb-2">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" name="speaker_names[]" value="{{ $speaker['name'] ?? '' }}" placeholder="e.g., Jane Smith, CEO of TechCorp">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" name="session_times[]" value="{{ $speaker['session_time'] ?? '' }}" placeholder="e.g., 10:00 - 11:00">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button type="button" class="btn btn-outline-danger w-100" onclick="removeSpeaker(this)">&times;</button>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         @endif
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSpeaker()">Add
-                                        Speaker</button>
-                                    <div class="form-text">List the main speaker(s)</div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSpeaker()">Add Speaker</button>
+                                    <div class="form-text">List the main speaker(s) and their session time</div>
                                 </div>
+
 
                             </div>
 
@@ -146,8 +153,8 @@
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">
-                                    <a href="#" class="btn btn-primary">Update</a>
                                     <button type="submit" class="btn btn-primary">Update</button>
+                                    <a href="#" class="btn btn-primary">Delete(Under Constructions)</a>
                                 </div>
                             </div>
                         </form>

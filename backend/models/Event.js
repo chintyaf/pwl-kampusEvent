@@ -9,7 +9,12 @@ const objSchema = new mongoose.Schema({
     end_time: String,
     location: String,
     speaker: {
-        type: [String],
+        type: [
+            {
+                name: { type: String, required: true },
+                session_time: { type: String, default: "" },
+            },
+        ],
         default: [],
     },
     poster_url: String,
@@ -26,4 +31,4 @@ const objSchema = new mongoose.Schema({
     updated_at: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Event", objSchema);
+module.exports = mongoose.model("Events", objSchema);

@@ -57,4 +57,4 @@ const objSchema = new mongoose.Schema({
     updated_at: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("EventRegist", objSchema);
+module.exports = mongoose.model("EventRegister", objSchema);

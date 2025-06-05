@@ -18,6 +18,10 @@ Route::controller(EventRegistrationController::class)->group(function(){
 
 });
 
+Route::get('/chin/test', function () {
+    return view('test');
+});
+
 Route::get('/events/detail', function () {
     return view('events.detail');
 });
@@ -62,9 +66,24 @@ Route::get('/admin/manage-users', function () {
     return view('admin.manage-users');
 });
 
-// Route::get('/committee', function () {
-//     return view('committee.index');
-// });
+// COMITE
+Route::prefix('committee')->prefix('committee')->group(function () {
+    Route::controller(EventController::class)->group(function () {
+            Route::get('', 'index')->name('event.index');
+    });
+
+    Route::controller(EventController::class)
+        ->prefix('events')
+        ->group(function () {
+            Route::get('', 'index')->name('event.index');
+            Route::get('add', 'add')->name('event.add');
+            Route::post('store', 'store')->name('events.store');
+            Route::get('edit/{id}', 'edit')->name('events.edit');
+            // Route::put('update/{id}', 'update')->name('events.update');
+            Route::get('delete/{id}', 'delete')->name('events.delete');
+        });
+});
+
 
 Route::get('/admin/users/member', function () {
     return view('admin.list-member');
@@ -101,20 +120,3 @@ Route::get('/staff', function () {
     return view('staff.index');
 });
 
-// COMITE
-Route::prefix('committee')->prefix('committee')->group(function () {
-    Route::controller(EventController::class)->group(function () {
-        // Route::get('', 'index')->name('comite.index');
-    });
-
-    Route::controller(EventController::class)
-        ->prefix('events')
-        ->group(function () {
-            Route::get('', 'index')->name('event.index');
-            Route::get('add', 'add')->name('event.add');
-            Route::post('store', 'store')->name('events.store');
-            Route::get('edit/{id}', 'edit')->name('events.edit');
-            // Route::put('update/{id}', 'update')->name('events.update');
-            Route::get('delete/{id}', 'delete')->name('events.delete');
-        });
-});
