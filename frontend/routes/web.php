@@ -82,7 +82,20 @@ Route::prefix('committee')->prefix('committee')->group(function () {
             // Route::put('update/{id}', 'update')->name('events.update');
             Route::get('delete/{id}', 'delete')->name('events.delete');
         });
+
+    Route::get('/render-speaker', function () {
+        return view('events.input.speaker'); // the Blade view with x-forms.input elements
+    });
+
+    Route::get('/render-moderator', function () {
+        return view('events.input.moderator'); // the Blade view with x-forms.input elements
+    });
+
+        Route::get('/render-session', function () {
+        return view('events.input.session'); // the Blade view with x-forms.input elements
+    });
 });
+
 
 
 Route::get('/admin/users/member', function () {

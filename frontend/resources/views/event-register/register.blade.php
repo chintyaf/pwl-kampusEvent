@@ -4,6 +4,10 @@
         <div class="detail-section">
             <div class="container">
                 <form id="formInput">
+                    {{-- Input user + events --}}
+                    <input type="hidden" name="user_id" id="user_id" value="682d81260dc7fc62f4eb0a6f">
+                    <input type="hidden" name="event_id" id="event_id" value="{{ $event['_id'] }}">
+
                     <!-- Informasi Event -->
                     <div class="detail-card">
                         <div class="mb-4">
@@ -374,12 +378,15 @@
             const proof_image_url = "test.png"
 
             const data = {
+                user_id: document.getElementById("user_id").value,
+                event_id: document.getElementById("event_id").value,
                 visitors: visitors,
                 payment: {
                     method,
                     proof_image_url
                 }
             };
+            // console.log(response)
 
             try {
                 const response = await fetch('http://localhost:3000/api/member/event/register', {
@@ -391,13 +398,12 @@
                     body: JSON.stringify(data)
                 });
 
-                console.log(response)
                 const result = await response.json();
 
                 if (response.ok) {
                     alert(result.message || 'New event added successfully!');
                     form.reset();
-                    // window.location.href = "/events";
+                    window.location.href = "";
                 } else {
                     alert(result.message || 'Failed to add event');
                 }

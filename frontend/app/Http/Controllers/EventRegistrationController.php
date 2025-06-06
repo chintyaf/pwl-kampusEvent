@@ -13,6 +13,7 @@ class EventRegistrationController extends Controller
 
         if ($response->successful()) {
             $event = $response->json(); // parse JSON response to array
+            // dd($event);
             return view('event-register.register')->with(
                 ['event' => $event]
             );

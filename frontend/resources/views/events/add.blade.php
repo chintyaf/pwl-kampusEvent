@@ -4,217 +4,122 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Events/</span>New Event</h4>
 
-        <div class="row">
-            <div class="col-xxl">
-                <div class="card mb-4 p-6">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Add New Event</h5>
-                        <!-- <small class="text-muted float-end">Default label</small> -->
-                    </div>
-                    <div class="card-body">
-                        <form id="formInput">
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="">Event Name</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="" name="name"
-                                            placeholder="e.g., Digital Marketing 101" />
-                                    </div>
-                                    <div class="form-text">Enter a clear and concise title for your event.</div>
-                                </div>
+        <form id="formInput">
+            <input type="hidden" id="user_id" name="user_id" value="6836c967d0b370e632fe49a3">
 
-                            </div>
-
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-company">Date</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <input type="date" class="form-control" id="" name="date"
-                                            placeholder="Select date for your event" />
-                                    </div>
-                                    <div class="form-text">Choose the scheduled start date and time for the event.</div>
-                                </div>
-                            </div>
+            {{-- Event Information --}}
+            <div class="row">
+                <div class="col-xxl">
+                    <div class="card mb-4 p-6">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <h5 class="mb-0">Event Information</h5>
+                            <small class="text-muted float-end">General information for the public to know</small>
+                        </div>
+                        <div class="card-body">
+                            <x-forms.input label="Event Name" name="name" placeholder="e.g., Digital Marketing 101"
+                                desc="Enter a clear and concise title for your event." />
 
 
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-company">Time</label>
-                                <div class="col-sm-10">
-                                    <div class="row">
-                                        <div class="col">
-                                            <label for="startDate" class="form-label">Start</label>
-                                            <div class="input-group" id="startPicker" data-td-target-input="nearest"
-                                                data-td-target-toggle="nearest">
-                                                <input type="time" class="form-control" data-td-target="#startPicker"
-                                                    name="start_time" id="startDate" />
-                                                <!-- <span class="input-group-text" data-td-target="#startPicker" --->
-                                            </div>
-                                        </div>
+                            <x-forms.textarea name="description" label="Description" placeholder="..."
+                                desc="Tell us more about your event" />
 
-                                        <div class="col">
-                                            <label for="endDate" class="form-label">End</label>
-                                            <div class="input-group" id="endPicker" data-td-target-input="nearest"
-                                                data-td-target-toggle="nearest">
-                                                <input type="time" class="form-control" data-td-target="#endPicker"
-                                                    name="end_time" id="endDate" />
-                                                <!-- <span class="input-group-text" data-td-target="#endPicker" --->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-forms.input label="Event Poster" name="poster_url" type="file"
+                                placeholder="Upload a visual poster or banner for the event. Max file size 2MB."
+                                desc="" />
 
-
-
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-company">Location</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <textarea id="basic-default-message" class="form-control" placeholder="e.g., Auditorium A, Campus Center"
-                                            name="location" aria-label="e.g., Auditorium A, Campus Center" aria-describedby="basic-icon-default-message2"></textarea>
-                                    </div>
-                                    <div class="form-text">Provide a physical address or online meeting link.</div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-company">Speaker(s)</label>
-                                <div class="col-sm-10">
-                                    <div id="speakers-list"></div>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSpeaker()">Add
-                                        Speaker</button>
-                                    <div class="form-text">List the main speaker(s) and their session time</div>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-company">Event Poster</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <input class="form-control" type="file" id="formFile" name="poster_url" />
-                                    </div>
-                                    <div class="form-text">Upload a visual poster or banner for the event. Max file size
-                                        2MB.</div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-company">Registration
-                                    Fee</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="text" class="form-control" placeholder="Amount"
-                                            name="registration_fee" aria-label="Amount (to the nearest dollar)" />
-                                        <span class="input-group-text">/ person</span>
-                                    </div>
-                                    <div class="form-text">Specify the fee for participants or write "Free" if no cost.
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="row mb-4">
-                                <label class="col-sm-2 col-form-label" for="basic-default-company">Maximum
-                                    Participants</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <input type="number" class="form-control" id="max_participants"
-                                            name="max_participants" placeholder="e.g., 100" />
-                                    </div>
-                                    <div class="form-text">Set a cap for the number of attendees. Use numeric values only.
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="row justify-content-end">
-                                <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Send</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div id="sessions-list">
+                @include('events.input.session')
+            </div>
+
+            <button type="button" class="btn btn-primary mb-4 col-12" onclick="addSession()">Add Session</button>
+            <button type="submit" class="btn btn-primary mb-4">Submit</button>
+        </form>
     </div>
     <!-- / Content -->
 @endsection
 
 @section('extraJS')
+    <script src="{{ asset('back/js/event-add.js') }}"></script>
+
+    {{-- Masukkan data --}}
     <script>
-        function addSpeaker() {
-            const container = document.getElementById("speakers-list");
-
-            const inputGroup = document.createElement("div");
-            inputGroup.className = "row g-2 align-items-end mb-2";
-
-            inputGroup.innerHTML = `
-            <div class="col-md-6">
-                <input type="text" name="speaker_names[]" class="form-control" placeholder="e.g., Jane Smith, CEO of TechCorp">
-            </div>
-            <div class="col-md-4">
-                <input type="text" name="session_times[]" class="form-control" placeholder="e.g., 10:00 AM - 11:00 AM">
-            </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-outline-danger w-100" onclick="removeSpeaker(this)">&times;</button>
-            </div>
-        `;
-
-            container.appendChild(inputGroup);
-        }
-
-        function removeSpeaker(button) {
-            const inputGroup = button.closest('.row');
-            inputGroup.remove();
-        }
-
-        const formInput = document.getElementById('formInput');
-
-        formInput.addEventListener('submit', async function(e) {
+        document.getElementById("formInput").addEventListener("submit", async function(e) {
             e.preventDefault();
             const form = e.target;
 
-            const speakerNameInputs = document.querySelectorAll('input[name="speaker_names[]"]');
-            const sessionTimeInputs = document.querySelectorAll('input[name="session_times[]"]');
+            console.log(form);
+            const sessions = [];
 
-            const speakers = [];
-            speakerNameInputs.forEach((input, index) => {
-                const name = input.value;
-                const session_time = sessionTimeInputs[index]?.value || "";
-                if (name) {
-                    speakers.push({
-                        name,
-                        session_time
+            // Loop through each session block
+            document.querySelectorAll('.session-item').forEach((sessionEl) => {
+                const session = {
+                    title: sessionEl.querySelector('input[name="session_title[]"]')?.value || "",
+
+                    description: sessionEl.querySelector('textarea[name="session_desc[]"]')?.value || "",
+
+                    date: sessionEl.querySelector('input[name="session_date[]"]')?.value || "",
+                    start_time: sessionEl.querySelector('input[name="start_time"]')?.value || "",
+                    end_time: sessionEl.querySelector('input[name="end_time"]')?.value || "",
+                    max_participants: sessionEl.querySelector('input[name="session_max_participants"]')
+                        ?.value || "",
+                    registration_fee: sessionEl.querySelector('input[name="session_registration_fee"]')
+                        ?.value || "",
+                    location: sessionEl.querySelector('textarea[name="session_location[]"]')
+                        ?.value || "",
+                    speakers: [],
+                    moderators: []
+                };
+
+                // Speakers in this session
+                sessionEl.querySelectorAll('.speaker-item').forEach((speakerEl) => {
+                    session.speakers.push({
+                        name: speakerEl.querySelector('input[name="speaker_name[]"]')
+                            ?.value || "",
+                        image: speakerEl.querySelector('input[name="speaker_img[]"]')
+                            ?.value || "",
+                        title: speakerEl.querySelector('input[name="speaker_title[]"]')
+                            ?.value || "",
+                        description: speakerEl.querySelector(
+                            'input[name="speaker_desc[]"]')?.value || ""
                     });
-                }
+                });
+
+                // Moderators in this session
+                sessionEl.querySelectorAll('.moderator-item').forEach((moderatorEl) => {
+                    session.moderators.push({
+                        name: moderatorEl.querySelector(
+                            'input[name="moderator_name[]"]')?.value || "",
+                        image: moderatorEl.querySelector(
+                            'input[name="moderator_img[]"]')?.value || "",
+                        title: moderatorEl.querySelector(
+                            'input[name="moderator_title[]"]')?.value || "",
+                        description: moderatorEl.querySelector(
+                            'input[name="moderator_desc[]"]')?.value || ""
+                    });
+                });
+
+                sessions.push(session);
             });
 
             const data = {
+                user_id: form.user_id.value,
                 name: form.name.value,
-                date: form.date.value,
-                start_time: form.start_time.value,
-                end_time: form.end_time.value,
-                location: form.location.value,
-                speaker: speakers,
+                description: form.description.value,
                 poster_url: form.poster_url.value,
-                registration_fee: form.registration_fee.value,
-                max_participants: form.max_participants.value,
+                sessions: sessions
             };
+            console.log(sessions)
 
             try {
-                const response = await fetch('http://localhost:3000/api/events/store', {
-                    method: 'POST',
+                const response = await fetch("http://localhost:3000/api/events/store", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        "Content-Type": "application/json",
+                        Accept: "application/json"
                     },
                     body: JSON.stringify(data)
                 });
@@ -222,15 +127,15 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert(result.message || 'New event added successfully!');
-                    form.reset();
-                    window.location.href = "/events";
+                    alert(result.message || "Event created successfully!");
+                    // form.reset();
+                    // window.location.href = "/committee/events";
                 } else {
-                    alert(result.message || 'Fail to add event');
+                    alert(result.message || "Failed to create event.");
                 }
             } catch (error) {
-                alert('Error connecting to server');
-                console.error(error);
+                console.error("Error submitting form:", error);
+                alert("Failed to connect to server.");
             }
         });
     </script>

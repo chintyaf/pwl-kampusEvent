@@ -1,25 +1,30 @@
 const EventRegis = require("../models/EventRegister");
 
 exports.register = async (req, res) => {
-    const { user_id, event_id, visitor, registration_date, payment } = req.body;
+    const { user_id, event_id, visitors, registration_date, payment } =
+        req.body;
 
     console.log(req.body);
     const eventReg = new EventRegis({
-        // user_id,
-        // event_id,
-        visitor,
+        user_id,
+        event_id,
+        visitor: visitors,
         registration_date,
         payment,
         status: "pending",
     });
 
-    console.log("test");
-    console.log(req.body);
-    // await eventReg.save();
-    res.json({
-        message:
-            "Successfully registered, please wait until we confirmed your payment",
-    });
+    try {
+        await eventReg.save();
+        console.log("Calling Event Register");
+        console.log(visitors);
+        res.json({
+            message:
+                "Successfully registered, please wait until we confirmed your payment",
+        });
+    } catch (err) {
+        console.error();
+    }
 };
 
 exports.scanQR = async (req, res) => {

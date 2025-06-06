@@ -25,15 +25,7 @@
                                     </li>
                                     <li>
                                         <span>Date:</span>
-                                        <h6>{{ $event['date'] }}, </h6>
-                                    </li>
-                                    <li>
-                                        <span>Time : </span>
-                                        <h6>{{ $event['start_time'] }} - {{ $event['end_time'] }}</h6>
-                                    </li>
-                                    <li>
-                                        <span>Price:</span>
-                                        <h6>{{ $event['registration_fee'] }}</h6>
+                                        <h6>{{ $event['start_date'] }}, </h6>
                                     </li>
                                 </ul>
                                 <a href="{{ route('events.edit', $event['_id']) }}"><i class="fa fa-angle-right"></i></a>
