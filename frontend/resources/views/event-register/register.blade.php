@@ -14,13 +14,20 @@
                             <h4 class="mb-3 form-title">Event Information</h4>
                             <hr>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Nama Event</label>
+                                <label class="col-sm-2 col-form-label">Event Name</label>
                                 <div class="col-sm-10">
                                     <input type="text" readonly class="form-control" value="{{ $event['name'] }}"
                                         disabled>
                                 </div>
                             </div>
                             <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <input type="text" readonly class="form-control" value="{{ $event['description'] }}"
+                                        disabled>
+                                </div>
+                            </div>
+                            {{-- <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label">Tanggal</label>
                                 <div class="col-sm-4">
                                     <input type="text" readonly class="form-control"
@@ -30,7 +37,7 @@
                                 <div class="col-sm-4">
                                     <input type="text" readonly class="form-control" value="Rp 150.000 /person" disabled>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 

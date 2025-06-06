@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { EventVisitorSchema } = require("./EventVisitor");
 
 // Order Register Event
 const objSchema = new mongoose.Schema({
@@ -13,22 +14,11 @@ const objSchema = new mongoose.Schema({
         required: true,
     },
     visitor: {
-        type: [
-            {
-                name: { type: String, required: true },
-                email: { type: String, required: true },
-                phone_num: { type: String, required: true },
-                status: {
-                    type: String,
-                    enum: ["belum_hadir", "hadir"],
-                    default: "belum_hadir",
-                },
-            },
-        ],
+        type: [EventVisitorSchema],
         default: [],
     },
     registration_date: { type: Date, default: Date.now },
-    qr_code: String,
+
     payment: {
         proof_image_url: {
             type: String,
@@ -52,18 +42,6 @@ const objSchema = new mongoose.Schema({
             enum: ["bca", "mandiri", "bni", "bri"],
             required: true,
         },
-    },
-    attendance: {
-        scanned_by: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Reference to event committee
-        },
-        scan_time: Date,
-    },
-    certificate: {
-        file_url: String,
-        upload_date: Date,
-        // uploaded_by: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // optional
     },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },

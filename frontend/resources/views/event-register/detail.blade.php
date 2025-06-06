@@ -1,21 +1,6 @@
 @extends('layouts.front')
 @section('content')
     <section class="section" style="margin: 80px; margin-top: 0px;">
-        <!-- Event Detail Banner
-                                <div class="event-detail-banner">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="event-header">
-                                                    <span class="event-date-badge">Friday, 12 July 2025</span>
-                                                    <h1 class="event-title">AI Innovations Summit 2025</h1>
-                                                    <p class="event-subtitle">A full-day conference showcasing the latest in artificial intelligence, featuring keynote speakers from OpenAI, Google DeepMind, and more.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-
         <!-- Event Details Section -->
         <div class="detail-section">
             <div class="container">
@@ -35,9 +20,12 @@
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <div class="info-content">
-                                        <h6>Date & Time</h6>
-                                        <p>{{ \Carbon\Carbon::parse($event['date'])->format('l, F j, Y') }}
-                                            | {{ $event['start_time'] }} - {{ $event['end_time'] }}</p>
+                                        <h6>Date</h6>
+                                        <p>
+                                            {{ \Carbon\Carbon::parse($event['start_date'])->format('l, j F Y') }} -
+                                            {{ \Carbon\Carbon::parse($event['end_date'])->format('l, j F Y') }}
+                                            {{-- | {{ $event['start_time'] }} - {{ $event['end_time'] }} --}}
+                                        </p>
                                         {{-- <p>Friday, July 12, 2025 | 09:00 AM - 06:00 PM</p> --}}
                                     </div>
                                 </div>
@@ -66,11 +54,11 @@
                                     <div class="info-icon">
                                         <i class="fa fa-wallet"></i>
                                     </div>
-                                    <div class="info-content">
+                                    {{-- <div class="info-content">
                                         <h6>Price</h6>
                                         <p style="font-size: 20px; font-weight:600; color:black">
                                             RP{{ $event['registration_fee'] }} /person </p>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="d-flex justify-content-end">
@@ -87,14 +75,15 @@
                 <div class="detail-card">
 
                     <h4>About This Event</h4>
-                    <p>Join us for the most comprehensive AI conference of 2025! The AI Innovations Summit brings together
-                        industry leaders, researchers, and innovators to explore the cutting-edge developments in artificial
-                        intelligence.</p>
+                    <p>
+                        {{ $event['description'] }}
+                    </p>
                 </div>
 
+                @foreach ($event['session'] as $s)
                 <!-- Featured Speakers -->
                 <div class="detail-card">
-                    <h4>Featured Speakers</h4>
+                    <h4>Session</h4>
 
                     <div class="col-4 speaker-card" style="margin-bottom: 20px; padding: 20px;">
                         {{-- <div class="speaker-avatar">
@@ -104,6 +93,7 @@
                         <p style="font-size: 12px; color: #666; margin: 0;">Head of AI Research, OpenAI</p>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
     </section>

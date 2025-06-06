@@ -108,3 +108,49 @@ exports.update = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+exports.edit = async (req, res) => {
+    try {
+        const event = await Event.findById(req.params.id);
+        if (!event) return res.status(404).json({ message: "Event not found" });
+        res.json(event);
+        await event.save();
+        res.json({ message: "New event added successfully", event });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+        console.error("Error saving event:", error);
+        res.status(500).json({ message: "Server error while saving event" });
+    }
+};
+
+// Update an existing event
+exports.update = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const { name, description, poster_url, total_participants } = req.body;
+
+        const updateData = {
+            name,
+            description,
+            poster_url,
+            total_participants,
+        };
+
+        const updatedEvent = await Event.findByIdAndUpdate(id, updateData, {
+            new: true,
+        });
+
+        if (!updatedEvent) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+
+        res.json({
+            message: "Event updated successfully",
+            event: updatedEvent,
+        });
+    } catch (err) {
+        console.error("Error updating event:", err);
+        res.status(500).json({ message: "Server error" });
+    }
+};

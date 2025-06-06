@@ -122,8 +122,8 @@
                                 </div>
                                 <div class="down-content">
                                     <h4>{{ $event['name'] }}</h4>
-                                    <span class="author">{{ $event['date'] }}</span>
-                                    <p class="price">{{ $event['registration_fee'] }}</p>
+                                    {{-- <span class="author">{{ $event['date'] }}</span> --}}
+                                    {{-- <p class="price">{{ $event['registration_fee'] }}</p> --}}
                                 </div>
                             </div>
                         </a>

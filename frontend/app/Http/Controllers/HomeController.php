@@ -21,6 +21,8 @@ class HomeController extends Controller
 
         if ($response->successful()) {
             $event = $response->json(); // parse JSON response to array
+            // dd($event);
+
             return view('event-register.detail', compact('event'));
         } else {
             abort(404, 'Event not found or error fetching event.');
