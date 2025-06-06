@@ -145,18 +145,11 @@
         <button type="submit">Register</button>
     </form>
 
-    <script>
-        const registerForm = document.getElementById('registerForm');
+    const registerForm = document.getElementById('registerForm');
 
         registerForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
-        const form = e.target;
-        const data = {
-          name: form.name.value,
-          email: form.email.value,
-          password: form.password.value
-        };
             const form = e.target;
             const data = {
                 name: form.name.value,
@@ -164,15 +157,6 @@
                 password: form.password.value
             };
 
-        try {
-          const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            },
-            body: JSON.stringify(data)
-          });
             try {
                 const response = await fetch('http://localhost:3000/register', {
                     method: 'POST',
@@ -183,22 +167,8 @@
                     body: JSON.stringify(data)
                 });
 
-          const result = await response.json();
                 const result = await response.json();
 
-          if (response.ok) {
-            alert(result.message || 'Registration successful!');
-            window.location.href = 'login.html';
-          } else {
-            alert(result.error || 'Registration failed.');
-          }
-        } catch (error) {
-          alert('Error: ' + error.message);
-        }
-      });
-    </script>
-  </body>
-</html>
                 if (response.ok) {
                     alert(result.message || 'Registered successfully!');
                     form.reset();
@@ -212,5 +182,5 @@
             }
         });
     </script>
-</body>
+  </body>
 </html>
