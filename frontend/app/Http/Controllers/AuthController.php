@@ -23,7 +23,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $response = Http::post('http://localhost:3000/login', [
+        $response = Http::post($this->apiUrl . '/auth/login', [
             'email' => $request->email,
             'password' => $request->password,
         ]);
@@ -32,12 +32,9 @@ class AuthController extends Controller
             return back()->withErrors(['login' => $response->json('error') ?? 'Login failed']);
         }
 
-        $token = $response->json('token');
-
-        // Store token in session or cookie
-        session(['jwt_token' => $token]);
-
-        return redirect('/dashboard'); // or any protected page
+        Session::put('token', $response->json('token'));
+        // dd(Session::get('token'));
+        return redirect()->route('dashboard')->with('success', 'Registration successful!');
     }
 
     // public function login(Request $request)
@@ -91,7 +88,7 @@ class AuthController extends Controller
             if ($response->successful()) {
                 $data = $response->json();
                 // dd($data);
-                 return redirect()->route('dashboard')->with('success', 'Registration successful!');
+                return redirect()->route('dashboard')->with('success', 'Registration successful!');
             } else {
                 $error = $response->json();
                 return back()->withErrors(['email' => $error['message']]);

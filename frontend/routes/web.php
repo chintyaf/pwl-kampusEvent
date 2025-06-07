@@ -8,6 +8,46 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+
+// Route::post('/register', [AuthController::class, 'register'])->name('dashboard');
+
+// // ADMIN
+Route::middleware(['auth.api:admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('test');
+    })->name('dashboard');
+});
+
+Route::middleware(['auth.api:member'])->group(function () {
+    Route::get('/member', function () {
+        return view('test');
+    })->name('dashboard');
+});
+
+
+// Protected routes
+// Route::middleware(['auth.custom'])->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+//     Route::get('/admin', [DashboardController::class, 'admin'])->name('admin');
+//     Route::get('/finance', [DashboardController::class, 'finance'])->name('finance');
+//     Route::get('/events', [DashboardController::class, 'events'])->name('events');
+//     Route::get('/staff', [DashboardController::class, 'staff'])->name('staff');
+//     Route::get('/members', [DashboardController::class, 'members'])->name('members');
+//     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// });
+
+// Register middleware in app/Http/Kernel.php
+// Add to $routeMiddleware array:
+
+
+
 // FRONT - MEMBER
 // HOME
 // Route::controller(HomeController::class)->group(function () {
@@ -121,26 +161,3 @@ use App\Http\Controllers\DashboardController;
 //         });
 // });
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-
-// Protected routes
-// Route::middleware(['auth.custom'])->group(function () {
-//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-//     Route::get('/admin', [DashboardController::class, 'admin'])->name('admin');
-//     Route::get('/finance', [DashboardController::class, 'finance'])->name('finance');
-//     Route::get('/events', [DashboardController::class, 'events'])->name('events');
-//     Route::get('/staff', [DashboardController::class, 'staff'])->name('staff');
-//     Route::get('/members', [DashboardController::class, 'members'])->name('members');
-//     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-// });
-
-// Register middleware in app/Http/Kernel.php
-// Add to $routeMiddleware array:
-// 'auth.custom' => \App\Http\Middleware\AuthMiddleware::class,

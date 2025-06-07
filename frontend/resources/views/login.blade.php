@@ -4,7 +4,7 @@
   class="light-style customizer-hide"
   dir="ltr"
   data-theme="theme-default"
-  data-assets-path="{{ asset('assets/') }}/"
+  {{-- data-assets-path="{{ asset('assets/') }}/" --}}
   data-template="vertical-menu-template-free"
 >
   <head>
@@ -25,7 +25,7 @@
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" /> --}}
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
@@ -33,7 +33,7 @@
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
-    <script src="{{ asset('assets/js/config.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/config.js') }}"></script> --}}
   </head>
 
   <body>
@@ -57,6 +57,7 @@
               <p class="mb-4">Please sign in to your account</p>
 
               <form id="loginForm" class="mb-3">
+              @csrf
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
@@ -106,7 +107,7 @@
     <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/main.js') }}"></script> --}}
 
     <!-- Login Script -->
     <script>

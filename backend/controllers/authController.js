@@ -1,41 +1,10 @@
 const User = require("../models/User");
-// const bcrypt = require("bcrypt");
-
-// exports.register = async (req, res) => {
-//     console.log("Hallo m");
-
-//     const { name, email, password, role } = req.body;
-
-//     // if (!name || !email || !password) {
-//     //     return res.status(400).json({ message: "All fields are required" });
-//     // }
-
-//     // const existing = await User.findOne({ email });
-//     // if (existing)
-//     //     return res.status(409).json({ message: "Email already registered" });
-
-//     const saltRounds = 10;
-//     const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-//     const user = new User({
-//         name,
-//         email,
-//         password: hashedPassword,
-//         role,
-//     });
-
-//     await user.save();
-//     res.json({ message: "Registered successfully" });
-// };
-
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const app = express();
 app.use(express.json());
-
-const users = []; // Example in-memory storage, replace with DB
 
 const JWT_SECRET = "your_secret_key"; // Store in env in production
 
@@ -88,7 +57,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
+    // console.log(email, password);
 
     try {
         const user = await User.findOne({ email });
@@ -103,15 +72,59 @@ exports.login = async (req, res) => {
         if (!user.is_active)
             return res.status(403).json({ message: "User is deactivated" });
 
-        res.json({
+        // Create JWT
+        const token = jwt.sign(
+            { id: user.id, email: user.email, role: user.role },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.status(201).json({
             message: "Login successful",
+            token,
             user: {
                 name: user.name,
                 email: user.email,
                 role: user.role,
             },
         });
+        console.log(user, token);
     } catch (error) {
         res.status(500).json({ message: "Server error", error });
+    }
+};
+
+exports.loginAuth = async (req, res) => {
+    const authHeader = req.headers.authorization;
+    console.log(req.headers);
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ error: "Token missing or invalid" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+        // Decode & verify token
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        // Optional: Fetch user from DB to ensure they still exist and are active
+        const user = await User.findById(decoded.id);
+
+        if (!user || !user.is_active) {
+            return res
+                .status(403)
+                .json({ error: "User not found or inactive" });
+        }
+
+        // Return user info (for Laravel)
+        return res.json({
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            name: user.name,
+        });
+    } catch (err) {
+        return res.status(401).json({ error: "Token invalid or expired" });
     }
 };

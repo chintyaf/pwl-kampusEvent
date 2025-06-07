@@ -5,7 +5,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 // Middleware
-app.use(cors());
+app.use(
+    cors({
+        origin: "*",
+        allowedHeaders: ["Content-Type", "Authorization"],
+    })
+);
 app.use(bodyParser.json());
 
 mongoose
