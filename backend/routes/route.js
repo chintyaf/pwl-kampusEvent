@@ -4,8 +4,12 @@ const authController = require("../controllers/AuthController");
 const eventController = require("../controllers/EventsController");
 const eventRegistController = require("../controllers/EventRegisterController");
 
-router.post("/register", authController.register);
-router.post("/login", authController.login);
+// Ini yang lama I think
+// router.post("/register", authController.register);
+// router.post("/login", authController.login);
+
+router.post("/auth/register", authController.register);
+// router.post("/login", authController.login);
 
 router.get("/events", eventController.view);
 router.post("/events/store", eventController.store);

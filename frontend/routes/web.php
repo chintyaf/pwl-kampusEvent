@@ -131,15 +131,15 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register']);
 
 // Protected routes
-Route::middleware(['auth.custom'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/admin', [DashboardController::class, 'admin'])->name('admin');
-    Route::get('/finance', [DashboardController::class, 'finance'])->name('finance');
-    Route::get('/events', [DashboardController::class, 'events'])->name('events');
-    Route::get('/staff', [DashboardController::class, 'staff'])->name('staff');
-    Route::get('/members', [DashboardController::class, 'members'])->name('members');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
+// Route::middleware(['auth.custom'])->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+//     Route::get('/admin', [DashboardController::class, 'admin'])->name('admin');
+//     Route::get('/finance', [DashboardController::class, 'finance'])->name('finance');
+//     Route::get('/events', [DashboardController::class, 'events'])->name('events');
+//     Route::get('/staff', [DashboardController::class, 'staff'])->name('staff');
+//     Route::get('/members', [DashboardController::class, 'members'])->name('members');
+//     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// });
 
 // Register middleware in app/Http/Kernel.php
 // Add to $routeMiddleware array:

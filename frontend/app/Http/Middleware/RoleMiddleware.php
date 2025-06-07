@@ -14,17 +14,12 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-   public function handle(Request $request, Closure $next, ...$roles)
+    public function handle($request, Closure $next, $role)
     {
-        if (!Session::has('user')) {
-            return redirect()->route('login');
-        }
+        $user = $request->get('user');
 
-        $user = Session::get('user');
-        $userRole = $user['role'] ?? null;
-
-        if (!in_array($userRole, $roles)) {
-            return redirect()->route('dashboard')->withErrors(['error' => 'Access denied. Insufficient permissions.']);
+        if (!$user || $user['role'] != $role) {
+            abort(403, 'Unauthorized');
         }
 
         return $next($request);
