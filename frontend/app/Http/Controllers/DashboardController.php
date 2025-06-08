@@ -12,28 +12,35 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $token = Session::get('auth_token');
-        $user = Session::get('user');
+        $token = Session::get('token');
 
-        if (!$token || !$user) {
-            return redirect()->route('login');
+        if (!$token) {
+            return redirect()->view('auth.login');
         }
 
-        // Verify token with backend
-        try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token
-            ])->get($this->apiUrl . '/protected/dashboard');
+        // Validate token via Node.js backend
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('http://localhost:3000/api/auth/login-auth');
 
-            if ($response->successful()) {
-                return view('dashboard', compact('user'));
-            } else {
-                Session::forget(['auth_token', 'user']);
-                return redirect()->route('login')->withErrors(['error' => 'Session expired']);
-            }
-        } catch (\Exception $e) {
-            return redirect()->route('login')->withErrors(['error' => 'Connection error']);
+        if ($response->failed()) {
+            Session::forget('token');
+            return redirect()
+                ->view('auth.login')
+                ->withErrors(['login' => 'Session expired or invalid token']);
         }
+
+        $user = $response->json();
+        // dd($user);
+
+        $routes = [
+            'admin' => 'admin.index',
+            'finance_team' => 'finance.index',
+            'event_committee' => 'comite.index',
+            'event_staff' => 'staff.index',
+        ];
+
+        return isset($routes[$user['role']]) ? redirect()->route($routes[$user['role']]) : abort(403, 'Unauthorized');
     }
 
     public function admin()
@@ -72,7 +79,7 @@ class DashboardController extends Controller
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $token
+                'Authorization' => 'Bearer ' . $token,
             ])->get($this->apiUrl . $endpoint);
 
             if ($response->successful()) {
@@ -80,10 +87,14 @@ class DashboardController extends Controller
                 return view('protected.' . $view, compact('user', 'data'));
             } else {
                 $error = $response->json();
-                return redirect()->route('dashboard')->withErrors(['error' => $error['message'] ?? 'Access denied']);
+                return redirect()
+                    ->route('dashboard')
+                    ->withErrors(['error' => $error['message'] ?? 'Access denied']);
             }
         } catch (\Exception $e) {
-            return redirect()->route('dashboard')->withErrors(['error' => 'Connection error']);
+            return redirect()
+                ->route('dashboard')
+                ->withErrors(['error' => 'Connection error']);
         }
     }
 }
