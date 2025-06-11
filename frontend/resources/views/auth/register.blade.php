@@ -1,114 +1,174 @@
-{{-- resources/views/auth/register.blade.php --}}
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default"
+    data-assets-path="{{ asset('auth/assets') }}" data-template="vertical-menu-template-free">
 
-@section('title', 'Register')
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Register | Evoria</title>
 
-@section('content')
-    <div>
-        <h1>Register</h1>
+    <link rel="icon" type="image/x-icon" href="{{ asset('auth/assets/img/favicon/favicon.ico') }}" />
 
-        {{-- <form method="POST" action="{{ route('register') }}">
-            @csrf
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet" />
 
-            <div>
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name" value="{{ old('name') }}" required>
-            </div>
+    <!-- Icons -->
+    <link rel="stylesheet" href="{{ asset('auth/assets/vendor/fonts/boxicons.css')}}" />
 
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
-            </div>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ asset('auth/assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('auth/assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('auth/assets/css/demo.css') }}" />
 
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{{ asset('auth/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
-            <div>
-                <label for="password_confirmation">Confirm Password:</label>
-                <input type="password" id="password_confirmation" name="password_confirmation" required>
-            </div>
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{{ asset('auth/assets/vendor/css/pages/page-auth.css') }}" />
+</head>
 
-            <div>
-                <label for="role">Role:</label>
-                <select id="role" name="role" required>
-                    <option value="guest">Guest</option>
-                    <option value="member">Member</option>
-                    <option value="staff">Staff</option>
-                    <option value="event_committee">Event Committee</option>
-                    <option value="finance_team">Finance Team</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
+<body>
+    <!-- Content -->
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner">
+                <!-- Register Card -->
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Logo -->
+                        <div class="app-brand justify-content-center mb-4">
+                            <a href="index.html" class="app-brand-link gap-2">
+                                <span class="app-brand-logo demo">
+                                    <!-- Optional logo -->
+                                    <img src="auth/assets/img/favicon/favicon.ico" width="24" alt="logo" />
+                                </span>
+                                <span class="app-brand-text demo text-body fw-bolder">Evoria</span>
+                            </a>
+                        </div>
+                        <!-- /Logo -->
 
-            @if ($errors->any())
-                <div style="color: red;">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                        <h4 class="mb-2">Create your account 🚀</h4>
+                        <p class="mb-4">Please sign-up to get started</p>
+
+                        <form action="{{ route('register-auth') }}" method="POST" class="mb-3">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Enter your name" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    placeholder="Enter your email" required />
+                            </div>
+
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="password">Password</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password" class="form-control" name="password"
+                                        placeholder="Create password" aria-describedby="password" required />
+                                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="password_confirmation">Confirm Password</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" id="password_confirmation" class="form-control" name="password_confirmation"
+                                        placeholder="Create password" aria-describedby="password" required />
+                                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="role" id="role" value="member">
+
+                            @if ($errors->any())
+                            <div style="color: red;">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-grid w-100" type="submit">Sign up</button>
+                            </div>
+                        </form>
+
+
+                        <p class="text-center">
+                            <span>Already have an account?</span>
+                            <a href="{{ route('login') }}"><span>Sign in instead</span></a>
+                        </p>
+                    </div>
                 </div>
-            @endif
-
-            <div>
-                <button type="submit">Register</button>
+                <!-- /Register Card -->
             </div>
-        </form> --}}
-
-                <form method="POST" action="{{ route('register') }}">
-            @csrf
-
-            <div>
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name" value="Chintya" required>
-            </div>
-
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="chin@gmail.com" required>
-            </div>
-
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" value="12345678" required>
-            </div>
-
-            <div>
-                <label for="password_confirmation">Confirm Password:</label>
-                <input type="password" id="password_confirmation" name="password_confirmation" value="12345678" required>
-            </div>
-
-            <div>
-                <label for="role">Role:</label>
-                <select id="role" name="role" required>
-                    <option value="guest">Guest</option>
-                    <option value="member">Member</option>
-                    <option value="staff">Staff</option>
-                    <option value="event_committee">Event Committee</option>
-                    <option value="finance_team">Finance Team</option>
-                    <option selected value="admin">Admin</option>
-                </select>
-            </div>
-
-            @if ($errors->any())
-                <div style="color: red;">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <div>
-                <button type="submit">Register</button>
-            </div>
-        </form>
-
-        <p>
-            Already have an account? <a href="{{ route('login') }}">Login here</a>
-        </p>
+        </div>
     </div>
-@endsection
+    <!-- / Content -->
+
+    <!-- Core JS -->
+    <script src="{{ asset('auth/assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('auth/assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('auth/assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('auth/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('auth/assets/vendor/js/menu.js') }}"></script>
+
+    <!-- Main JS -->
+    <script src="{{ asset('auth/assets/js/main.js') }}"></script>
+
+    <!-- Register Script -->
+    {{-- <script>
+        const registerForm = document.getElementById('registerForm');
+
+        registerForm.addEventListener('submit', async function(e) {
+            console.log()
+            e.preventDefault();
+            const registerForm = document.getElementById('registerForm');
+
+            registerForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const form = e.target;
+                const data = {
+                    name: form.name.value,
+                    email: form.email.value,
+                    password: form.password.value
+                };
+
+                try {
+                    const response = await fetch('http://localhost:3000/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        alert(result.message || 'Registered successfully!');
+                        form.reset();
+                        window.location.href =
+                        "/login"; // pindah ke halaman login setelah register berhasil
+                    } else {
+                        alert(result.message || 'Registration failed!');
+                    }
+                } catch (error) {
+                    alert('Error connecting to server');
+                    console.error(error);
+                }
+            });
+        });
+    </script> --}}
+</body>
+</html>

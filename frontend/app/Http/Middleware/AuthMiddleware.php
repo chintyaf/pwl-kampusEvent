@@ -29,6 +29,9 @@ class AuthMiddleware
 
         // Cek role jika diberikan
         if (!empty($roles) && !in_array($userData['role'] ?? null, $roles)) {
+
+        }
+        if (!empty($roles) && !in_array($userData['role'] ?? null, $roles)) {
             abort(403, 'Unauthorized.');
         }
 

@@ -56,7 +56,7 @@
               <h4 class="mb-2">Welcome! 👋</h4>
               <p class="mb-4">Please sign in to your account</p>
 
-              <form id="loginForm" class="mb-3">
+              <form id="loginForm" method="POST" action="{{ route('login-auth')}}" class="mb-3">
               @csrf
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
@@ -110,7 +110,7 @@
     {{-- <script src="{{ asset('assets/js/main.js') }}"></script> --}}
 
     <!-- Login Script -->
-    <script>
+    {{-- <script>
       document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
@@ -151,6 +151,6 @@
           errorMessage.textContent = 'Something went wrong. Please try again.';
         }
       });
-    </script>
+    </script> --}}
   </body>
 </html>

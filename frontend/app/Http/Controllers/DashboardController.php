@@ -14,6 +14,7 @@ class DashboardController extends Controller
     {
         $token = Session::get('token');
 
+        // dd($token);
         if (!$token) {
             return redirect()->view('auth.login');
         }
@@ -31,14 +32,15 @@ class DashboardController extends Controller
         }
 
         $user = $response->json();
-        // dd($user);
 
         $routes = [
             'admin' => 'admin.index',
             'finance_team' => 'finance.index',
-            'event_committee' => 'comite.index',
-            'event_staff' => 'staff.index',
+            'member' => 'home'
+            // 'event_committee' => 'comite.index',
+            // 'event_staff' => 'staff.index',
         ];
+        // dd($routes[$user['role']]);
 
         return isset($routes[$user['role']]) ? redirect()->route($routes[$user['role']]) : abort(403, 'Unauthorized');
     }

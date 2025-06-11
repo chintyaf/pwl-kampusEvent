@@ -88,7 +88,7 @@ class AuthController extends Controller
             if ($response->successful()) {
                 $data = $response->json();
                 // dd($data);
-                return redirect()->route('dashboard')->with('success', 'Registration successful!');
+                return redirect()->route('login')->with('success', 'Registration successful!');
             } else {
                 $error = $response->json();
                 return back()->withErrors(['email' => $error['message']]);
