@@ -24,23 +24,18 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // DASHBOARD
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-
 // // ADMIN
 Route::middleware(['auth.api:admin'])->group(function () {
     // Route::get('/admin', function () {
     //     return view('test');
     // })->name('dashboard');
 });
+
 // FRONT - MEMBER
 // HOME
 Route::controller(HomeController::class)->group(function () {
     Route::get('', 'index')->name('home');
     Route::get('event/{id}', 'view')->name('event.view');
-});
-
-Route::controller(EventRegistrationController::class)->group(function(){
-    Route::get('event/{id}/register', 'register')->name('event.register');
-
 });
 
 Route::get('/chin/test', function () {
@@ -68,58 +63,67 @@ Route::get('/event1/registered', function () {
 });
 
 Route::middleware(['auth.api:member'])->group(function () {
-    Route::get('/member', function () {
-        return view('test');
-    })->name('dashboard');
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('', 'index')->name('home');
+        Route::get('event/{id}', 'view')->name('event.view');
+    });
+
+    Route::controller(EventRegistrationController::class)->group(function () {
+        Route::get('event/{id}/register', 'register')->name('event.register');
+    });
 });
 
 // BACK - ADMIN, FINANCE, COMITE
 // ADMIN
 Route::middleware(['auth.api:admin'])->group(function () {
-    Route::controller(AdminController::class)->prefix('admin')->group(function () {
-        Route::get('', 'index')->name('admin.index');
-    });
+    Route::controller(AdminController::class)
+        ->prefix('admin')
+        ->group(function () {
+            Route::get('', 'index')->name('admin.index');
+        });
 });
 
-Route::get('/admin', function () {
-    return view('admin.index');
-})->name('admin.index');
+// Route::get('/admin', function () {
+//     return view('admin.index');
+// })->name('admin.index');
 
 Route::get('/admin/manage-users', function () {
     return view('admin.manage-users');
 });
 
 // COMITE
-Route::prefix('committee')->prefix('committee')->group(function () {
-    Route::controller(EventController::class)->group(function () {
-            Route::get('dashboard', 'index')->name('event.index');
-    });
-
-    Route::controller(EventController::class)
-        ->prefix('events')
-        ->group(function () {
-            Route::get('', 'index')->name('event.index');
-            Route::get('add', 'add')->name('event.add');
-            Route::post('store', 'store')->name('events.store');
-            Route::get('edit/{id}', 'edit')->name('events.edit');
-            // Route::put('update/{id}', 'update')->name('events.update');
-            Route::get('delete/{id}', 'delete')->name('events.delete');
+Route::middleware(['auth.api:event_committee'])->prefix('committee')->group(function () {
+Route::controller(EventController::class)->group(function () {
+            Route::get('dashboard', 'index')->name('comite.index');
         });
 
-    Route::get('/render-speaker', function () {
-        return view('events.input.speaker');
-    });
+        Route::controller(EventController::class)->group(function () {
+            Route::get('', 'index')->name('event.index');
+        });
 
-    Route::get('/render-moderator', function () {
-        return view('events.input.moderator');
-    });
+        Route::controller(EventController::class)
+            ->prefix('events')
+            ->group(function () {
+                Route::get('', 'index')->name('event.index');
+                Route::get('add', 'add')->name('event.add');
+                Route::post('store', 'store')->name('events.store');
+                Route::get('edit/{id}', 'edit')->name('events.edit');
+                // Route::put('update/{id}', 'update')->name('events.update');
+                Route::get('delete/{id}', 'delete')->name('events.delete');
+            });
+
+        Route::get('/render-speaker', function () {
+            return view('events.input.speaker');
+        });
+
+        Route::get('/render-moderator', function () {
+            return view('events.input.moderator');
+        });
 
         Route::get('/render-session', function () {
-        return view('events.input.session');
-    });
+            return view('events.input.session');
+        });
 });
-
-
 
 Route::get('/admin/users/member', function () {
     return view('admin.list-member');
@@ -167,33 +171,12 @@ Route::middleware(['auth.api:finance_team'])->group(function () {
     // });
 });
 
-
 Route::get('/finance/update-status', function () {
     return view('finance.update-status');
 });
 
-Route::get('/member', function () {
-    return view('member.index');
-});
-
+// STAFF
 Route::get('/staff', function () {
     return view('staff.index');
-});
+})->name('staff.index');
 
-// COMITE
-Route::prefix('committee')->prefix('committee')->group(function () {
-    Route::controller(EventController::class)->group(function () {
-        // Route::get('', 'index')->name('comite.index');
-    });
-
-    Route::controller(EventController::class)
-        ->prefix('events')
-        ->group(function () {
-            Route::get('', 'index')->name('event.index');
-            Route::get('add', 'add')->name('event.add');
-            Route::post('store', 'store')->name('events.store');
-            Route::get('edit/{id}', 'edit')->name('events.edit');
-            // Route::put('update/{id}', 'update')->name('events.update');
-            Route::get('delete/{id}', 'delete')->name('events.delete');
-        });
-});

@@ -36,11 +36,11 @@ class DashboardController extends Controller
         $routes = [
             'admin' => 'admin.index',
             'finance_team' => 'finance.index',
-            'member' => 'home'
-            // 'event_committee' => 'comite.index',
-            // 'event_staff' => 'staff.index',
+            'member' => 'home',
+            'event_committee' => 'comite.index',
+            'event_staff' => 'staff.index',
         ];
-        // dd($routes[$user['role']]);
+        // dd($routes[$user['role']], $user);
 
         return isset($routes[$user['role']]) ? redirect()->route($routes[$user['role']]) : abort(403, 'Unauthorized');
     }
