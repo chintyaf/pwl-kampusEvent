@@ -20,9 +20,8 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register'])->name('register-auth');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// DASHBOARD
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-
 
 
 // // ADMIN

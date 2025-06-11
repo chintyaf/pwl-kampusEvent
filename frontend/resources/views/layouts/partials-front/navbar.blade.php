@@ -29,7 +29,7 @@
                               <li class="scroll-to-section"><a href="{{ route('login') }}">Log in</a></li>
                               <li class="scroll-to-section"><a href="{{ route('register') }}">Register</a></li>
                           @else
-                              <li class="scroll-to-section"><a data-url="/logout">Log Out</a></li>
+                              <li class="scroll-to-section"><a class="logout-btn" data-url="/logout">Log Out</a></li>
                               <form id="logout-form" method="POST" style="display: none;">
                                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                               </form>
