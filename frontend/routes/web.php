@@ -28,7 +28,7 @@ Route::middleware(['auth.api:admin'])->group(function () {
     Route::get('/admin', function () {
         return view('test');
     })->name('dashboard');
-
+});
 // FRONT - MEMBER
 // HOME
 Route::controller(HomeController::class)->group(function () {
@@ -105,15 +105,15 @@ Route::prefix('committee')->prefix('committee')->group(function () {
         });
 
     Route::get('/render-speaker', function () {
-        return view('events.input.speaker'); // the Blade view with x-forms.input elements
+        return view('events.input.speaker');
     });
 
     Route::get('/render-moderator', function () {
-        return view('events.input.moderator'); // the Blade view with x-forms.input elements
+        return view('events.input.moderator');
     });
 
         Route::get('/render-session', function () {
-        return view('events.input.session'); // the Blade view with x-forms.input elements
+        return view('events.input.session');
     });
 });
 
