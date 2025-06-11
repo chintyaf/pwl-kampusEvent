@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ComiteController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\EventRegistrationController;
-use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ComiteController;
 use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\EventRegistrationController;
 
 // Route::get('/', function () {
 //     return redirect()->route('login');
@@ -26,9 +27,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // // ADMIN
 Route::middleware(['auth.api:admin'])->group(function () {
-    Route::get('/admin', function () {
-        return view('test');
-    })->name('dashboard');
+    // Route::get('/admin', function () {
+    //     return view('test');
+    // })->name('dashboard');
 });
 // FRONT - MEMBER
 // HOME
@@ -91,7 +92,7 @@ Route::get('/admin/manage-users', function () {
 // COMITE
 Route::prefix('committee')->prefix('committee')->group(function () {
     Route::controller(EventController::class)->group(function () {
-            Route::get('', 'index')->name('event.index');
+            Route::get('dashboard', 'index')->name('event.index');
     });
 
     Route::controller(EventController::class)
@@ -125,7 +126,28 @@ Route::get('/admin/users/member', function () {
 })->name('admin.list-member');
 
 // FINANCE
+
+Route::get('/finance', function () {
+    return view('finance.index');
+})->name('finance.index');
+
+Route::get('/finance/registrations', function () {
+    return view('finance.registrations');
+})->name('finance.registrations');
+
+
 Route::middleware(['auth.api:finance_team'])->group(function () {
+    // Route::get('/', [FinanceController::class, 'index'])->name('index');
+    // Route::get('/finance', [FinanceController::class, 'dashboard'])->name('dashboard');
+    
+    // Route::get('/dashboard', [FinanceController::class, 'dashboard'])->name('dashboard');
+
+    // Route::get('/registrations', [PaymentVerificationController::class, 'index'])->name('registrations');
+    // Route::get('/registrations/{id}', [PaymentVerificationController::class, 'show'])->name('registrations.show');
+    
+    // // Individual Status Updates
+    // Route::put('/registrations/{id}/status', [PaymentVerificationController::class, 'updateStatus'])->name('registrations.update-status');
+
     // Route::prefix('finance')->group(function () {
     //     Route::get('/', function () {
     //         return view('finance.index');
