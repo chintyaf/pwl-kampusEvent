@@ -11,7 +11,7 @@
 </body>
 </html> --}}
 
-@extends('layouts.admin')
+@extends('layouts.back')
 @section('content')
 <div class="content-wrapper">
 
