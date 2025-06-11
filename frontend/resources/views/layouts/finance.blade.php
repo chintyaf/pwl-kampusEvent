@@ -1167,6 +1167,27 @@
         >Upgrade to Pro</a
       >
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const eventId = document.querySelector('select[name="event_id"]').value;
+
+    axios.get(`http://localhost:3000/api/finance/participants?event_id=${eventId}`, {
+      headers: {
+        Authorization: 'Bearer {{ auth()->user()->api_token }}' // atau token session lainnya
+      }
+    }).then(response => {
+      const participants = response.data.participants;
+      const paidCount = participants.filter(p => p.paid).length;
+      const unpaidCount = participants.length - paidCount;
+
+      // tampilkan data ke DOM sesuai ID/class
+    }).catch(err => {
+      console.error('Gagal memuat data peserta:', err);
+    });
+  });
+</script>
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require('dotenv').config();
 
 // Middleware
 app.use(cors());
@@ -15,6 +16,16 @@ mongoose
 
 const routes = require("./routes/route");
 app.use("/api", routes);
+
+const financeRoutes = require('./routes/finance');
+app.use('/api/finance', financeRoutes);
+
+// Routes
+// app.use('/api/auth', require('./routes/auth'));
+// app.use('/api/admin', require('./routes/admin'));
+// app.use('/api/finance', require('./routes/finance'));
+// app.use('/api/events', require('./routes/events'));
+
 
 // const PORT = process.env.PORT || 3000;
 const PORT = 3000;

@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\ComiteController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\EventRegistrationController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ComiteController;
+use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\EventRegistrationController;
+
 
 // FRONT - MEMBER
 // HOME
@@ -87,11 +89,16 @@ Route::prefix('finance')->group(function () {
     Route::get('/disable', function () {
         return view('finance.disable');
     })->name('finance.disable');
+    Route::put('/payment/{id}', [FinanceController::class, 'updatePayment'])->name('updatePayment');
+
 });
 
 Route::get('/finance/update-status', function () {
     return view('finance.update-status');
 });
+
+Route::get('/finance/registration', [FinanceController::class, 'index'])->name('finance.registrations');
+Route::post('/finance/registration/update-status', [FinanceController::class, 'updateStatus'])->name('finance.updateStatus');
 
 Route::get('/member', function () {
     return view('member.index');
