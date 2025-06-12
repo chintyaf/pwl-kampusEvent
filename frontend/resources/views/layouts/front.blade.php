@@ -14,6 +14,7 @@
   <link href="{{ asset('front/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 
+<<<<<<< Updated upstream
   <!-- Additional CSS Files -->
   <link rel="stylesheet" href="{{ asset('front/assets/css/fontawesome.css') }}">
   <link rel="stylesheet" href="{{ asset('front/assets/css/templatemo-scholar.css') }}">
@@ -28,6 +29,16 @@ TemplateMo 586 Scholar
 https://templatemo.com/tm-586-scholar
 
 -->
+=======
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{{ asset('front/assets/css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/assets/css/templatemo-scholar.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/assets/css/owl.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/assets/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/assets/css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    @stack('extraCSS')
+>>>>>>> Stashed changes
 </head>
 
 <body>

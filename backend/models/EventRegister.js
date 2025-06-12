@@ -17,8 +17,6 @@ const objSchema = new mongoose.Schema({
         type: [EventVisitorSchema],
         default: [],
     },
-    registration_date: { type: Date, default: Date.now },
-
     payment: {
         proof_image_url: {
             type: String,
