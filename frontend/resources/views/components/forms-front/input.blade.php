@@ -17,6 +17,8 @@
     </label>
     <div class="col-sm-10">
         <input type="text" name="{{ $name }}" id="{{ $name }}" class="form-control" value="{{ $value }}"
-             placeholder="{{ $placeholder }}">
+             placeholder="{{ $placeholder }}"
+                @if($disabled) disabled @endif
+             >
     </div>
 </div>

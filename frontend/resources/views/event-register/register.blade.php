@@ -38,7 +38,7 @@
                             <h4 class="mb-3 form-title">Visitors Data</h4>
                             <hr>
 
-                            <x-forms-front.input label="Full Name" name="name" value="{{  }}" disabled />
+                            <x-forms-front.input label="Full Name" name="name" value="" disabled />
                             <x-forms-front.input type="email" label="Email" name="email" value="" disabled />
                             <x-forms-front.input label="Phone Number" name="phone_num" value="" disabled />
 
