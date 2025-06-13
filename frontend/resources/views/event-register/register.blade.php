@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ asset('back/assets/vendor/css/theme-default.css') }}"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('back/assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('front/assets/css/event-register.css') }}" />
 @endpush
 
 
@@ -37,7 +38,11 @@
                             <h4 class="mb-3 form-title">Visitors Data</h4>
                             <hr>
 
-                            <div id="visitors-list" class="mb-3">
+                            <x-forms-front.input label="Full Name" name="name" value="{{  }}" disabled />
+                            <x-forms-front.input type="email" label="Email" name="email" value="" disabled />
+                            <x-forms-front.input label="Phone Number" name="phone_num" value="" disabled />
+
+                            {{-- <div id="visitors-list" class="mb-3">
                                 @include('event-register.input.visitor')
                             </div>
 
@@ -46,8 +51,20 @@
                                     <button type="button" class="btn btn-secondary" onclick="addVisitor()">➕ Tambah
                                         Pengunjung</button>
                                 </div>
-                            </div>
+                            </div> --}}
 
+                        </div>
+                    </div>
+
+
+                    <div class="detail-card">
+                        <div class="mb-4">
+                            <label class="col-sm-2 col-form-label" for="session">Session</label>
+                            <div class="sessions-list">
+                                @foreach ($event['session'] as $session)
+                                    @include('event-register.input.session')
+                                @endforeach
+                            </div>
                         </div>
                     </div>
 

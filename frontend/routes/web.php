@@ -66,24 +66,9 @@ Route::get('/event1/registered', function () {
 });
 
 Route::middleware(['auth.api:member'])->group(function () {
-<<<<<<< Updated upstream
     Route::get('/member', function () {
         return view('test');
     })->name('dashboard');
-=======
-    Route::controller(HomeController::class)->group(function () {
-        Route::get('', 'index')->name('home');
-        Route::get('event/{id}', 'view')->name('event.view');
-    });
-
-    Route::controller(EventRegistrationController::class)->group(function () {
-        Route::get('event/{id}/register', 'register')->name('event.register');
-    });
-
-    Route::get('/render-visitor', function () {
-        return view('event-register.input.visitor');
-    });
->>>>>>> Stashed changes
 });
 
 // BACK - ADMIN, FINANCE, COMITE
@@ -103,19 +88,8 @@ Route::get('/admin/manage-users', function () {
 });
 
 // COMITE
-<<<<<<< Updated upstream
 Route::prefix('committee')->prefix('committee')->group(function () {
     Route::controller(EventController::class)->group(function () {
-=======
-Route::middleware(['auth.api:event_committee'])
-    ->prefix('committee')
-    ->group(function () {
-        Route::controller(EventController::class)->group(function () {
-            Route::get('dashboard', 'index')->name('comite.index');
-        });
-
-        Route::controller(EventController::class)->group(function () {
->>>>>>> Stashed changes
             Route::get('', 'index')->name('event.index');
     });
 
@@ -139,15 +113,9 @@ Route::middleware(['auth.api:event_committee'])
     });
 
         Route::get('/render-session', function () {
-<<<<<<< Updated upstream
         return view('events.input.session');
     });
 });
-=======
-            return view('events.input.session');
-        });
-    });
->>>>>>> Stashed changes
 
 
 
@@ -157,24 +125,23 @@ Route::get('/admin/users/member', function () {
 
 // FINANCE
 Route::middleware(['auth.api:finance_team'])->group(function () {
-    Route::prefix('finance')->group(function () {
-        Route::get('/', function () {
-            return view('finance.index');
-        })->name('finance.index');
+    // Route::prefix('finance')->group(function () {
+    //     Route::get('/', function () {
+    //         return view('finance.index');
+    //     })->name('finance.index');
 
-        //     Route::get('/add', function () {
-        //         return view('finance.add');
-        //     })->name('finance.add');
+    //     Route::get('/add', function () {
+    //         return view('finance.add');
+    //     })->name('finance.add');
 
-        //     Route::get('/edit', function () {
-        //         return view('finance.edit');
-        //     })->name('finance.edit');
+    //     Route::get('/edit', function () {
+    //         return view('finance.edit');
+    //     })->name('finance.edit');
 
-        //     Route::get('/disable', function () {
-        //         return view('finance.disable');
-        //     })->name('finance.disable');
-        // });
-    });
+    //     Route::get('/disable', function () {
+    //         return view('finance.disable');
+    //     })->name('finance.disable');
+    // });
 });
 
 
@@ -188,7 +155,6 @@ Route::get('/member', function () {
 
 Route::get('/staff', function () {
     return view('staff.index');
-<<<<<<< Updated upstream
 });
 
 // COMITE
@@ -208,6 +174,3 @@ Route::prefix('committee')->prefix('committee')->group(function () {
             Route::get('delete/{id}', 'delete')->name('events.delete');
         });
 });
-=======
-})->name('staff.index');
->>>>>>> Stashed changes
