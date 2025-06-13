@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
         if (!user) return res.status(401).json({ message: "User not found" });
 
         const validPassword = await bcrypt.compare(password, user.password);
-        console.log(validPassword);
+        // console.log(validPassword);
         if (!validPassword)
             return res.status(401).json({ message: "Invalid password" });
 
@@ -88,7 +88,7 @@ exports.login = async (req, res) => {
                 role: user.role,
             },
         });
-        console.log(user, token);
+        // console.log(user, token);
     } catch (error) {
         res.status(500).json({ message: "Server error", error });
     }
@@ -96,7 +96,7 @@ exports.login = async (req, res) => {
 
 exports.loginAuth = async (req, res) => {
     const authHeader = req.headers.authorization;
-    console.log(req.headers);
+    // console.log(req.headers);
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(401).json({ error: "Token missing or invalid" });

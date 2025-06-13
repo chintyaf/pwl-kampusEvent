@@ -64,13 +64,13 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js')}}"></script>
   </head>
-
+  
 
   <body>
-
+    
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
-
+        
       <div class="layout-container">
         <!-- Menu -->
 
@@ -150,7 +150,7 @@
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
-
+        
             <!-- === Manajemen Pengguna === -->
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manajemen Pengguna</span>
@@ -549,7 +549,7 @@
               </a>
             </li>--}}
           </ul>
-        </aside>
+        </aside> 
         <!-- / Menu -->
 
         <!-- Layout container -->
@@ -660,7 +660,7 @@
 
           <!-- / Navbar -->
           @yield('content')
-
+          
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
@@ -737,7 +737,7 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {

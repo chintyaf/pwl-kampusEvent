@@ -112,12 +112,11 @@ exports.update = async (req, res) => {
 exports.edit = async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
-        if (!event) return res.status(404).json({ message: "Event not found" });
-        res.json(event);
-        await event.save();
-        res.json({ message: "New event added successfully", event });
+        if (!event) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+        return res.json(event);
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
         console.error("Error saving event:", error);
         res.status(500).json({ message: "Server error while saving event" });
     }
