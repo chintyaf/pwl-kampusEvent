@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { EventVisitorSchema } = require("./EventVisitor");
+const { AttendSession } = require("./AttendSession");
 
 // Order Register Event
 const objSchema = new mongoose.Schema({
@@ -13,10 +13,7 @@ const objSchema = new mongoose.Schema({
         ref: "Events", // Reference to the Events model
         required: true,
     },
-    visitor: {
-        type: [EventVisitorSchema],
-        default: [],
-    },
+    attending_session: [AttendSession],
     payment: {
         proof_image_url: {
             type: String,

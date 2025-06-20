@@ -64,6 +64,16 @@
     <script src="{{ asset('front/assets/js/counter.js') }}"></script>
     <script src="{{ asset('front/assets/js/custom.js') }}"></script>
 
+    <script>
+        $(".logout-btn").click(function(e) {
+            e.preventDefault(); // prevent default link behavior
+            const url = $(this).data("url");
+            const form = $("#logout-form");
+
+            form.attr("action", url);
+            form.submit();
+        });
+    </script>
 </body>
 
 </html>

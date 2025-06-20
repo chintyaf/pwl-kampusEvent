@@ -15,69 +15,6 @@ function renumber(type) {
     });
 }
 
-function addVisitor() {
-    const visitorsContainer = document.getElementById("visitors-list");
-
-    const visitorDiv = document.createElement("div");
-    // visitorDiv.className = "visitor-item";
-
-    fetch("/render-visitor")
-        .then((response) => response.text())
-        .then((html) => {
-            visitorDiv.innerHTML = html;
-            visitorsContainer.appendChild(visitorDiv); // append only after innerHTML is set
-            renumber("visitor"); // renumber after DOM is updated
-        })
-        .catch((error) => console.error("Error:", error));
-}
-
-function removeVisitor(id) {
-    const visitorDiv = document.getElementById(`visitor-${id}`);
-    if (visitorDiv) {
-        visitorDiv.remove();
-        renumberVisitors();
-        updateTotal();
-    }
-}
-
-function renumberVisitors() {
-    const visitorsContainer = document.getElementById("visitorsContainer");
-    const visitorItems = visitorsContainer.querySelectorAll(".visitor-item");
-
-    visitorItems.forEach((item, index) => {
-        const newId = index + 1;
-        item.id = `visitor-${newId}`;
-        const numberSpan = item.querySelector(".visitor-number");
-        numberSpan.textContent = `Pengunjung ${newId}`;
-
-        const removeButton = item.querySelector(".remove-visitor");
-        removeButton.setAttribute("onclick", `removeVisitor(${newId})`);
-    });
-
-    visitorCount = visitorItems.length; // Update global counter
-}
-
-function updateTotal() {
-    const totalTickets = document.querySelectorAll(".visitor-item").length;
-    // const totalTickets = visitorCount;
-    const totalAmount = totalTickets * ticketPrice;
-
-    document.getElementById(
-        "ticketCount"
-    ).textContent = `${totalTickets} Tiket`;
-    document.getElementById(
-        "totalAmount"
-    ).textContent = `Rp ${totalAmount.toLocaleString("id-ID")}`;
-    document.getElementById(
-        "summaryTickets"
-    ).textContent = `${totalTickets} x Rp ${ticketPrice.toLocaleString(
-        "id-ID"
-    )}`;
-    document.getElementById(
-        "summaryTotal"
-    ).innerHTML = `<strong>Rp ${totalAmount.toLocaleString("id-ID")}</strong>`;
-}
-
 // File upload handling
 const uploadArea = document.querySelector(".upload-area");
 const fileInput = document.getElementById("paymentProof");
@@ -125,36 +62,65 @@ function removeFile() {
     filePreview.style.display = "none";
 }
 
-// Form submission
-// document.getElementById('eventForm').addEventListener('submit', (e) => {
-//     e.preventDefault();
+let selectedSessions = [];
+// Add change event listeners to checkboxes
+document.querySelectorAll(".session-checkbox").forEach((checkbox) => {
+    checkbox.addEventListener("change", function () {
+        const sessionCard = this.closest(".session-card");
 
-//     // Validate required fields
-//     const requiredFields = document.querySelectorAll('[required]');
-//     let isValid = true;
+        if (!sessionCard) return;
 
-//     requiredFields.forEach(field => {
-//         if (!field.value.trim()) {
-//             field.style.borderColor = '#ff4757';
-//             isValid = false;
-//         } else {
-//             field.style.borderColor = '#e0e0e0';
-//         }
-//     });
+        const sessionId = sessionCard.dataset.sessionId;
+        const fee = parseFloat(sessionCard.dataset.fee);
+        const title = sessionCard.dataset.title;
 
-//     if (!isValid) {
-//         alert('Mohon lengkapi semua field yang wajib diisi!');
-//         return;
-//     }
+        if (this.checked) {
+            sessionCard.classList.add("selected");
 
-//     // Success message
-//     // alert(
-//     //     'Registrasi berhasil! Kami akan mengirimkan konfirmasi ke email Anda dalam 1x24 jam setelah verifikasi pembayaran.'
-//     // );
+            // ⬇️ Add session only if not already selected
+            if (!selectedSessions.some((s) => s.id === sessionId)) {
+                selectedSessions.push({
+                    id: sessionId,
+                    title: title,
+                    fee: fee,
+                });
+            }
+        } else {
+            sessionCard.classList.remove("selected");
 
-//     // Here you would normally send the form data to your server
-//     // console.log('Form submitted successfully!');
-// });
+            selectedSessions = selectedSessions.filter(
+                (s) => s.id !== sessionId
+            );
+        }
 
-// Initialize
-updateTotal();
+        updateRegistrationForm();
+    });
+});
+
+function updateRegistrationForm() {
+    const ticketCount = selectedSessions.length;
+    const totalFee = selectedSessions.reduce((sum, session) => {
+        return sum + session.fee;
+    }, 0);
+
+    const formatRupiah = (angka) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+        }).format(angka);
+    };
+
+    document.getElementById("ticketCount").textContent = `${ticketCount} Tiket`;
+
+    document.getElementById("totalFee").textContent = formatRupiah(totalFee);
+
+    document.getElementById(
+        "summaryTickets"
+    ).textContent = `${ticketCount} x ${formatRupiah(
+        totalFee / (ticketCount || 1)
+    )}`;
+
+    document.getElementById("summaryTotal").textContent =
+        formatRupiah(totalFee);
+}

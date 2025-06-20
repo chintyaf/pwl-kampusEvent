@@ -8,6 +8,16 @@ app.use(express.json());
 
 const JWT_SECRET = "your_secret_key"; // Store in env in production
 
+exports.getAuth = async (req, res) => {
+    const user = req.user;
+    res.json({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+    });
+};
+
 exports.register = async (req, res) => {
     const { name, email, password, role } = req.body;
 

@@ -38,20 +38,9 @@
                             <h4 class="mb-3 form-title">Visitors Data</h4>
                             <hr>
 
-                            <x-forms-front.input label="Full Name" name="name" value="" disabled />
-                            <x-forms-front.input type="email" label="Email" name="email" value="" disabled />
+                            <x-forms-front.input label="Full Name" name="name" value="{{ $user['name'] }}" disabled />
+                            <x-forms-front.input type="email" label="Email" name="email" value="{{ $user['email'] }}" disabled />
                             <x-forms-front.input label="Phone Number" name="phone_num" value="" disabled />
-
-                            {{-- <div id="visitors-list" class="mb-3">
-                                @include('event-register.input.visitor')
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-10">
-                                    <button type="button" class="btn btn-secondary" onclick="addVisitor()">➕ Tambah
-                                        Pengunjung</button>
-                                </div>
-                            </div> --}}
 
                         </div>
                     </div>
@@ -60,7 +49,7 @@
                     <div class="detail-card">
                         <div class="mb-4">
                             <label class="col-sm-2 col-form-label" for="session">Session</label>
-                            <div class="sessions-list">
+                            <div class="sessions-list" id="sessionsGrid">
                                 @foreach ($event['session'] as $session)
                                     @include('event-register.input.session')
                                 @endforeach
@@ -90,71 +79,92 @@
 
 
     <script>
-        document.querySelector('#formInput').addEventListener('submit', async function(e) {
-            console.log(document.querySelector('#formInput'));
-            e.preventDefault();
+        function getInitials(name) {
+            return name
+                .split(" ")
+                .map((word) => word[0])
+                .join("")
+                .toUpperCase();
+        }
 
-            const form = e.target;
-            const visitorGroups = document.querySelectorAll('.visitor-item');
-            const visitors = [];
+        // Format date and time
+        function formatDateTime(startTime, endTime) {
+            const start = new Date(startTime);
+            const end = new Date(endTime);
+            const dateStr = start.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+            });
+            const timeStr = `${start.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: false,
+            })} - ${end.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: false,
+            })}`;
+            return { dateStr, timeStr };
+        }
 
-            visitorGroups.forEach(group => {
-                const name = group.querySelector('input[name*="[name]"]')?.value;
-                const email = group.querySelector('input[name*="[email]"]')?.value;
-                const phone_num = group.querySelector('input[name*="[phone_num]"]')?.value;
+        // Create session card HTML
+        function createSessionCard(session) {}
+    </script>
 
-                if (name && email && phone_num) {
-                    visitors.push({
-                        name: name,
-                        email: email,
-                        phone_num: phone_num
-                    });
-                }
+<script>
+    document.querySelector('#formInput').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+
+        const method = document.querySelector('#paymentMethod')?.value;
+        const proofFile = document.querySelector('#paymentProof')?.files[0];
+
+        // Placeholder upload (replace with real upload logic)
+        const proof_image_url = "test.png";
+
+        // ⬇️ Get selected sessions
+        const sessions = selectedSessions.map(session => ({
+            id: session.id,
+            title: session.title,
+            fee: session.fee
+        }));
+
+        const data = {
+            user_id: document.getElementById("user_id").value,
+            event_id: document.getElementById("event_id").value,
+            sessions: sessions, // 🔥 include session info
+            payment: {
+                method,
+                proof_image_url
+            }
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/member/event/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
 
-            console.log(visitors)
+            const result = await response.json();
 
-            const method = document.querySelector('#paymentMethod')?.value;
-            const proofFile = document.querySelector('#paymentProof')?.files[0];
-
-            // You must upload the file first to get the URL
-            // const proof_image_url = await uploadFileToCloud(proofFile); // implement this
-            const proof_image_url = "test.png"
-
-            const data = {
-                user_id: document.getElementById("user_id").value,
-                event_id: document.getElementById("event_id").value,
-                visitors: visitors,
-                payment: {
-                    method,
-                    proof_image_url
-                }
-            };
-            // console.log(response)
-
-            try {
-                const response = await fetch('http://localhost:3000/api/member/event/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert(result.message || 'New event added successfully!');
-                    form.reset();
-                    window.location.href = "";
-                } else {
-                    alert(result.message || 'Failed to add event');
-                }
-            } catch (error) {
-                alert('Error connecting to server');
-                console.error(error);
+            if (response.ok) {
+                alert(result.message || 'New event added successfully!');
+                form.reset();
+                window.location.href = "";
+            } else {
+                alert(result.message || 'Failed to add event');
             }
-        });
-    </script>
+        } catch (error) {
+            alert('Error connecting to server');
+            console.error(error);
+        }
+    });
+</script>
+
 @endsection

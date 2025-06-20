@@ -12,7 +12,7 @@
         <div class="row mb-2">
             <label class="col-sm-2 col-form-label">Total</label>
             <div class="col-sm-10">
-                <div id="totalAmount" class="form-control-disabled">Rp 150.000</div>
+                <div id="totalFee" class="form-control-disabled">Rp 150.000</div>
             </div>
         </div>
     </div>

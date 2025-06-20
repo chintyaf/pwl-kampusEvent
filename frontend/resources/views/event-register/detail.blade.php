@@ -1,4 +1,7 @@
 @extends('layouts.front')
+@stack('extraCSS')
+
+@endstack
 @section('content')
     <section class="section" style="margin: 80px; margin-top: 0px;">
         <!-- Event Details Section -->

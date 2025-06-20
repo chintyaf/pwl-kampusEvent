@@ -1,5 +1,13 @@
-<div id="session-card" class="session-card mb-3" data-session-id="${session.id}" ${isFull ? 'style="opacity: 0.6;"' : '' }>
-    <input type="checkbox" class="session-checkbox" data-session-id="${session.id}" ${isFull ? 'disabled' : '' }>
+<div id="session-card" class="session-card mb-3"
+data-session-id="{{ $session['_id'] }}"
+     data-fee="{{ $session['registration_fee'] }}"
+     data-title="{{ $session['title'] }}">
+{{-- @if($isFull) style="opacity: 0.6;" @endif --}}
+>
+
+    <input type="checkbox" class="session-checkbox" data-session-id="{{ $session['_id'] }}"
+    {{-- @if($isFull) disabled @endif --}}
+    >
     <div class="session-header">
         <div>
             <h2 class="session-title">{{ $session['title'] }}</h2>
