@@ -3,6 +3,12 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require("path");
+
+app.use(
+    "/data/qr-code",
+    express.static(path.join(__dirname, "data", "qr-code"))
+);
 
 // Middleware
 app.use(

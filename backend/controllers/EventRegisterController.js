@@ -1,5 +1,15 @@
 const EventRegister = require("../models/EventRegister");
 
+exports.view = async (req, res) => {
+    try {
+        const eventRegister = await EventRegister.find();
+
+        res.json(eventRegister);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch event register" });
+    }
+};
+
 exports.register = async (req, res) => {
     try {
         const { user_id, event_id, visitors, sessions, payment } = req.body;
