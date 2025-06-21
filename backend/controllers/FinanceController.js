@@ -54,8 +54,6 @@ exports.updatePayment = async (req, res) => {
         // registration.payment.verified_by = verifiedBy;
         registration.updated_at = new Date();
 
-        await registration.save();
-
         if (status === "approved") {
             // Main QR
             const globalQRData = JSON.stringify({
@@ -92,6 +90,7 @@ exports.updatePayment = async (req, res) => {
             );
 
             registration.attending_session = updatedSessions;
+            await registration.save();
         }
         res.json({
             message: "Payment status updated successfully",

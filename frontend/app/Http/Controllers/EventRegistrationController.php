@@ -11,7 +11,6 @@ class EventRegistrationController extends Controller
     public function register($id)
     {
         $response = Http::get("http://localhost:3000/api/events/{$id}");
-
         $token = Session::get('token');
 
         // Validate token via Node.js backend
@@ -25,6 +24,7 @@ class EventRegistrationController extends Controller
                 ->view('auth.login')
                 ->withErrors(['login' => 'Session expired or invalid token']);
         }
+        $user = $auth->json();
 
 
         if ($response->successful()) {

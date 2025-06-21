@@ -1,4 +1,5 @@
 const EventRegister = require("../models/EventRegister");
+const Event = require("../models/Event");
 
 exports.view = async (req, res) => {
     try {
@@ -12,8 +13,9 @@ exports.view = async (req, res) => {
 
 exports.register = async (req, res) => {
     try {
-        const { user_id, event_id, visitors, sessions, payment } = req.body;
+        const { user_id, event_id, sessions, payment } = req.body;
 
+        // Validation
         if (
             !user_id ||
             !event_id ||
@@ -26,12 +28,12 @@ exports.register = async (req, res) => {
                 .json({ message: "Missing required registration data." });
         }
 
-        // 1. Build AttendSession array from sessions
+        // 1. Build attending_session array for EventRegister
         const attending_session = sessions.map((s) => ({
             session_id: s.id,
         }));
 
-        // 2. Create new EventRegister document
+        // 2. Create and save new EventRegister document
         const eventReg = new EventRegister({
             user_id,
             event_id,
@@ -39,11 +41,51 @@ exports.register = async (req, res) => {
             payment: {
                 method: payment.method,
                 proof_image_url: payment.proof_image_url,
-                status: "pending", // optional: default already
             },
         });
 
         await eventReg.save();
+
+        // 3. Add user to each selected session's attending_user list
+        const event = await Event.findById(event_id);
+
+        if (!event) {
+            return res.status(404).json({ message: "Event not found." });
+        }
+
+        let sessionModified = false;
+
+        for (const s of sessions) {
+            // Find session by ID in event.sessions (note: should be event.sessions, not event.session)
+            const session = event.session.find(
+                (sess) => sess._id.toString() === s.id.toString()
+            );
+
+            if (session) {
+                const alreadyRegistered = session.attending_user.some(
+                    (u) => u.user.toString() === user_id.toString()
+                );
+
+                if (!alreadyRegistered) {
+                    session.attending_user.push({
+                        user: user_id,
+                        status: "absent",
+                        certificate: {}, // optional
+                    });
+
+                    session.total_participants =
+                        (session.total_participants || 0) + 1;
+                    sessionModified = true;
+                }
+            } else {
+                console.warn(`Session ID ${s.id} not found in event.`);
+            }
+        }
+
+        // Save event if any sessions were updated
+        if (sessionModified) {
+            await event.save();
+        }
 
         return res.status(201).json({
             message:

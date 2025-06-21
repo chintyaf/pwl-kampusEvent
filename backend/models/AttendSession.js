@@ -7,17 +7,10 @@ const AttendSession = new mongoose.Schema({
         required: true,
     },
     qr_code: String,
-    attendance: {
-        status: {
-            type: String,
-            enum: ["absent", "present"],
-            default: "absent",
-        },
-        scanned_by: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Reference to event committee
-        },
-        scan_time: Date,
+    status: {
+        type: String,
+        enum: ["absent", "present"],
+        default: "absent",
     },
     certificate: {
         file_url: String,

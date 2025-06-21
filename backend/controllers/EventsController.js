@@ -30,14 +30,26 @@ exports.store = async (req, res) => {
             sessions = [],
         } = req.body;
 
+        console.log("SUBMITED : ", req.body);
+
+        const sessionDates = sessions.map((s) => new Date(s.date));
+
+        // Find the earliest and latest dates
+        const start_date = new Date(Math.min(...sessionDates));
+        const end_date = new Date(Math.max(...sessionDates));
+
+        // console.log("SESSIONS:", s.speakers, s.moderators);
+
         const event = new Event({
             user_id,
             name,
             description,
+            start_date: start_date,
+            end_date: end_date,
             poster_url,
             session: sessions.map((s) => ({
                 title: s.title,
-                desc: s.desc,
+                description: s.description,
                 date: s.date,
                 start_time: s.start_time,
                 end_time: s.end_time,
@@ -45,13 +57,13 @@ exports.store = async (req, res) => {
                 max_participants: s.max_participants,
                 registration_fee: s.registration_fee,
                 total_participants: 0,
-                speaker: s.speaker || [],
-                moderator: s.moderator || [],
+                speaker: s.speakers || [],
+                moderator: s.moderators || [],
             })),
         });
 
-        console.log("This is from event");
-        console.log(event);
+        // console.log("This is from event");
+        // console.log(event);
 
         await event.save();
         res.json({ message: "New event added successfully", event });

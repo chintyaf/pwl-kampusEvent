@@ -143,12 +143,12 @@ Route::get('/finance/registrations', function () {
 Route::middleware(['auth.api:finance_team'])->group(function () {
     // Route::get('/', [FinanceController::class, 'index'])->name('index');
     // Route::get('/finance', [FinanceController::class, 'dashboard'])->name('dashboard');
-    
+
     // Route::get('/dashboard', [FinanceController::class, 'dashboard'])->name('dashboard');
 
     // Route::get('/registrations', [PaymentVerificationController::class, 'index'])->name('registrations');
     // Route::get('/registrations/{id}', [PaymentVerificationController::class, 'show'])->name('registrations.show');
-    
+
     // // Individual Status Updates
     // Route::put('/registrations/{id}/status', [PaymentVerificationController::class, 'updateStatus'])->name('registrations.update-status');
 
@@ -176,7 +176,13 @@ Route::get('/finance/update-status', function () {
 });
 
 // STAFF
-Route::get('/staff', function () {
-    return view('staff.index');
-})->name('staff.index');
+Route::middleware(['auth.api:admin'])->group(function () {
+    Route::get('/staff', function () {
+        return view('staff.index');
+    })->name('staff.index');
+
+    Route::get('/scanQR', function () {
+    return view('test');
+});
+});
 

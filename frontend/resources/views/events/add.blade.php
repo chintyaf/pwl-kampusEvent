@@ -5,7 +5,7 @@
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Events/</span>New Event</h4>
 
         <form id="formInput">
-            <input type="hidden" id="user_id" name="user_id" value="6836c967d0b370e632fe49a3">
+            <input type="hidden" id="user_id" name="user_id" value="{{ $user['id'] }}">
 
             {{-- Event Information --}}
             <div class="row">
@@ -46,97 +46,94 @@
     <script src="{{ asset('back/js/event-add.js') }}"></script>
 
     {{-- Masukkan data --}}
-    <script>
-        document.getElementById("formInput").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const form = e.target;
+<script>
+    document.getElementById("formInput").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const form = e.target;
 
-            console.log(form);
-            const sessions = [];
+        console.log(form);
+        const sessions = [];
 
-            // Loop through each session block
-            document.querySelectorAll('.session-item').forEach((sessionEl) => {
-                const session = {
-                    title: sessionEl.querySelector('input[name="session_title[]"]')?.value || "",
+        // Loop through each session block
+        document.querySelectorAll('.session-item').forEach((sessionEl) => {
+            const date = sessionEl.querySelector('input[name="session_date[]"]')?.value || "";
+            const start = sessionEl.querySelector('input[name="session_start_time[]"]')?.value || "";
+            const end = sessionEl.querySelector('input[name="session_end_time[]"]')?.value || "";
 
-                    description: sessionEl.querySelector('textarea[name="session_desc[]"]')?.value || "",
+            const session = {
+                title: sessionEl.querySelector('input[name="session_title[]"]')?.value || "",
+                description: sessionEl.querySelector('textarea[name="session_desc[]"]')?.value || "",
 
-                    date: sessionEl.querySelector('input[name="session_date[]"]')?.value || "",
-                    start_time: sessionEl.querySelector('input[name="start_time"]')?.value || "",
-                    end_time: sessionEl.querySelector('input[name="end_time"]')?.value || "",
-                    max_participants: sessionEl.querySelector('input[name="session_max_participants"]')
-                        ?.value || "",
-                    registration_fee: sessionEl.querySelector('input[name="session_registration_fee"]')
-                        ?.value || "",
-                    location: sessionEl.querySelector('textarea[name="session_location[]"]')
-                        ?.value || "",
-                    speakers: [],
-                    moderators: []
-                };
+                // Keep date as a Date object if you want, or string if backend expects
+                date: date ? new Date(date) : null,
 
-                // Speakers in this session
-                sessionEl.querySelectorAll('.speaker-item').forEach((speakerEl) => {
-                    session.speakers.push({
-                        name: speakerEl.querySelector('input[name="speaker_name[]"]')
-                            ?.value || "",
-                        image: speakerEl.querySelector('input[name="speaker_img[]"]')
-                            ?.value || "",
-                        title: speakerEl.querySelector('input[name="speaker_title[]"]')
-                            ?.value || "",
-                        description: speakerEl.querySelector(
-                            'input[name="speaker_desc[]"]')?.value || ""
-                    });
+                // Combine date + time into full Date objects
+                start_time: (date && start) ? new Date(`${date}T${start}`) : null,
+                end_time: (date && end) ? new Date(`${date}T${end}`) : null,
+
+                max_participants: parseInt(sessionEl.querySelector('input[name="session_max_participants[]"]')?.value) || 0,
+                registration_fee: parseFloat(sessionEl.querySelector('input[name="session_registration_fee"]')?.value) || 0,
+                location: sessionEl.querySelector('textarea[name="session_location[]"]')?.value || "",
+
+                speakers: [],
+                moderators: []
+            };
+
+            // Speakers in this session
+            sessionEl.querySelectorAll('.speaker-item').forEach((speakerEl) => {
+                session.speakers.push({
+                    name: speakerEl.querySelector('input[name="speaker_name[]"]')?.value || "",
+                    image: speakerEl.querySelector('input[name="speaker_img[]"]')?.value || "",
+                    title: speakerEl.querySelector('input[name="speaker_title[]"]')?.value || "",
+                    description: speakerEl.querySelector('input[name="speaker_desc[]"]')?.value || ""
                 });
-
-                // Moderators in this session
-                sessionEl.querySelectorAll('.moderator-item').forEach((moderatorEl) => {
-                    session.moderators.push({
-                        name: moderatorEl.querySelector(
-                            'input[name="moderator_name[]"]')?.value || "",
-                        image: moderatorEl.querySelector(
-                            'input[name="moderator_img[]"]')?.value || "",
-                        title: moderatorEl.querySelector(
-                            'input[name="moderator_title[]"]')?.value || "",
-                        description: moderatorEl.querySelector(
-                            'input[name="moderator_desc[]"]')?.value || ""
-                    });
-                });
-
-                sessions.push(session);
             });
 
-            const data = {
-                user_id: form.user_id.value,
-                name: form.name.value,
-                description: form.description.value,
-                poster_url: form.poster_url.value,
-                sessions: sessions
-            };
-            console.log(sessions)
-
-            try {
-                const response = await fetch("http://localhost:3000/api/events/store", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Accept: "application/json"
-                    },
-                    body: JSON.stringify(data)
+            // Moderators in this session
+            sessionEl.querySelectorAll('.moderator-item').forEach((moderatorEl) => {
+                session.moderators.push({
+                    name: moderatorEl.querySelector('input[name="moderator_name[]"]')?.value || "",
+                    image: moderatorEl.querySelector('input[name="moderator_img[]"]')?.value || "",
+                    title: moderatorEl.querySelector('input[name="moderator_title[]"]')?.value || "",
+                    description: moderatorEl.querySelector('input[name="moderator_desc[]"]')?.value || ""
                 });
+            });
 
-                const result = await response.json();
-
-                if (response.ok) {
-                    alert(result.message || "Event created successfully!");
-                    // form.reset();
-                    // window.location.href = "/committee/events";
-                } else {
-                    alert(result.message || "Failed to create event.");
-                }
-            } catch (error) {
-                console.error("Error submitting form:", error);
-                alert("Failed to connect to server.");
-            }
+            sessions.push(session);
         });
-    </script>
+
+        const data = {
+            user_id: form.user_id.value,
+            name: form.name.value,
+            description: form.description.value,
+            poster_url: form.poster_url.value,
+            sessions: sessions
+        };
+
+        try {
+            const response = await fetch("http://localhost:3000/api/events/store", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message || "Event created successfully!");
+                form.reset();
+                window.location.href = "/committee/events";
+            } else {
+                alert(result.message || "Failed to create event.");
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("Failed to connect to server.");
+        }
+    });
+</script>
+
 @endsection
