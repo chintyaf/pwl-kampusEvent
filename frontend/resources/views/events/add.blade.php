@@ -72,12 +72,12 @@
                 end_time: (date && end) ? new Date(`${date}T${end}`) : null,
 
                 max_participants: parseInt(sessionEl.querySelector('input[name="session_max_participants[]"]')?.value) || 0,
-                registration_fee: parseFloat(sessionEl.querySelector('input[name="session_registration_fee"]')?.value) || 0,
+                registration_fee: parseInt(sessionEl.querySelector('input[name="session_registration_fee[]"]')?.value) || 0,
                 location: sessionEl.querySelector('textarea[name="session_location[]"]')?.value || "",
 
                 speakers: [],
                 moderators: []
-            };
+        };
 
             // Speakers in this session
             sessionEl.querySelectorAll('.speaker-item').forEach((speakerEl) => {

@@ -4,6 +4,7 @@ const Session = require("../models/Session");
 exports.view = async (req, res) => {
     try {
         const events = await Event.find(); // Get all events
+
         res.json(events); // Send JSON response
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch events" });
@@ -22,6 +23,7 @@ exports.viewRegister = async (req, res) => {
 // Store new event
 exports.store = async (req, res) => {
     try {
+        console.log(req.body);
         const {
             user_id,
             name,

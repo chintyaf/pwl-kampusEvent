@@ -65,9 +65,14 @@ class MemberController extends Controller
 
         if ($response->successful()) {
             $user = $auth->json();
-            $event = $response->json(); // parse JSON response to array
+            $eventReg = $response->json(); // parse JSON response to array
+            $event = $eventReg['eventRegister'];
+            $session = $eventReg['sessions'];
+            // dd(
+            //     $event, $session, $user
+            // );
             return view('member.registered')->with(
-                ['event' => $event, 'user' => $user]
+                ['event' => $event, 'session' => $session, 'user' => $user]
             );
         } else {
             // dd($event);

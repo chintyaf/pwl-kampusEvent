@@ -222,6 +222,18 @@ class EventController extends Controller
         }
     }
 
+        public function scanQR($id)
+    {
+        $response = Http::get("http://localhost:3000/api/events/{$id}");
+
+        if ($response->successful()) {
+            $event = $response->json(); // parse JSON response to array
+            return view('comite.scanqr', compact('event'));
+        } else {
+            abort(404, 'Event not found or error fetching event.');
+        }
+    }
+
     // public function update($id, $request){
     //     // Send PUT request with form data to Node.js API
     //     $response = Http::put("http://localhost:3000/events/{$id}", $request->all());

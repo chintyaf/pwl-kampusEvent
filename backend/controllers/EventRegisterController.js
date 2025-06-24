@@ -13,21 +13,6 @@ exports.view = async (req, res) => {
 };
 
 // exports.register = async (req, res) => {
-//     console.log("Body:", req.body);
-//     console.log("File:", req.file);
-
-//     if (!req.file) {
-//         return res.status(400).json({ message: "No file uploaded." });
-//     }
-
-//     if (!req.body.user_id || !req.body.event_id) {
-//         return res.status(400).json({ message: "Missing required fields." });
-//     }
-
-//     return res.json({ message: "Success!" });
-// };
-
-// exports.register = async (req, res) => {
 //     console.log(req.body);
 
 //     const { user_id, event_id, payment_method } = req.body;
