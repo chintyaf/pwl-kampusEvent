@@ -26,7 +26,7 @@ class MemberController extends Controller
         $user = $auth->json();
         $id = $user['id'];
 
-
+        // dd($user);
         $response = Http::get("http://localhost:3000/api/member/profile/{$id}");
 
         if ($response->successful()) {

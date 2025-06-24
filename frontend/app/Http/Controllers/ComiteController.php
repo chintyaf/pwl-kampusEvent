@@ -3,39 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ComiteController extends Controller
 {
-    public function index()
+
+        public function upload(Request $request)
     {
-        return view(
-            'comite.index',[]
-        );
-    }
+        $request->validate([
+            'zipFile' => 'required|mimes:zip|max:10240', // Max 10MB
+        ]);
 
-    public function add()
-    {
-        return view('comite.add');
-    }
+        $response = Http::attach(
+            'zipFile',
+            file_get_contents($request->file('zipFile')->getRealPath()),
+            $request->file('zipFile')->getClientOriginalName()
+        )->post('http://localhost:3000/api/upload-certificates');
 
-    public function store(Request $request)
-    {
-        return redirect(route('program_studi.index', absolute: false))
-        ->with('status', 'Program Studi berhasil ditambahkan');
-    }
-
-
-
-    public function edit($id)
-    {
-        return view('comite.edit', []);
-    }
-
-    public function update(Request $request, $id)
-    {
-    }
-
-    public function delete($id)
-    {
+        return back()->with('message', $response->json('message') ?? 'Upload completed.');
     }
 }

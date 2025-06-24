@@ -15,7 +15,7 @@
             <div class="container">
                 <form id="formInput">
                     {{-- Input user + events --}}
-                    <input type="hidden" name="user_id" id="user_id" value="682d81260dc7fc62f4eb0a6f">
+                    <input type="hidden" name="user_id" id="user_id" value="{{ (string) $user['id'] }}">
                     <input type="hidden" name="event_id" id="event_id" value="{{ $event['_id'] }}">
 
                     <!-- Informasi Event -->

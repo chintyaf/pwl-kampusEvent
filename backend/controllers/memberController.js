@@ -4,10 +4,10 @@ const mongoose = require("mongoose");
 
 exports.profile = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const userId = req.params.user_id;
 
-        const eventRegister = await EventRegister.find({ user: userId });
-
+        const eventRegister = await EventRegister.find({ user_id: userId });
+        console.log(userId, eventRegister);
         res.json(eventRegister);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch event register" });

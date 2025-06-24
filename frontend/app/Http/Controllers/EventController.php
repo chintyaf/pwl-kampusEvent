@@ -17,12 +17,108 @@ class EventController extends Controller
         return view('events.index', compact('events'));
     }
 
-    public function viewAttendance()
+    public function viewAttendance($id)
     {
-        // $response = Http::get('http://localhost:3000/api/events');
-        // $events = $response->json(); // Convert JSON response to array
+        $token = Session::get('token');
 
+        // Validate token via Node.js backend
+        $auth = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('http://localhost:3000/api/auth/login-auth');
+
+        if ($auth->failed()) {
+            Session::forget('token');
+            return redirect()
+                ->view('auth.login')
+                ->withErrors(['login' => 'Session expired or invalid token']);
+        }
+
+        $user = $auth->json();
+        $user_id = $user['id'];
+
+        $response = Http::get("http://localhost:3000/api/comite/{$user_id}/events/{$id}");
+
+        if ($response->successful()) {
+            $user = $auth->json();
+            $event = $response->json(); // parse JSON response to array
+            return view('events.attendee')->with(['event' => $event, 'user' => $user]);
+        } else {
+            abort(404, 'Event not found or error fetching event.');
+        }
         return view('events.attendee');
+    }
+
+    public function viewAttendanceSess($id, $session_id)
+    {
+        $token = Session::get('token');
+
+        // Validate token via Node.js backend
+        $auth = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('http://localhost:3000/api/auth/login-auth');
+
+        if ($auth->failed()) {
+            Session::forget('token');
+            return redirect()
+                ->view('auth.login')
+                ->withErrors(['login' => 'Session expired or invalid token']);
+        }
+
+        $user = $auth->json();
+        $user_id = $user['id'];
+
+        $response = Http::get("http://localhost:3000/api/comite/{$user_id}/events/{$id}/{$session_id}");
+        // dd($response->json());
+
+        if ($response->successful()) {
+            $user = $auth->json();
+            $session = $response->json(); // parse JSON response to array
+            return view('events.sessattend')->with(['session' => $session, 'user' => $user]);
+        } else {
+            abort(404, 'Event not found or error fetching event.');
+        }
+        return view('events.sessattend');
+    }
+
+    public function uploadCert(Request $request, $user_id, $event_id, $session_id)
+    {
+        $token = Session::get('token');
+
+        // 1. Validate token
+        $auth = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('http://localhost:3000/api/auth/login-auth');
+
+        if ($auth->failed()) {
+            Session::forget('token');
+            return redirect()
+                ->route('login') // assuming named route
+                ->withErrors(['login' => 'Session expired or invalid token']);
+        }
+
+        // 2. Validate file input
+        $request->validate([
+            'certificate' => 'required|file|mimes:pdf,png,jpg|max:10240', // 10MB max
+        ]);
+
+        // 3. Upload to Node.js
+        $response = Http::attach(
+            'certificate', // name expected by Node.js multer
+            file_get_contents($request->file('certificate')->getRealPath()),
+            $request->file('certificate')->getClientOriginalName(),
+        )
+            ->withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+                'Accept' => 'application/json',
+            ])
+            ->post("http://localhost:3000/comite/{$user_id}/events/{$event_id}/{$session_id}/uploadCert");
+
+        // 4. Handle Node.js response
+        if ($response->successful()) {
+            return back()->with('message', 'Certificate uploaded successfully!');
+        } else {
+            return back()->withErrors(['upload' => 'Failed to upload certificate.']);
+        }
     }
 
     public function add()

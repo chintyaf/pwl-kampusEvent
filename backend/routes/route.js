@@ -9,13 +9,12 @@ const comiteController = require("../controllers/ComiteController");
 const memberController = require("../controllers/memberController");
 const auths = require("../middleware/auth");
 
-// Ini yang lama I think
-// router.post("/register", authController.register);
-// router.post("/login", authController.login);
+const multer = require("multer");
+const upload = multer({ dest: "certificates/" });
 
 router.post("/auth/register", authController.register); // Register akun
 router.post("/auth/login", authController.login); // Masuk akun
-router.post("/auth/login- auth", authController.loginAuth); // Cek autentikasi login while on web
+router.post("/auth/login-auth", authController.loginAuth); // Cek autentikasi login while on web
 router.get("/auth/check", auths, authController.getAuth); // Ngambil data user
 
 router.get("/events", eventController.view);
@@ -48,23 +47,21 @@ router.get(
 // router.get("/staff/event-register/:id/register", staffController.viewEvent);
 // :id => session id
 router.post("/staff/re-register", staffController.updateAttendance);
-
 router.post("/staff/test-qr", staffController.testQR);
 
 // MEMBER
 // View attendees of an event
+
+// COMITE
+router.get("/comite/:user_id/events/:event_id", comiteController.viewAttendees); //
 router.get(
-    "/certificate/attendees/:event_id/:session_id",
-    comiteController.viewAttendees
+    "/comite/:user_id/events/:event_id/:session_id",
+    comiteController.viewAttendeesSession
 );
-
-// Generate certificates for all attendees
 router.post(
-    "/certificate/generate/:event_id",
-    comiteController.generateCertificates
+    "/comite/:user_id/events/:event_id/:session_id/uploadCert",
+    upload.single("certificate"),
+    comiteController.uploadCert
 );
-
-// List generated certificates
-// router.get("/certificate/list/:event_id", comiteController.listCertificates);
 
 module.exports = router;

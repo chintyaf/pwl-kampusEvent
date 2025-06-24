@@ -118,6 +118,8 @@ Route::controller(EventController::class)->group(function () {
                 // Route::put('update/{id}', 'update')->name('events.update');
                 Route::get('delete/{id}', 'delete')->name('events.delete');
                 Route::get('{id}/attendance', 'viewAttendance')->name('events.view-attendace');
+                Route::get('{id}/{session_id}', 'viewAttendanceSess')->name('events.view-attendacesess');
+                Route::post('{id}/{session_id}/upload-certificates', 'uploadCert')->name('events.uploadCert');
             });
 
         Route::get('/render-speaker', function () {

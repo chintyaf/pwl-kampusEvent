@@ -37,7 +37,6 @@ class AuthMiddleware
 
         // Inject data user ke dalam request
         $request->merge(['user' => $userData]);
-
         return $next($request);
     }
 }
