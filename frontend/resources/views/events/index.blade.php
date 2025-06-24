@@ -123,8 +123,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li><a class="dropdown-item" href="{{ route('events.edit', ['id' => (string) $event['_id']]) }}">Event Details</a></li>
-                                                    <li><a class="dropdown-item" href="{{ route('events.scan-qr', ['id' => (string) $event['_id']]) }}">Scan QR</a></li>
-                                                    <li><a class="dropdown-item" href="{{ route('events.view-attendace', ['id' => (string) $event['_id']]) }}">See Attendace</a></li>
+                                                    <li><a class="dropdown-item" href="{{ route('events.view-attendace', ['id' => (string) $event['_id']]) }}">Session Details</a></li>
 
                                                 </ul>
                                             </div>

@@ -41,23 +41,6 @@
     <div class="layout-wrapper layout-content-navbar">
         @yield('content')
         {{-- @include('layouts.partials-back.footer') --}}
-        <div class="layout-container">
-
-
-                <div class="content-wrapper">
-                    <!-- Content -->
-                    <!-- / Content -->
-
-                    <!-- Footer -->
-                    <!-- / Footer -->
-
-                    <div class="content-backdrop fade">
-
-                    </div>
-            </div>
-        </div>
-
-        <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->

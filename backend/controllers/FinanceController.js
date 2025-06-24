@@ -35,9 +35,6 @@ exports.updatePayment = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body; // status baru yang ingin diubah (approved/rejected/pending)
 
-    // Asumsikan ID admin/finance yang memverifikasi dikirim via session atau middleware
-    // const verifiedBy = req.user && req.user._id; // contoh: dari token login
-
     // Validasi input
     const allowedStatus = ["pending", "approved", "rejected"];
     if (!allowedStatus.includes(status)) {
@@ -51,22 +48,21 @@ exports.updatePayment = async (req, res) => {
         }
 
         registration.payment.status = status;
-        // registration.payment.verified_by = verifiedBy;
         registration.updated_at = new Date();
 
         if (status === "approved") {
             // Main QR
-            const globalQRData = JSON.stringify({
-                registration_id: registration._id,
-                user_id: registration.user_id,
-                event_id: registration.event_id,
-                verified: true,
-            });
+            // const globalQRData = JSON.stringify({
+            //     registration_id: registration._id,
+            //     user_id: registration.user_id,
+            //     event_id: registration.event_id,
+            //     verified: true,
+            // });
 
-            const qrPath = await generateQRCode(
-                globalQRData,
-                `reg-${registration._id}`
-            );
+            // const qrPath = await generateQRCode(
+            //     globalQRData,
+            //     `reg-${registration._id}`
+            // );
             registration.qr_code = qrPath;
 
             // Session QR Codes

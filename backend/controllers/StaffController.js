@@ -3,7 +3,7 @@ const Event = require("../models/Event");
 // const Session = require("../models/Session");
 
 exports.updateAttendance = async (req, res) => {
-    console.log("HAIIIII");
+    // console.log("HAIIIII");
     const { registration_id, user_id, event_id, session_id } = req.body;
 
     if (!registration_id || !user_id || !event_id || !session_id) {
