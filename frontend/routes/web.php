@@ -43,6 +43,10 @@ Route::get('/chin/test', function () {
     return view('test');
 });
 
+Route::get('/chin/sertif', function () {
+    return view('sertif');
+});
+
 Route::get('/events/detail', function () {
     return view('events.detail');
 });

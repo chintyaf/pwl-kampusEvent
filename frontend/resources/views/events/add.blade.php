@@ -42,7 +42,7 @@
     <!-- / Content -->
 @endsection
 
-@section('extraJS')
+@push('extraJS')
     <script src="{{ asset('back/js/event-add.js') }}"></script>
 
     {{-- Masukkan data --}}
@@ -136,4 +136,4 @@
     });
 </script>
 
-@endsection
+@endpush
