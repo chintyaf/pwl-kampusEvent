@@ -17,6 +17,14 @@ class EventController extends Controller
         return view('events.index', compact('events'));
     }
 
+    public function viewAttendance()
+    {
+        // $response = Http::get('http://localhost:3000/api/events');
+        // $events = $response->json(); // Convert JSON response to array
+
+        return view('events.attendee');
+    }
+
     public function add()
     {
         $token = Session::get('token');

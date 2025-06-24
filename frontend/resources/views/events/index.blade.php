@@ -1,44 +1,9 @@
 @extends('layouts.back')
-@section('content')
-    <div class="section events" id="events">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="section-heading">
-                        <h2>Events</h2>
-                        <a href="{{ route('event.add') }}">New Event</a>
-                    </div>
-                </div>
-                @foreach ($events as $event)
-                <div class="col-lg-12 col-md-6">
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <div class="image">
-                                    <img src="{{ asset('front/assets/images/event-01.jpg') }}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-9">
-                                <ul>
-                                    <li>
-                                        <h4>{{ $event['name'] }}</h4>
-                                    </li>
-                                    <li>
-                                        <span>Date:</span>
-                                        {{-- <h6>{{ $event['start_date'] }}, </h6> --}}
-                                    </li>
-                                </ul>
-                                <a href="{{ route('events.edit', $event['_id']) }}"><i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
 
-    <style>
+@push('extraCSS')
+    <link rel="stylesheet" href="{{ asset('front/assets/css/fontawesome.css') }}">
+
+        <style>
         img {
             width: 100%;
             overflow: hidden;
@@ -49,7 +14,7 @@
         }
 
         .events .item {
-            background-color: #f1f0fe;
+            background-color: #ffffff;
             border-radius: 25px;
             position: relative;
             padding: 40px;
@@ -68,21 +33,28 @@
             top: -70px;
         }
 
-        .events .item ul li {
+        .events .item .event-list .event-item {
             display: inline-block;
-            width: 17.5%;
-            vertical-align: middle;
+            /* width: 17.5%; */
+            /* vertical-align: middle; */
         }
 
-        .events .item ul li:first-child {
+        .event-list {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .events .item .event-list .event-item:first-child {
             width: 35%;
         }
 
-        .events .item ul li:nth-of-type(2) {
+        .events .item .event-list .event-item:nth-of-type(2) {
             width: 28%;
         }
 
-        .events .item ul li span.category {
+        .events .item .event-list .event-item span.category {
             font-size: 14px;
             text-transform: uppercase;
             color: #7a6ad8;
@@ -94,38 +66,78 @@
             margin-bottom: 20px;
         }
 
-        .events .item ul li h4 {
+        .events .item .event-list .event-item h4 {
             font-size: 22px;
             font-weight: 600;
         }
 
-        .events .item ul li span {
+        .events .item .event-list .event-item span {
             display: inline-block;
             font-size: 14px;
             color: #4a4a4a;
             margin-bottom: 10px;
         }
 
-        .events .item ul li h6 {
+        .events .item .event-list .event-item h6 {
             font-size: 16px;
             color: #7a6ad8;
             font-weight: 600;
         }
-
-        .events .item a {
-            position: absolute;
-            right: 0;
-            top: 22px;
-            background-color: #7a6ad8;
-            width: 60px;
-            height: 120px;
-            display: inline-block;
-            text-align: center;
-            line-height: 120px;
-            font-size: 18px;
-            z-index: 1;
-            color: #fff;
-            border-radius: 60px 0px 0px 60px;
-        }
     </style>
+@endpush
+
+@section('content')
+    <div class="section events" id="events">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="section-heading">
+                        <h2>Events</h2>
+                        <a href="{{ route('event.add') }}">New Event</a>
+                    </div>
+                </div>
+                @foreach ($events as $event)
+                    <div class="col-lg-12 col-md-6">
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="image">
+                                        <img src="{{ asset('front/assets/images/event-01.jpg') }}" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-9">
+                                    <ul class="event-list">
+                                        <li class="event-item">
+                                            <h4>{{ $event['name'] }}</h4>
+                                        </li>
+                                        <li>
+                                            <span>Date:</span>
+                                            {{-- <h6>{{ $event['start_date'] }}, </h6> --}}
+                                        </li>
+                                        <li class="event-item">
+                                            <div class="btn-group">
+                                                <button type="button"
+                                                    class="btn btn-primary btn-icon rounded-pill dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a class="dropdown-item" href="{{ route('events.edit', ['id' => (string) $event['_id']]) }}">Event Details</a></li>
+                                                    <li><a class="dropdown-item" href="{{ route('events.view-attendace', ['id' => (string) $event['_id']]) }}">See Attendace</a></li>
+
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+
 @endsection

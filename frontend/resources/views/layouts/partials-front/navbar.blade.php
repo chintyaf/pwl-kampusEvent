@@ -25,10 +25,12 @@
                           <!-- <li class="scroll-to-section"><a href="#courses">Courses</a></li> -->
                           <!-- <li class="scroll-to-section"><a href="#team">Team</a></li> -->
                           <li class="scroll-to-section"><a href="#events">Events</a></li>
+                          <li class="scroll-to-section"><a href="">Account</a></li>
                           @if (!session()->has('token'))
                               <li class="scroll-to-section"><a href="{{ route('login') }}">Log in</a></li>
                               <li class="scroll-to-section"><a href="{{ route('register') }}">Register</a></li>
                           @else
+                              <li class="scroll-to-section"><a href="{{ route('member.profile') }}">Profile</a></li>
                               <li class="scroll-to-section"><a class="logout-btn" data-url="/logout">Log Out</a></li>
                               <form id="logout-form" method="POST" style="display: none;">
                                   <input type="hidden" name="_token" value="{{ csrf_token() }}">

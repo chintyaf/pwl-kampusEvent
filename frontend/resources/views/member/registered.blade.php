@@ -1,7 +1,8 @@
+
 @extends('layouts.front')
 @section('content')
 
-<!-- Success Banner -->
+{{-- <!-- Success Banner -->
 <div class="success-banner" style="margin-top: 40px">
     <div class="container">
         <div class="row">
@@ -16,10 +17,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <!-- Confirmation Section -->
-<div class="confirmation-section">
+<div class="confirmation-section" style="margin-top: 40px">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -29,14 +30,14 @@
                         <div class="brand-logo">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <h2 class="brand-name">KampusEvent</h2>
+                        <h2 class="brand-name">Evoria</h2>
                     </div>
 
                     <!-- Order ID -->
-                    <div class="order-id">
+                    {{-- <div class="order-id">
                         <h6>Order ID</h6>
                         <div class="order-id-number">#KE-2025-001247</div>
-                    </div>
+                    </div> --}}
 
                     <!-- Order Title & Description -->
                     <h3 class="order-title">AI Innovations Summit 2025 - Registration Confirmation</h3>

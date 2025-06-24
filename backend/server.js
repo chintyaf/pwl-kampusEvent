@@ -10,6 +10,8 @@ app.use(
     express.static(path.join(__dirname, "data", "qr-code"))
 );
 
+app.use("/data/cert", express.static(path.join(__dirname, "data", "cert")));
+
 // Middleware
 app.use(
     cors({

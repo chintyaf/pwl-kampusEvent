@@ -5,6 +5,7 @@ const eventController = require("../controllers/EventsController");
 const financeController = require("../controllers/FinanceController");
 const eventRegistController = require("../controllers/EventRegisterController");
 const staffController = require("../controllers/StaffController");
+const comiteController = require("../controllers/ComiteController");
 const auths = require("../middleware/auth");
 
 // Ini yang lama I think
@@ -43,5 +44,21 @@ router.post("/member/event/register", eventRegistController.register);
 router.post("/staff/re-register", staffController.updateAttendance);
 
 router.post("/staff/test-qr", staffController.testQR);
+
+// MEMBER
+// View attendees of an event
+router.get(
+    "/certificate/attendees/:event_id/:session_id",
+    comiteController.viewAttendees
+);
+
+// Generate certificates for all attendees
+router.post(
+    "/certificate/generate/:event_id",
+    comiteController.generateCertificates
+);
+
+// List generated certificates
+// router.get("/certificate/list/:event_id", comiteController.listCertificates);
 
 module.exports = router;

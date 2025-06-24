@@ -10,6 +10,7 @@ use App\Http\Controllers\ComiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\MemberController;
 
 // Route::get('/', function () {
 //     return redirect()->route('login');
@@ -59,13 +60,19 @@ Route::get('/event1/payment', function () {
 });
 
 Route::get('/event1/registered', function () {
-    return view('event-register.registered');
+    // return view('event-register.registered');
 });
 
 Route::middleware(['auth.api:member'])->group(function () {
     Route::controller(HomeController::class)->group(function () {
         Route::get('', 'index')->name('home');
+        Route::get('profile', 'profile')->name('member.profile');
         Route::get('event/{id}', 'view')->name('event.view');
+    });
+
+    Route::controller(MemberController::class)->group(function () {
+        Route::get('profile', 'profile')->name('member.profile');
+        Route::get('profile/registered/event', 'registered')->name('member.registered');
     });
 
     Route::controller(EventRegistrationController::class)->group(function () {
@@ -107,9 +114,10 @@ Route::controller(EventController::class)->group(function () {
                 Route::get('', 'index')->name('event.index');
                 Route::get('add', 'add')->name('event.add');
                 Route::post('store', 'store')->name('events.store');
-                Route::get('edit/{id}', 'edit')->name('events.edit');
+                Route::get('{id}/edit', 'edit')->name('events.edit');
                 // Route::put('update/{id}', 'update')->name('events.update');
                 Route::get('delete/{id}', 'delete')->name('events.delete');
+                Route::get('{id}/attendance', 'viewAttendance')->name('events.view-attendace');
             });
 
         Route::get('/render-speaker', function () {
