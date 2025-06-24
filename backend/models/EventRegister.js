@@ -5,12 +5,12 @@ const { AttendSession } = require("./AttendSession");
 const objSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", // Reference to the User model
+        ref: "User",
         required: true,
     },
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Events", // Reference to the Events model
+        ref: "Event",
         required: true,
     },
     attending_session: [AttendSession],

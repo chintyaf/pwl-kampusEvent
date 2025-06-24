@@ -12,6 +12,7 @@
                         <h2>Upcoming Events</h2>
                     </div>
                 </div>
+                @foreach ($event as $event)
                 <div class="col-lg-12 col-md-6">
                     <div class="item">
                         <div class="row">
@@ -39,11 +40,12 @@
                                         <h6>$120</h6>
                                     </li>
                                 </ul>
-                                <a href="{{ route('member.registered') }}"><i class="fa fa-angle-right"></i></a>
+                                <a href="{{ route('member.registered', ['id' => (string) $event['_id']]) }}"><i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
     </div>

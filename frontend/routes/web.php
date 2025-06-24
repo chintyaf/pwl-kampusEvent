@@ -72,7 +72,7 @@ Route::middleware(['auth.api:member'])->group(function () {
 
     Route::controller(MemberController::class)->group(function () {
         Route::get('profile', 'profile')->name('member.profile');
-        Route::get('profile/registered/event', 'registered')->name('member.registered');
+        Route::get('profile/registered/{id}', 'registered')->name('member.registered');
     });
 
     Route::controller(EventRegistrationController::class)->group(function () {

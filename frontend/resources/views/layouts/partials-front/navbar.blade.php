@@ -9,14 +9,16 @@
                           <h1>Evoria</h1>
                       </a>
                       <!-- ***** Logo End ***** -->
+
                       <!-- ***** Serach Start ***** -->
-                      <div class="search-input">
+
+                      {{-- <div class="search-input">
                           <form id="search" action="#">
                               <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword"
                                   onkeypress="handle" />
                               <i class="fa fa-search"></i>
                           </form>
-                      </div>
+                      </div> --}}
                       <!-- ***** Serach Start ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">

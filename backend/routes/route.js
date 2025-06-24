@@ -6,16 +6,17 @@ const financeController = require("../controllers/FinanceController");
 const eventRegistController = require("../controllers/EventRegisterController");
 const staffController = require("../controllers/StaffController");
 const comiteController = require("../controllers/ComiteController");
+const memberController = require("../controllers/memberController");
 const auths = require("../middleware/auth");
 
 // Ini yang lama I think
 // router.post("/register", authController.register);
 // router.post("/login", authController.login);
 
-router.post("/auth/register", authController.register);
-router.post("/auth/login", authController.login);
-router.post("/auth/login-auth", authController.loginAuth);
-router.get("/auth/check", auths, authController.getAuth);
+router.post("/auth/register", authController.register); // Register akun
+router.post("/auth/login", authController.login); // Masuk akun
+router.post("/auth/login- auth", authController.loginAuth); // Cek autentikasi login while on web
+router.get("/auth/check", auths, authController.getAuth); // Ngambil data user
 
 router.get("/events", eventController.view);
 router.post("/events/store", eventController.store);
@@ -36,6 +37,11 @@ router.post(
 
 // Member
 router.post("/member/event/register", eventRegistController.register);
+router.get("/member/profile/:user_id", memberController.profile);
+router.get(
+    "/member/profile/:user_id/registered/:register_id",
+    memberController.registered
+);
 
 // Staff
 // scan QR => update

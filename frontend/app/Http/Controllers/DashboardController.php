@@ -40,7 +40,7 @@ class DashboardController extends Controller
             'event_committee' => 'comite.index',
             'event_staff' => 'staff.index',
         ];
-        // dd($routes[$user['role']], $user);
+        dd($routes[$user['role']], $user);
 
         return isset($routes[$user['role']]) ? redirect()->route($routes[$user['role']]) : abort(403, 'Unauthorized');
     }

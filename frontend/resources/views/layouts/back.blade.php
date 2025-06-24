@@ -107,6 +107,18 @@
             form.submit();
         });
     </script>
+    <script>
+        fetch('/api/user', {
+        headers: {
+            Authorization: 'Bearer ' + tokenFromLocalStorage
+        }
+        })
+        .then(res => res.json())
+        .then(user => {
+            console.log(user.name); // do something with user
+        });
+
+    </script>
 </body>
 
 </html>
