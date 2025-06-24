@@ -1,13 +1,10 @@
-<div id="session-card" class="session-card mb-3"
-data-session-id="{{ $session['_id'] }}"
-     data-fee="{{ $session['registration_fee'] }}"
-     data-title="{{ $session['title'] }}">
-{{-- @if($isFull) style="opacity: 0.6;" @endif --}}
->
+<div class="session-card mb-3" data-session-id="{{ $session['_id'] }}" data-title="{{ $session['title'] }}"
+    data-fee="{{ $session['registration_fee'] }}" data-date="{{ $session['date'] }}"
+    data-start-time="{{ $session['start_time'] }}" data-end-time="{{ $session['end_time'] }}"
+    data-location="{{ $session['location'] }}">
 
-    <input type="checkbox" class="session-checkbox" data-session-id="{{ $session['_id'] }}"
-    {{-- @if($isFull) disabled @endif --}}
-    >
+
+    <input type="checkbox" class="session-checkbox" data-session-id="{{ $session['_id'] }}" {{-- @if ($isFull) disabled @endif --}}>
     <div class="session-header">
         <div>
             <h2 class="session-title">{{ $session['title'] }}</h2>

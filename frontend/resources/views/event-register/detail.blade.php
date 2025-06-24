@@ -65,7 +65,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('event.register', ['id' => (string) $event['_id']]) }}" class="register-btn">Register Now</a>
+                                    <a href="{{ route('eventreg.register', ['id' => (string) $event['_id']]) }}" class="register-btn">Register Now</a>
                                 </div>
 
                             </div>

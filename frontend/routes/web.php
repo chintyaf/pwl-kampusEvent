@@ -80,7 +80,8 @@ Route::middleware(['auth.api:member'])->group(function () {
     });
 
     Route::controller(EventRegistrationController::class)->group(function () {
-        Route::get('event/{id}/register', 'register')->name('event.register');
+        Route::get('event/{id}/register', 'register')->name('eventreg.register');
+        Route::post('event/{id}/store', 'store')->name('eventreg.store');
     });
 });
 

@@ -13,8 +13,11 @@
     <section id="event-register" class="section" style="margin: 40px; margin-top: 0px;">
         <div class="detail-section">
             <div class="container">
-                <form id="formInput">
+                <form id="formInput" action="{{ route('eventreg.store', ['id' => (string) $event['_id']]) }}"
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
                     {{-- Input user + events --}}
+                    <input type="hidden" name="sessions" id="selectedSessions">
                     <input type="hidden" name="user_id" id="user_id" value="{{ (string) $user['id'] }}">
                     <input type="hidden" name="event_id" id="event_id" value="{{ $event['_id'] }}">
 
@@ -39,7 +42,8 @@
                             <hr>
 
                             <x-forms-front.input label="Full Name" name="name" value="{{ $user['name'] }}" disabled />
-                            <x-forms-front.input type="email" label="Email" name="email" value="{{ $user['email'] }}" disabled />
+                            <x-forms-front.input type="email" label="Email" name="email" value="{{ $user['email'] }}"
+                                disabled />
                             <x-forms-front.input label="Phone Number" name="phone_num" value="" disabled />
 
                         </div>
@@ -74,9 +78,9 @@
         </div>
     </section>
 @endsection
-@section('extraJS')
-    <script src={{ asset('front/assets/js/event-register.js') }}></script>
 
+@push('extraJS')
+    <script src={{ asset('front/assets/js/event-register.js') }}></script>
 
     <script>
         function getInitials(name) {
@@ -105,66 +109,65 @@
                 minute: "2-digit",
                 hour12: false,
             })}`;
-            return { dateStr, timeStr };
+            return {
+                dateStr,
+                timeStr
+            };
         }
 
         // Create session card HTML
         function createSessionCard(session) {}
     </script>
 
-<script>
-    document.querySelector('#formInput').addEventListener('submit', async function (e) {
-        e.preventDefault();
-
-        const form = e.target;
-
-        const method = document.querySelector('#paymentMethod')?.value;
-        const proofFile = document.querySelector('#paymentProof')?.files[0];
-
-        // Placeholder upload (replace with real upload logic)
-        const proof_image_url = "test.png";
-
-        // ⬇️ Get selected sessions
-        const sessions = selectedSessions.map(session => ({
-            id: session.id,
-            title: session.title,
-            fee: session.fee
-        }));
-
-        const data = {
-            user_id: document.getElementById("user_id").value,
-            event_id: document.getElementById("event_id").value,
-            sessions: sessions, // 🔥 include session info
-            payment: {
-                method,
-                proof_image_url
+    <script>
+        // Show file name when selected
+        document.getElementById('paymentProof').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('filePreview').style.display = 'flex';
             }
-        };
+        });
 
-        try {
-            const response = await fetch('http://localhost:3000/api/member/event/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(data)
+        function removeFile() {
+            const input = document.getElementById('paymentProof');
+            input.value = '';
+            document.getElementById('filePreview').style.display = 'none';
+            document.getElementById('fileName').textContent = '';
+        }
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('#formInput');
+        const checkboxes = document.querySelectorAll('.session-checkbox');
+        const sessionDataInput = document.getElementById('selectedSessions');
+
+        function collectSessions() {
+            const selected = [];
+
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    const card = checkbox.closest('.session-card');
+                    selected.push({
+                        id: card.dataset.sessionId,
+                    });
+                }
             });
 
-            const result = await response.json();
-
-            if (response.ok) {
-                alert(result.message || 'New event added successfully!');
-                form.reset();
-                window.location.href = "";
-            } else {
-                alert(result.message || 'Failed to add event');
-            }
-        } catch (error) {
-            alert('Error connecting to server');
-            console.error(error);
+            sessionDataInput.value = JSON.stringify(selected);
+            console.log(sessionDataInput.value)
         }
+
+        // Kumpulkan saat ada perubahan pada checkbox
+        checkboxes.forEach(cb => cb.addEventListener('change', collectSessions));
+
+        // Kumpulkan ulang saat submit
+        form.addEventListener('submit', collectSessions);
+
+        // Jalankan sekali saat load
+        collectSessions();
     });
 </script>
 
-@endsection
+@endpush

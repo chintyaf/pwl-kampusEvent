@@ -42,7 +42,7 @@
         <div class="row mb-3">
             <label for="paymentMethod" class="col-sm-2 col-form-label">Metode Pembayaran</label>
             <div class="col-sm-10">
-                <select id="paymentMethod" name="payment[method]" class="form-select" required>
+                <select id="paymentMethod" name="payment_method" class="form-select" required>
                     <option value="">Pilih Metode Pembayaran</option>
                     <option value="bca">Transfer BCA - 1234567890 a.n. Event Organizer</option>
                     <option value="mandiri">Transfer Mandiri - 9876543210 a.n. Event Organizer
@@ -55,7 +55,7 @@
 
         <!-- Upload Bukti Pembayaran -->
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Upload Bukti</label>
+            <label class="col-sm-2 col-form-label" name="payment_proof">Upload Bukti</label>
             <div class="col-sm-10">
                 <div class="border p-3 text-center upload-area" style="cursor: pointer;"
                     onclick="document.getElementById('paymentProof').click()">

@@ -9,8 +9,7 @@ const comiteController = require("../controllers/ComiteController");
 const memberController = require("../controllers/memberController");
 const auths = require("../middleware/auth");
 
-const multer = require("multer");
-const upload = multer({ dest: "certificates/" });
+const { paymentUpload, certUpload } = require("../middleware/upload");
 
 router.post("/auth/register", authController.register); // Register akun
 router.post("/auth/login", authController.login); // Masuk akun
@@ -35,7 +34,11 @@ router.post(
 );
 
 // Member
-router.post("/member/event/register", eventRegistController.register);
+router.post(
+    "/member/event/register",
+    paymentUpload.single("proof_image_url"),
+    eventRegistController.register
+);
 router.get("/member/profile/:user_id", memberController.profile);
 router.get(
     "/member/profile/:user_id/registered/:register_id",
@@ -60,7 +63,7 @@ router.get(
 );
 router.post(
     "/comite/:user_id/events/:event_id/:session_id/uploadCert",
-    upload.single("certificate"),
+    certUpload.single("certificate"),
     comiteController.uploadCert
 );
 

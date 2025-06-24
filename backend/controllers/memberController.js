@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 exports.profile = async (req, res) => {
     try {
-        const userId = req.params.user_id;
+        const userId = req.params.userId;
 
         const eventRegister = await EventRegister.find({ user_id: userId });
         console.log(userId, eventRegister);

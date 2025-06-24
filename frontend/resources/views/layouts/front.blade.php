@@ -55,7 +55,7 @@
 
 
   <!-- Scripts -->
-  @yield('extraJS')
+  @stack('extraJS')
   <!-- Bootstrap core JavaScript -->
     <script src="{{ asset('front/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('front/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
