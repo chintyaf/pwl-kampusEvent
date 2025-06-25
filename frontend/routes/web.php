@@ -14,18 +14,6 @@ use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\GuestController;
 
-// Route::get('/', function () {
-//     return redirect()->route('login');
-// });
-
-//Route::get('/', function () {
-//    return view('guest.dashboard');
-//});
-Route::get('/home', function () {
-    return view('guest.dashboard');
-});
-// Route::get('/guest/dashboard', [GuestController::class, 'dashboard'])->name('guest.dashboard');
-
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login-auth');
@@ -58,32 +46,10 @@ Route::get('/chin/sertif', function () {
     return view('sertif');
 });
 
-Route::get('/events/detail', function () {
-    return view('events.detail');
-});
-
-Route::get('/event1', function () {
-    return view('event-register.detail');
-});
-
-Route::get('/event1/register', function () {
-    return view('event-register.register');
-});
-
-Route::get('/event1/payment', function () {
-    return view('event-register.payment');
-});
-
-Route::get('/event1/registered', function () {
-    // return view('event-register.registered');
-});
-
 Route::middleware(['auth.api:member'])->group(function () {
-    Route::controller(HomeController::class)->group(function () {
-        Route::get('', 'index')->name('home');
-        Route::get('profile', 'profile')->name('member.profile');
-        Route::get('event/{id}', 'view')->name('event.view');
-    });
+    // Route::controller(HomeController::class)->group(function () {
+    //     Route::get('profile', 'profile')->name('member.profile');
+    // });
 
     Route::controller(MemberController::class)->group(function () {
         Route::get('profile', 'profile')->name('member.profile');
@@ -100,7 +66,7 @@ Route::middleware(['auth.api:member'])->group(function () {
 // ADMIN
 Route::middleware(['auth.api:admin'])->group(function () {
     // Dashboard Admin
-    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
     // Manajemen Users
     Route::get('manage-users', [AdminController::class, 'manageUsers'])->name('admin.manage-users');
@@ -124,13 +90,13 @@ Route::middleware(['auth.api:admin'])->group(function () {
     });
 });
 
-// Route::get('/admin', function () {
-//     return view('admin.index');
-// })->name('admin.index');
 
 Route::get('/admin/manage-users', function () {
     return view('admin.manage-users');
 });
+
+
+
 
 // COMITE
 Route::middleware(['auth.api:event_committee'])->prefix('committee')->group(function () {
@@ -183,9 +149,9 @@ Route::get('/admin/users/member', function () {
 
 // FINANCE
 
-Route::get('/finance', function () {
-    return view('finance.index');
-})->name('finance.index');
+// Route::get('/finance', function () {
+//     return view('finance.index');
+// })->name('finance.index');
 
 Route::get('/finance/registrations', function () {
     return view('finance.registrations');
@@ -193,7 +159,7 @@ Route::get('/finance/registrations', function () {
 
 
 Route::middleware(['auth.api:finance_team'])->group(function () {
-    Route::get('/finance/dashboard', [FinanceController::class, 'index'])->name('finance.dashboard');
+    Route::get('/finance/dashboard', [FinanceController::class, 'index'])->name('finance.index');
     Route::get('/finance/registrations', [FinanceController::class, 'registrations'])->name('finance.registrations');
     Route::put('/finance/registration/{id}/status', [FinanceController::class, 'updatePaymentStatus'])->name('finance.update.status');
 

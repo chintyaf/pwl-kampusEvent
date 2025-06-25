@@ -41,6 +41,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
+                            <th>Register Id</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Certificates</th>
@@ -51,6 +52,7 @@
                         @if (!empty($session['attending_user']) && is_iterable($session['attending_user']))
                             @foreach ($session['attending_user'] as $visitor)
                                 <tr>
+                                    <td>{{ (String) $visitor['user']['_id'] ?? '-' }}</td>
                                     <td>{{ $visitor['user']['user_id']['name'] ?? '-' }}</td>
                                     <td><span class="badge bg-label-primary me-1">{{ $visitor['status'] ?? '-' }}</span>
                                     <td>{{ $visitor['certificate'] ?? '-' }}</td>

@@ -29,4 +29,4 @@ const objSchema = new mongoose.Schema(
 );
 exports.objSchema = objSchema;
 
-module.exports = mongoose.model("Events", objSchema);
+module.exports = mongoose.model("Event", objSchema);
