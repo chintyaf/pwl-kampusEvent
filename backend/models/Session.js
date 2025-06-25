@@ -5,6 +5,7 @@ const SessionSchema = new mongoose.Schema({
     // Event session
     title: { type: String },
     description: { type: String },
+    registration_fee: { type: Number },
 
     // Tempat & Lokasi
     date: { type: Date },
@@ -12,12 +13,28 @@ const SessionSchema = new mongoose.Schema({
     end_time: { type: Date },
     location: {
         type: String,
-    }, // smth important 4 later...
+    },
 
     // Peserta
     max_participants: { type: Number },
     total_participants: { type: Number, default: 0 },
-    registration_fee: { type: Number },
+    attending_user: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "EventRegister",
+                required: true,
+            },
+            status: {
+                type: String,
+                enum: ["absent", "present"],
+                default: "absent",
+            },
+            certificate_url: {
+                type: String,
+            },
+        },
+    ],
 
     // Speaker
     speaker: {
@@ -27,7 +44,5 @@ const SessionSchema = new mongoose.Schema({
         type: [SpeakerSchema],
     },
 });
-// exports.SessionSchema = SessionSchema;
 
 module.exports = { SessionSchema };
-// module.exports = mongoose.model("Session", SessionSchema);

@@ -15,20 +15,27 @@
     console.log("Scanned QR Text:", decodedText);
 
     // decodedText should just be the token like "abc123"
-    fetch(`http://localhost:3000/verify?token=${encodeURIComponent(decodedText.trim())}`)
-      .then(res => res.json())
-      .then(data => {
-        const result = document.getElementById('result');
-        if (data.user) {
-          result.innerHTML = `<b>✅ ${data.message}</b><br>Nama: ${data.user.name}`;
-        } else {
-          result.innerHTML = `<b>⚠️ ${data.message}</b>`;
-        }
-      })
-      .catch(err => {
-        document.getElementById('result').innerText = 'Gagal koneksi ke server.';
-        console.error(err);
-      });
+    fetch(`http://localhost:3000/api/staff/re-register`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: decodedText  // this is already a stringified JSON from QR
+    })
+    .then(res => res.json())
+    .then(data => {
+    const result = document.getElementById('result');
+    if (data.user) {
+        result.innerHTML = `<b>✅ ${data.message}</b><br>Nama: ${data.user.name}`;
+    } else {
+        result.innerHTML = `<b>⚠️ ${data.message}</b>`;
+    }
+    })
+    .catch(err => {
+    document.getElementById('result').innerText = 'Gagal koneksi ke server.';
+    console.error(err);
+    });
+
   }
 
   new Html5Qrcode("reader").start(

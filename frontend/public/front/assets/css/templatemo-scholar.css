@@ -1774,7 +1774,7 @@ Responsive Style
 
 body {
     overflow-x: hidden;
-    background-color: #eee;
+    /* background-color: #eee; */
 }
 
 @media (max-width: 767px) {
@@ -1998,4 +1998,3 @@ body {
         width: 95%;
     }
 }
-

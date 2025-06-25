@@ -41,6 +41,7 @@
     <script src="{{ asset('back/assets/vendor/js/helpers.js') }}"></script>
 
     <script src="{{ asset('back/assets/js/config.js') }}"></script>
+    @stack("extraCSS")
 </head>
 
 <body>
@@ -77,7 +78,7 @@
     </div>
     <!-- / Layout wrapper -->
 
-    @yield('extraJS')
+    @stack('extraJS')
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
@@ -87,19 +88,15 @@
     <script src="{{ asset('back/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
     <script src="{{ asset('back/assets/vendor/js/menu.js') }}"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
     <script src="{{ asset('back/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
-    <!-- Main JS -->
     <script src="{{ asset('back/assets/js/main.js') }}"></script>
 
-    <!-- Page JS -->
     <script src="{{ asset('back/assets/js/dashboards-analytics.js') }}"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 
     <script>
         $(".logout-btn").click(function(e) {
@@ -110,6 +107,18 @@
             form.attr("action", url);
             form.submit();
         });
+    </script>
+    <script>
+        fetch('/api/user', {
+        headers: {
+            Authorization: 'Bearer ' + tokenFromLocalStorage
+        }
+        })
+        .then(res => res.json())
+        .then(user => {
+            console.log(user.name); // do something with user
+        });
+
     </script>
 </body>
 

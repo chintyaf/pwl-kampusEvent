@@ -14,9 +14,10 @@ class DashboardController extends Controller
     {
         $token = Session::get('token');
 
-        // dd($token);
+
         if (!$token) {
-            return redirect()->view('auth.login');
+            // dd($token);
+            return redirect()->route('login');
         }
 
         // Validate token via Node.js backend
@@ -24,10 +25,12 @@ class DashboardController extends Controller
             'Authorization' => 'Bearer ' . $token,
         ])->post('http://localhost:3000/api/auth/login-auth');
 
+
         if ($response->failed()) {
+            // dd($response->status(), $response->body()); // Inspect backend error
             Session::forget('token');
             return redirect()
-                ->view('auth.login')
+                ->route('login')
                 ->withErrors(['login' => 'Session expired or invalid token']);
         }
 
@@ -42,7 +45,9 @@ class DashboardController extends Controller
         ];
         // dd($routes[$user['role']], $user);
 
-        return isset($routes[$user['role']]) ? redirect()->route($routes[$user['role']]) : abort(403, 'Unauthorized');
+        return isset($routes[$user['role']])
+        ? redirect()->route($routes[$user['role']])
+        : abort(403, 'Unauthorized');
     }
 
     public function admin()

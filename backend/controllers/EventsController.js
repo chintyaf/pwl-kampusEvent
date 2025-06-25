@@ -4,6 +4,16 @@ const Session = require("../models/Session");
 exports.view = async (req, res) => {
     try {
         const events = await Event.find(); // Get all events
+
+        res.json(events); // Send JSON response
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch events" });
+    }
+};
+
+exports.viewRegister = async (req, res) => {
+    try {
+        const events = await Event.find(); // Get all events
         res.json(events); // Send JSON response
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch events" });
@@ -13,6 +23,7 @@ exports.view = async (req, res) => {
 // Store new event
 exports.store = async (req, res) => {
     try {
+        console.log(req.body);
         const {
             user_id,
             name,
@@ -21,14 +32,26 @@ exports.store = async (req, res) => {
             sessions = [],
         } = req.body;
 
+        console.log("SUBMITED : ", req.body);
+
+        const sessionDates = sessions.map((s) => new Date(s.date));
+
+        // Find the earliest and latest dates
+        const start_date = new Date(Math.min(...sessionDates));
+        const end_date = new Date(Math.max(...sessionDates));
+
+        // console.log("SESSIONS:", s.speakers, s.moderators);
+
         const event = new Event({
             user_id,
             name,
             description,
+            start_date: start_date,
+            end_date: end_date,
             poster_url,
             session: sessions.map((s) => ({
                 title: s.title,
-                desc: s.desc,
+                description: s.description,
                 date: s.date,
                 start_time: s.start_time,
                 end_time: s.end_time,
@@ -36,13 +59,13 @@ exports.store = async (req, res) => {
                 max_participants: s.max_participants,
                 registration_fee: s.registration_fee,
                 total_participants: 0,
-                speaker: s.speaker || [],
-                moderator: s.moderator || [],
+                speaker: s.speakers || [],
+                moderator: s.moderators || [],
             })),
         });
 
-        console.log("This is from event");
-        console.log(event);
+        // console.log("This is from event");
+        // console.log(event);
 
         await event.save();
         res.json({ message: "New event added successfully", event });
@@ -112,45 +135,44 @@ exports.update = async (req, res) => {
 exports.edit = async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
-        if (!event) return res.status(404).json({ message: "Event not found" });
-        res.json(event);
-        await event.save();
-        res.json({ message: "New event added successfully", event });
+        if (!event) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+        return res.json(event);
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
         console.error("Error saving event:", error);
         res.status(500).json({ message: "Server error while saving event" });
     }
 };
 
 // Update an existing event
-exports.update = async (req, res) => {
-    const { id } = req.params;
+// exports.update = async (req, res) => {
+//     const { id } = req.params;
 
-    try {
-        const { name, description, poster_url, total_participants } = req.body;
+//     try {
+//         const { name, description, poster_url, total_participants } = req.body;
 
-        const updateData = {
-            name,
-            description,
-            poster_url,
-            total_participants,
-        };
+//         const updateData = {
+//             name,
+//             description,
+//             poster_url,
+//             total_participants,
+//         };
 
-        const updatedEvent = await Event.findByIdAndUpdate(id, updateData, {
-            new: true,
-        });
+//         const updatedEvent = await Event.findByIdAndUpdate(id, updateData, {
+//             new: true,
+//         });
 
-        if (!updatedEvent) {
-            return res.status(404).json({ message: "Event not found" });
-        }
+//         if (!updatedEvent) {
+//             return res.status(404).json({ message: "Event not found" });
+//         }
 
-        res.json({
-            message: "Event updated successfully",
-            event: updatedEvent,
-        });
-    } catch (err) {
-        console.error("Error updating event:", err);
-        res.status(500).json({ message: "Server error" });
-    }
-};
+//         res.json({
+//             message: "Event updated successfully",
+//             event: updatedEvent,
+//         });
+//     } catch (err) {
+//         console.error("Error updating event:", err);
+//         res.status(500).json({ message: "Server error" });
+//     }
+// };

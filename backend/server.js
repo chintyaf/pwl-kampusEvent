@@ -3,7 +3,22 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const financeRoutes = require("./routes/financeRoutes");
+const path = require("path");
+
+app.use(
+    "/data/qr-code",
+    express.static(path.join(__dirname, "data", "qr-code"))
+);
+
+app.use(
+    "/data/certificates",
+    express.static(path.join(__dirname, "data", "certificates"))
+);
+
+// Serve public folder
+app.use("/files", express.static(path.join(__dirname, "data")));
+
+app.use("/data/cert", express.static(path.join(__dirname, "data", "cert")));
 
 // Middleware
 app.use(

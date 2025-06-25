@@ -1,24 +1,19 @@
 const mongoose = require("mongoose");
-const { EventVisitorSchema } = require("./EventVisitor");
+const { AttendSession } = require("./AttendSession");
 
 // Order Register Event
 const objSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User", // Reference to the User model
+        ref: "Users",
         required: true,
     },
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Events", // Reference to the Events model
+        ref: "Events",
         required: true,
     },
-    visitor: {
-        type: [EventVisitorSchema],
-        default: [],
-    },
-    registration_date: { type: Date, default: Date.now },
-
+    attending_session: [AttendSession],
     payment: {
         proof_image_url: {
             type: String,

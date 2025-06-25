@@ -1,38 +1,85 @@
 const express = require("express");
+const multer = require("multer");
+const unzipper = require("unzipper");
+const fs = require("fs-extra");
+const path = require("path");
 const cors = require("cors");
+
 const app = express();
-
 app.use(cors());
-app.use(express.json());
 
-// Simulasi data peserta
-const participants = [
-    { name: "Budi Santoso", token: "abc123", status: "belum_hadir" },
-    { name: "Sari Dewi", token: "xyz789", status: "belum_hadir" },
-];
+const upload = multer({ dest: "uploads/" });
 
-// Endpoint verifikasi token
-app.get("/verify", (req, res) => {
-    const token = req.query.token;
-    if (!token) return res.status(400).json({ message: "Token kosong" });
+app.post("/upload-zip", upload.single("zipFile"), async (req, res) => {
+    const zipPath = req.file.path;
+    const extractDir = `certificates/${Date.now()}`;
 
-    const cleanToken = token.trim();
-    const user = participants.find((p) => {
-        console.log(token);
-        // console.log(p.token);
-        p.token === cleanToken;
+    await fs.ensureDir(extractDir);
+
+    // Unzip and extract
+    const zipStream = fs
+        .createReadStream(zipPath)
+        .pipe(unzipper.Extract({ path: extractDir }));
+
+    zipStream.on("close", async () => {
+        const files = await fs.readdir(extractDir);
+        const pdfFiles = files.filter((f) => f.endsWith(".pdf"));
+
+        const metadata = pdfFiles.map((filename) => {
+            // Example: 12345_JohnDoe.pdf
+            const base = path.basename(filename, ".pdf");
+            const [userId, ...nameParts] = base.split("_");
+            return {
+                file: filename,
+                userId,
+                userName: nameParts.join(" "),
+            };
+        });
+
+        console.log("Uploaded Certificates:", metadata);
+
+        // Optionally: save to DB or move to permanent storage
+
+        fs.unlinkSync(zipPath); // cleanup uploaded ZIP
+        res.json({
+            message: `Uploaded ${pdfFiles.length} certificates.`,
+            details: metadata,
+        });
     });
-    if (!user)
-        return res.status(404).json({ message: "Token tidak ditemukan" });
 
-    if (user.status === "hadir") {
-        return res.status(409).json({ message: "Peserta sudah hadir", user });
+    try {
+        // await fs.ensureDir(extractDir);
+        // // Unzip and extract
+        // const zipStream = fs
+        //     .createReadStream(zipPath)
+        //     .pipe(unzipper.Extract({ path: extractDir }));
+        // zipStream.on("close", async () => {
+        //     const files = await fs.readdir(extractDir);
+        //     const pdfFiles = files.filter((f) => f.endsWith(".pdf"));
+        //     const metadata = pdfFiles.map((filename) => {
+        //         // Example: 12345_JohnDoe.pdf
+        //         const base = path.basename(filename, ".pdf");
+        //         const [userId, ...nameParts] = base.split("_");
+        //         return {
+        //             file: filename,
+        //             userId,
+        //             userName: nameParts.join(" "),
+        //         };
+        //     });
+        //     console.log("Uploaded Certificates:", metadata);
+        //     // Optionally: save to DB or move to permanent storage
+        //     fs.unlinkSync(zipPath); // cleanup uploaded ZIP
+        //     res.json({
+        //         message: `Uploaded ${pdfFiles.length} certificates.`,
+        //         details: metadata,
+        //     });
+        // });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error processing ZIP upload." });
     }
-
-    user.status = "hadir";
-    return res.json({ message: "Check-in berhasil", user });
 });
 
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
-});
+app.listen(3000, () =>
+    console.log("Server listening on http://localhost:3000")
+);

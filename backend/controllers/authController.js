@@ -8,6 +8,16 @@ app.use(express.json());
 
 const JWT_SECRET = "your_secret_key"; // Store in env in production
 
+exports.getAuth = async (req, res) => {
+    const user = req.user;
+    res.json({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+    });
+};
+
 exports.register = async (req, res) => {
     const { name, email, password, role } = req.body;
 
@@ -65,7 +75,7 @@ exports.login = async (req, res) => {
         if (!user) return res.status(401).json({ message: "User not found" });
 
         const validPassword = await bcrypt.compare(password, user.password);
-        console.log(validPassword);
+        // console.log(validPassword);
         if (!validPassword)
             return res.status(401).json({ message: "Invalid password" });
 
@@ -88,15 +98,16 @@ exports.login = async (req, res) => {
                 role: user.role,
             },
         });
-        console.log(user, token);
+        // console.log(user, token);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Server error", error });
     }
 };
 
 exports.loginAuth = async (req, res) => {
     const authHeader = req.headers.authorization;
-    console.log(req.headers);
+    // console.log(req.headers);
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(401).json({ error: "Token missing or invalid" });

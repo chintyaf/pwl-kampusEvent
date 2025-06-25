@@ -21,7 +21,7 @@
 
                 <x-forms.input label="Date" name="session_date[]" type="date" desc="moderator_" />
 
-                <x-forms.input label="Location" name="session_location[]" desc="moderator_" />
+                <x-forms.textarea label="Location" name="session_location[]" desc="Locatoin?" />
 
                 {{-- time --}}
                 <div class="row mb-4">
@@ -33,7 +33,7 @@
                                 <div class="input-group" id="startPicker" data-td-target-input="nearest"
                                     data-td-target-toggle="nearest">
                                     <input type="time" class="form-control" data-td-target="#startPicker"
-                                        name="session_starttime[]" id="start_time" />
+                                        name="session_start_time[]" id="start_time" />
                                     <!-- <span class="input-group-text" data-td-target="#startPicker" --->
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                                 <div class="input-group" id="endPicker" data-td-target-input="nearest"
                                     data-td-target-toggle="nearest">
                                     <input type="time" class="form-control" data-td-target="#endPicker"
-                                        name="session_endtime[]" id="end_time" />
+                                        name="session_end_time[]" id="end_time" />
                                     <!-- <span class="input-group-text" data-td-target="#endPicker" --->
                                 </div>
                             </div>
@@ -51,10 +51,10 @@
                     </div>
                 </div>
 
-                <x-forms.input label="Maximum Participants" name="session_maxparticipants[]" placeholder="" type="number"
+                <x-forms.input label="Maximum Participants" name="session_max_participants[]" placeholder="" type="number"
                     desc="Enter a clear and concise title for your event." />
 
-                <x-forms.input label="Registration Fee" name="session_registrationfee[]" placeholder="" type="number"
+                <x-forms.input label="Registration Fee" name="session_registration_fee[]" placeholder="" type="number"
                     desc="Enter a clear and concise title for your event." />
 
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ManageUsersController;
 use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\MemberController;
 
 // Route::get('/', function () {
 //     return redirect()->route('login');
@@ -50,6 +51,10 @@ Route::get('/chin/test', function () {
     return view('test');
 });
 
+Route::get('/chin/sertif', function () {
+    return view('sertif');
+});
+
 Route::get('/events/detail', function () {
     return view('events.detail');
 });
@@ -67,17 +72,24 @@ Route::get('/event1/payment', function () {
 });
 
 Route::get('/event1/registered', function () {
-    return view('event-register.registered');
+    // return view('event-register.registered');
 });
 
 Route::middleware(['auth.api:member'])->group(function () {
     Route::controller(HomeController::class)->group(function () {
         Route::get('', 'index')->name('home');
+        Route::get('profile', 'profile')->name('member.profile');
         Route::get('event/{id}', 'view')->name('event.view');
     });
 
+    Route::controller(MemberController::class)->group(function () {
+        Route::get('profile', 'profile')->name('member.profile');
+        Route::get('profile/registered/{id}', 'registered')->name('member.registered');
+    });
+
     Route::controller(EventRegistrationController::class)->group(function () {
-        Route::get('event/{id}/register', 'register')->name('event.register');
+        Route::get('event/{id}/register', 'register')->name('eventreg.register');
+        Route::post('event/{id}/store', 'store')->name('eventreg.store');
     });
 });
 
@@ -138,9 +150,20 @@ Route::middleware(['auth.api:event_committee'])->prefix('committee')->group(func
             Route::get('delete/{id}', 'delete')->name('events.delete');
         });
 
-    Route::get('/render-speaker', function () {
-        return view('events.input.speaker');
-    });
+        Route::controller(EventController::class)
+            ->prefix('events')
+            ->group(function () {
+                Route::get('', 'index')->name('event.index');
+                Route::get('add', 'add')->name('event.add');
+                Route::post('store', 'store')->name('events.store');
+                Route::get('{id}/edit', 'edit')->name('events.edit');
+                // Route::put('update/{id}', 'update')->name('events.update');
+                Route::get('delete/{id}', 'delete')->name('events.delete');
+                Route::get('{id}/attendance', 'viewAttendance')->name('events.view-attendace');
+                Route::get('{id}/{session_id}', 'viewAttendanceSess')->name('events.view-attendacesess');
+                Route::get('{id}/{session_id}/scan-qr', 'scanQR')->name('events.scan-qr');
+                Route::post('{id}/{session_id}/upload-certificates', 'uploadCert')->name('events.uploadCert');
+            });
 
     Route::get('/render-moderator', function () {
         return view('events.input.moderator');
@@ -224,7 +247,13 @@ Route::get('/finance/update-status', function () {
 });
 
 // STAFF
-Route::get('/staff', function () {
-    return view('staff.index');
-})->name('staff.index');
+Route::middleware(['auth.api:admin'])->group(function () {
+    Route::get('/staff', function () {
+        return view('staff.index');
+    })->name('staff.index');
+
+    Route::get('/scanQR', function () {
+    return view('test');
+});
+});
 

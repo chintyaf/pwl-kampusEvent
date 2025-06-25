@@ -1,4 +1,7 @@
 @extends('layouts.front')
+@stack('extraCSS')
+
+@endstack
 @section('content')
     <section class="section" style="margin: 80px; margin-top: 0px;">
         <!-- Event Details Section -->
@@ -22,8 +25,8 @@
                                     <div class="info-content">
                                         <h6>Date</h6>
                                         <p>
-                                            {{ \Carbon\Carbon::parse($event['start_date'])->format('l, j F Y') }} -
-                                            {{ \Carbon\Carbon::parse($event['end_date'])->format('l, j F Y') }}
+                                            {{-- {{ \Carbon\Carbon::parse($event['start_date'])->format('l, j F Y') }} - --}}
+                                            {{-- {{ \Carbon\Carbon::parse($event['end_date'])->format('l, j F Y') }} --}}
                                             {{-- | {{ $event['start_time'] }} - {{ $event['end_time'] }} --}}
                                         </p>
                                         {{-- <p>Friday, July 12, 2025 | 09:00 AM - 06:00 PM</p> --}}
@@ -62,7 +65,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('event.register', ['id' => (string) $event['_id']]) }}" class="register-btn">Register Now</a>
+                                    <a href="{{ route('eventreg.register', ['id' => (string) $event['_id']]) }}" class="register-btn">Register Now</a>
                                 </div>
 
                             </div>
@@ -80,20 +83,6 @@
                     </p>
                 </div>
 
-                @foreach ($event['session'] as $s)
-                <!-- Featured Speakers -->
-                <div class="detail-card">
-                    <h4>Session</h4>
-
-                    <div class="col-4 speaker-card" style="margin-bottom: 20px; padding: 20px;">
-                        {{-- <div class="speaker-avatar">
-                            <i class="fa fa-user" style="font-size: 40px; color: #ccc;"></i>
-                        </div> --}}
-                        <h6>Dr. Sarah Chen</h6>
-                        <p style="font-size: 12px; color: #666; margin: 0;">Head of AI Research, OpenAI</p>
-                    </div>
-                </div>
-                @endforeach
             </div>
         </div>
     </section>
