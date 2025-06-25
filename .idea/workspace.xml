@@ -5,26 +5,152 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b031693e-46f8-4f6d-a74e-50214211f30b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/config/db.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/controllers/registrationController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/manage-user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/routes/financeRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/resources/views/admin/add-comite.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/resources/views/admin/dashboard.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/resources/views/admin/manage-events.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/resources/views/finance/dashboard.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/resources/views/guest/dashboard.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/certificates/1750770306455/cert/12345_JohnDoe.pdf.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/certificates/1750770306455/cert/67890_JaneSmith.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/certificates/1750770356910/cert/12345_JohnDoe.pdf.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/certificates/1750770356910/cert/67890_JaneSmith.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/certificates/1750770401369/12345_JohnDoe.pdf.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/certificates/1750770401369/67890_JaneSmith.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/controllers/ComiteController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/controllers/FinanceController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/controllers/StaffController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/controllers/memberController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/17030abc952c07e1e9fb95f5dd3fdb11" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/1750822593632/684905d4455d0212c2c89bfb.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/1750822593632/685b4c4d7251d42e917021ba.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/1aff62c9312106ca5362e547c72dd6e7" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/31f4b30855ed6b6af4c70b067a1e51ce" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/38187ec514c7e88f8f67421386cd8b68" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/386c3f31761d0f4dc5d1cf8b063ae334" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/455cb044660389866bef095bb4963edb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/51598b728f654f4b99e9b48d7fd47d3b" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/534cc191c36b1d3a29749c5e9fb5f366" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/680f1717a2adc14552d91a1859c027eb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/88594d5545005788e105d9148f158185" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/903150539d071188733019d4e06281cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/a84253668234164538549ffb3c14b407" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/bb527972aa0e56c8187eda602ffe37c2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/bbf7e03add107cd630ac07f11cbb12d6" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/c2039b758831728f9ba713c5ed878de2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/certificates/c3604cdc54303a61a191f36c4e258f68" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750786209407-381745628.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750786375133-233958574.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750794754353-3064992.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750794781798-910255880.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750810546264-161385982.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750810725086-187033532.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750810910737-426781549.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/payments/1750813773658-691817131.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685ae147eecc556cfd921fb9-1750789926250.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b0202067c83587a285dfe-1750794805645.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b021d067c83587a285e35-1750794814008.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b3fb260faa714172a8311-1750810651611.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b406584f98187290de945-1750810742819.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750810935129.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811013378.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811051161.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811078329.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811105205.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811184573.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811273706.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811293292.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811321166.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750811376204.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b411e03e4d1d31f40aa68-1750813783155.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/reg-685b4c4d7251d42e917021ba-1750813799691.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685a9da82e0ca23014de2ff9-1750789926291.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750794805705.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750810651679.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750810935223.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811013443.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811051235.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811078390.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811105290.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811184660.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811273779.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811293373.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811321238.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750811376285.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750813783208.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d8d-1750813799706.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750794805717.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750794814021.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750810651690.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750810742944.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750810935234.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811013460.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811051254.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811078405.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811105306.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811184673.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811273794.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811293401.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811321255.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750811376294.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750813783216.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/data/qr-code/sess-685b0124067c83587a285d91-1750813799713.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/middleware/upload.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/models/AttendSession.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/utils/qrGenerator.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/app/View/Components/FormsFront/InputRegister.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/app/View/Components/FormsFront/Textarea.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/front/assets/css/event-register.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/front/assets/js/event-register.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/comite/scanqr.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/components/forms-front/input-register.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/components/forms-front/textarea.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/event-register/input/payment.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/event-register/input/session.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/event-register/input/visitor.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/events/attendee.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/events/sessattend.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/scan-back.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/member/profile.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/member/registered.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/resources/views/sertif.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/routes/web2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/EventRegisterController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/EventRegisterController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/EventsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/EventsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/authController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middleware/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middleware/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/Event.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/Event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/EventRegister.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/EventRegister.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/EventVisitor.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/EventVisitor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/Registration.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/Registration.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/Session.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/Session.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/route.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Controllers/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Controllers/FinanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Controllers/FinanceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/resources/views/admin/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/admin/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/resources/views/admin/manage-users.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/admin/manage-users.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/resources/views/finance/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/finance/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/resources/views/finance/registrations.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/finance/registrations.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/test2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Controllers/ComiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Controllers/ComiteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Controllers/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Controllers/DashboardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Controllers/EventController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Controllers/EventController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Controllers/EventRegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Controllers/EventRegistrationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Controllers/MemberController.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Controllers/MemberController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/Http/Middleware/AuthMiddleware.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/Http/Middleware/AuthMiddleware.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/front/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/front/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/front/assets/css/templatemo-scholar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/front/assets/css/templatemo-scholar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/comite/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/comite/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/components/forms-front/input.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/components/forms-front/input.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/components/forms/input.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/components/forms/input.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/components/forms/textarea.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/components/forms/textarea.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/event-register/detail.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/event-register/detail.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/event-register/register.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/event-register/register.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/event-register/registered.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/events/add.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/events/add.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/events/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/events/edit.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/events/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/events/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/events/input/session.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/events/input/session.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/resources/views/layouts/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/admin.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/resources/views/layouts/finance.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/finance.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/layouts/back.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/back.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/layouts/front.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/front.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/layouts/partials-back/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/partials-back/navbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/layouts/partials-back/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/partials-back/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/layouts/partials-front/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/layouts/partials-front/navbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/resources/views/test.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/resources/views/test.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -173,7 +299,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Merging main",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/ThinkPad/web/pwl-kampusEvent",
     "node.js.detected.package.eslint": "true",
@@ -208,7 +334,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1750814984524</updated>
-      <workItem from="1750814985631" duration="20212000" />
+      <workItem from="1750814985631" duration="20688000" />
     </task>
     <servers />
   </component>
