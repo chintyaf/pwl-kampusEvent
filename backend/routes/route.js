@@ -50,7 +50,7 @@ router.get(
 // router.get("/staff/event-register/:id/register", staffController.viewEvent);
 // :id => session id
 router.post("/staff/re-register", staffController.updateAttendance);
-router.post("/staff/test-qr", staffController.testQR);
+// router.post("/staff/test-qr", staffController.testQR);
 
 // MEMBER
 // View attendees of an event

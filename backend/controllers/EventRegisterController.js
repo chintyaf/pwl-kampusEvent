@@ -157,42 +157,6 @@ exports.register = async (req, res) => {
         console.log(eventReg);
         await eventReg.save();
 
-        // Ambil event dan update sesi
-        const event = await Event.findById(event_id);
-        if (!event) {
-            return res.status(404).json({ message: "Event not found." });
-        }
-
-        let sessionModified = false;
-
-        for (const s of sessions) {
-            const session = event.session.find(
-                (sess) => sess._id.toString() === s.id.toString()
-            );
-
-            if (session) {
-                const alreadyRegistered = session.attending_user.some(
-                    (u) => u.user.toString() === user_id.toString()
-                );
-
-                if (!alreadyRegistered) {
-                    session.attending_user.push({
-                        user: user_id,
-                        status: "absent",
-                        certificate: {},
-                    });
-
-                    session.total_participants =
-                        (session.total_participants || 0) + 1;
-                    sessionModified = true;
-                }
-            } else {
-                console.warn(`⚠️ Session ID ${s.id} not found in event.`);
-            }
-        }
-
-        if (sessionModified) await event.save();
-
         return res.status(201).json({
             message:
                 "Successfully registered, please wait for payment confirmation.",

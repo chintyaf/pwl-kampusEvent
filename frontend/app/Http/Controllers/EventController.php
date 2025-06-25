@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class EventController extends Controller
 {
@@ -72,53 +74,47 @@ class EventController extends Controller
 
         if ($response->successful()) {
             $user = $auth->json();
-            $session = $response->json(); // parse JSON response to array
-            return view('events.sessattend')->with(['session' => $session, 'user' => $user]);
+            $event = $response->json(); // parse JSON response to array
+            $session = $event['session'];
+            // dd($event, $session, $user);
+            return view('events.sessattend')->with(['session' => $session, 'event' => $event['event'], 'user' => $user]);
         } else {
             abort(404, 'Event not found or error fetching event.');
         }
         return view('events.sessattend');
     }
 
-    public function uploadCert(Request $request, $user_id, $event_id, $session_id)
+    public function uploadCert(Request $request)
     {
-        $token = Session::get('token');
-
-        // 1. Validate token
-        $auth = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-        ])->post('http://localhost:3000/api/auth/login-auth');
-
-        if ($auth->failed()) {
-            Session::forget('token');
-            return redirect()
-                ->route('login') // assuming named route
-                ->withErrors(['login' => 'Session expired or invalid token']);
+        if (!$request->hasFile('zipFile')) {
+            return response()->json(['message' => 'No file uploaded.'], 400);
         }
 
-        // 2. Validate file input
-        $request->validate([
-            'certificate' => 'required|file|mimes:pdf,png,jpg|max:10240', // 10MB max
-        ]);
+        $file = $request->file('zipFile');
 
-        // 3. Upload to Node.js
-        $response = Http::attach(
-            'certificate', // name expected by Node.js multer
-            file_get_contents($request->file('certificate')->getRealPath()),
-            $request->file('certificate')->getClientOriginalName(),
-        )
-            ->withHeaders([
-                'Authorization' => 'Bearer ' . $token,
-                'Accept' => 'application/json',
-            ])
-            ->post("http://localhost:3000/comite/{$user_id}/events/{$event_id}/{$session_id}/uploadCert");
+        if ($file->getClientOriginalExtension() !== 'zip') {
+            return response()->json(['message' => 'Only .zip files are allowed.'], 422);
+        }
 
-        // 4. Handle Node.js response
-        if ($response->successful()) {
-            return back()->with('message', 'Certificate uploaded successfully!');
+        // Simpan zip sementara
+        $path = $file->storeAs('temp_zips', uniqid('upload_') . '.zip');
+
+        $zipPath = storage_path('app/' . $path);
+        $extractPath = storage_path('app/certificates/' . pathinfo($path, PATHINFO_FILENAME));
+
+        // Ekstrak zip
+        $zip = new ZipArchive;
+        if ($zip->open($zipPath) === TRUE) {
+            $zip->extractTo($extractPath);
+            $zip->close();
         } else {
-            return back()->withErrors(['upload' => 'Failed to upload certificate.']);
+            return response()->json(['message' => 'Failed to extract zip file.'], 500);
         }
+
+        // (Opsional) Hapus file zip setelah ekstrak
+        unlink($zipPath);
+
+        return response()->json(['message' => 'ZIP file uploaded and extracted successfully.']);
     }
 
     public function add()
@@ -222,7 +218,7 @@ class EventController extends Controller
         }
     }
 
-        public function scanQR($id)
+    public function scanQR($id)
     {
         $response = Http::get("http://localhost:3000/api/events/{$id}");
 

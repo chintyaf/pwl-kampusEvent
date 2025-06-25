@@ -6,7 +6,7 @@ const objSchema = new mongoose.Schema(
         // Akun yang buat event + responsible for it
         user_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Reference to the User model
+            ref: "Users", // Reference to the User model
             required: true,
         },
 

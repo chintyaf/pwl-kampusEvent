@@ -15,10 +15,10 @@ const AttendSession = new mongoose.Schema({
     certificate: {
         file_url: String,
         upload_date: Date,
-        uploaded_by: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        },
+        // uploaded_by: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "User",
+        // },
     },
 });
 
