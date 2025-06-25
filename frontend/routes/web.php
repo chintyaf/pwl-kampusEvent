@@ -12,6 +12,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ManageUsersController;
 use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\GuestController;
 
 // Route::get('/', function () {
 //     return redirect()->route('login');
@@ -23,6 +24,8 @@ use App\Http\Controllers\MemberController;
 Route::get('/home', function () {
     return view('guest.dashboard');
 });
+// Route::get('/guest/dashboard', [GuestController::class, 'dashboard'])->name('guest.dashboard');
+
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login-auth');
