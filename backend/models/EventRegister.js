@@ -5,12 +5,12 @@ const { AttendSession } = require("./AttendSession");
 const objSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "User",
         required: true,
     },
     event_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Events",
+        ref: "Event",
         required: true,
     },
     attending_session: [AttendSession],
@@ -27,10 +27,6 @@ const objSchema = new mongoose.Schema({
             type: String,
             enum: ["pending", "approved", "rejected"],
             default: "pending",
-        },
-        verified_by: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Reference to User (finance/admin)
         },
         method: {
             type: String,

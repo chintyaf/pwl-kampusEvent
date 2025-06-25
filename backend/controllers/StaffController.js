@@ -16,7 +16,7 @@ exports.updateAttendance = async (req, res) => {
             _id: registration_id,
             user_id,
             event_id,
-        });
+        }).populate("user_id");
 
         if (!registration) {
             return res.status(404).json({ error: "Registration not found" });
@@ -43,11 +43,11 @@ exports.updateAttendance = async (req, res) => {
 
         // 4. Update attendance in EventRegister
         sessionReg.status = "present";
-        console.log(registration);
+        // console.log(registration);
         await registration.save();
 
         // 5. Also update attendance in Event.sessions.attending_user
-        console.log(event_id);
+        // console.log(event_id);
         const event = await Event.findById(event_id);
         if (!event) {
             return res.status(404).json({ error: "Event not found" });
@@ -56,14 +56,17 @@ exports.updateAttendance = async (req, res) => {
         const session = event.session.find(
             (s) => s._id.toString() === session_id
         );
+        // console.log("SESION ", session, user_id);
+
         if (!session) {
             return res
                 .status(404)
                 .json({ error: "Session not found in event" });
         }
 
+        // console.log(session.attending_user);
         const attendee = session.attending_user.find(
-            (a) => a.user.toString() === user_id
+            (a) => a.user.toString() === registration._id.toString()
         );
 
         if (!attendee) {
@@ -78,16 +81,10 @@ exports.updateAttendance = async (req, res) => {
 
         return res.json({
             message: "Attendance updated successfully",
-            session: sessionReg,
+            user: sessionReg.user, // atau sesuaikan dengan struktur
         });
     } catch (error) {
         console.error("Error updating attendance:", error);
         return res.status(500).json({ error: "Failed to update attendance" });
     }
-};
-
-exports.testQR = async (req, res) => {
-    const token = req.body;
-    console.log(token);
-    return res.json({ message: "Check-in berhasil" });
 };

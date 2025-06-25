@@ -23,14 +23,13 @@ class FinanceController extends Controller
     {
         // Mendapatkan data pembayaran yang dilakukan peserta
         try {
-            $response = Http::get($this->apiBaseUrl . '/finance/registrations');
+            $response = Http::get($this->apiBaseUrl . '/event-register/view-payment');
 
             if ($response->successful()) {
                 $registrations = $response->json();
             } else {
                 $registrations = [];
             }
-
             return view('finance.registrations', compact('registrations'));
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Terjadi kesalahan saat mengambil data pembayaran']);

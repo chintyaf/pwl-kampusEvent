@@ -26,6 +26,7 @@
                 })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     const result = document.getElementById('result');
                     if (data.user) {
                         result.innerHTML = `<b>✅ ${data.message}</b><br>Nama: ${data.user.name}`;

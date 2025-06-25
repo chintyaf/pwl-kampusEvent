@@ -14,7 +14,6 @@ exports.view = async (req, res) => {
 
 exports.register = async (req, res) => {
     try {
-        console.log("Incoming Body:", req);
         const { user_id, event_id, payment_method } = req.body;
         let sessions = [];
 
