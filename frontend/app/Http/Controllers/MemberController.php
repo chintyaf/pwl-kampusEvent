@@ -32,6 +32,7 @@ class MemberController extends Controller
         if ($response->successful()) {
             $user = $auth->json();
             $event = $response->json(); // parse JSON response to array
+            // dd($event);
             return view('member.profile')->with(
                 ['event' => $event, 'user' => $user]
             );

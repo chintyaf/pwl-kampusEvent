@@ -30,9 +30,8 @@ const SessionSchema = new mongoose.Schema({
                 enum: ["absent", "present"],
                 default: "absent",
             },
-            certificate: {
-                file_url: String,
-                upload_date: Date,
+            certificate_url: {
+                type: String,
             },
         },
     ],

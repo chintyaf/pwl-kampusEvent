@@ -8,7 +8,10 @@ exports.profile = async (req, res) => {
 
         const eventRegister = await EventRegister.find({
             user_id: userId,
-        }).populate("event_id", "name start_date end_date status");
+        }).populate(
+            "event_id",
+            "name start_date end_date status session attending_user"
+        );
 
         console.log(userId, eventRegister);
         res.json(eventRegister);

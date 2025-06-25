@@ -42,15 +42,15 @@ exports.viewAttendeesSession = async (req, res) => {
 
             if (!register || !user) return;
 
-            console.log({
-                user_id: user._id,
-                name: user.name,
-                email: user.email,
-                status: att.status,
-            });
+            // console.log({
+            //     user_id: user._id,
+            //     name: user.name,
+            //     email: user.email,
+            //     status: att.status,
+            // });
         });
 
-        console.log(session);
+        // console.log(session);
 
         res.json({ event: event, session: session });
     } catch (error) {
@@ -61,79 +61,8 @@ exports.viewAttendeesSession = async (req, res) => {
     }
 };
 
-// exports.uploadCert = async (req, res) => {
-//     const { user_id, event_id, session_id } = req.params;
-
-//     // Find one event that matches user_id and event_id
-//     const event = await Event.findOne({
-//         _id: event_id,
-//         user_id: user_id,
-//     });
-
-//     if (!event) {
-//         return res.status(404).json({ error: "Event not found" });
-//     }
-
-//     // Find the session within the event
-//     const session = event.session.findOne((s) => String(s._id) === session_id);
-
-//     const zip = req.file;
-
-//     if (!zip) return res.status(400).json({ error: "No ZIP uploaded" });
-
-//     const extractPath = path.join(
-//         __dirname,
-//         "..",
-//         "certificates",
-//         `${event_id}_${session_id}`
-//     );
-//     await fs.ensureDir(extractPath);
-
-//     fs.createReadStream(zip.path)
-//         .pipe(unzipper.Extract({ path: extractPath }))
-//         .on("close", async () => {
-//             await fs.unlink(zip.path); // delete uploaded zip
-
-//             const files = await fs.readdir(extractPath);
-
-//             // Find the session to update
-//             // const session = await Session.findOne({ _id: session_id });
-//             if (!session)
-//                 return res.status(404).json({ error: "Session not found" });
-
-//             let updatedCount = 0;
-
-//             for (const file of files) {
-//                 const filePath = `/data/certificates/${event_id}_${session_id}/${file}`;
-//                 const baseName = path.parse(file).name; // assuming baseName is user_id
-
-//                 const userEntry = session.attending_user.find(
-//                     (att) => att.user.toString() === baseName
-//                 );
-//                 if (userEntry) {
-//                     userEntry.certificate = {
-//                         file_url: filePath,
-//                         upload_date: new Date(),
-//                     };
-//                     updatedCount++;
-//                 }
-//             }
-
-//             await session.save();
-
-//             res.json({
-//                 message: `Certificates uploaded and ${updatedCount} users updated.`,
-//             });
-//         })
-//         .on("error", (err) => {
-//             res.status(500).json({ error: "Extraction failed", details: err });
-//         });
-// };
-
 exports.uploadCert = async (req, res) => {
     try {
-        console.log("HAIIIIIIIIIIIIi");
-        console.log(req);
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" });
         }
@@ -155,20 +84,80 @@ exports.uploadCert = async (req, res) => {
                     const base = path.basename(filename, ".pdf");
                     return {
                         file: filename,
-                        userId: base, // kamu bisa ubah parsing di sini
+                        eventId: base, // file format: eventRegisterId.pdf
                     };
                 });
 
-                // Clean up ZIP file
-                await fs.unlink(zipPath);
+                // Populate event and session
+                const event = await Event.findById(
+                    req.params.event_id
+                ).populate("session.attending_user");
 
-                res.json({
-                    message: `Uploaded ${pdfFiles.length} certificates.`,
+                if (!event) {
+                    return res.status(404).json({ message: "Event not found" });
+                }
+
+                const session = event.session.find(
+                    (s) => String(s._id) === req.params.session_id
+                );
+
+                if (!session) {
+                    return res
+                        .status(404)
+                        .json({ message: "Session not found" });
+                }
+
+                let updatedCount = 0;
+                console.log(session);
+                for (const cert of metadata) {
+                    const attendee = session.attending_user.find((att) => {
+                        const match = String(att.user._id) === cert.eventId;
+                        console.log(
+                            "Attendee ID:",
+                            String(att.user._id),
+                            "| Cert Event ID:",
+                            cert.eventId,
+                            "| Match:",
+                            match
+                        );
+                        return match;
+                    });
+                    console.log(attendee);
+
+                    if (attendee) {
+                        // attendee.certificate_url = `${extractDir}/${cert.file}`;
+                        const idx = session.attending_user.findIndex(
+                            (att) => String(att.user._id) === cert.eventId
+                        );
+                        if (idx !== -1) {
+                            session.attending_user[
+                                idx
+                            ].certificate_url = `${extractDir}/${cert.file}`;
+                            updatedCount++;
+                        } else {
+                            console.warn(
+                                `⚠️ User ${cert.eventId} not found in session`
+                            );
+                        }
+                        console.log("ETST", attendee.certificate_url);
+                    } else {
+                        console.warn(
+                            `⚠️ User ${cert.eventId} not found in session`
+                        );
+                    }
+                    console.log("certif", attendee);
+                }
+                // console.log("AKHIR?:", event);
+                await event.save();
+                await fs.unlink(zipPath); // remove original zip
+
+                return res.json({
+                    message: `Uploaded ${pdfFiles.length} certificates. ${updatedCount} matched & updated.`,
                     details: metadata,
                 });
             } catch (err) {
                 console.error("Post-extract error:", err);
-                res.status(500).json({
+                return res.status(500).json({
                     message: "Error processing extracted files.",
                 });
             }
@@ -177,10 +166,14 @@ exports.uploadCert = async (req, res) => {
         zipStream.on("error", async (err) => {
             console.error("Unzip failed:", err);
             await fs.unlink(zipPath); // Cleanup
-            res.status(500).json({ message: "Failed to extract zip file." });
+            return res
+                .status(500)
+                .json({ message: "Failed to extract zip file." });
         });
     } catch (err) {
         console.error("Outer catch:", err);
-        res.status(500).json({ message: "Error processing ZIP upload." });
+        return res
+            .status(500)
+            .json({ message: "Error processing ZIP upload." });
     }
 };

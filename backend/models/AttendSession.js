@@ -12,14 +12,14 @@ const AttendSession = new mongoose.Schema({
         enum: ["absent", "present"],
         default: "absent",
     },
-    certificate: {
-        file_url: String,
-        upload_date: Date,
-        // uploaded_by: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "User",
-        // },
-    },
+    // certificate: {
+    //     file_url: String,
+    //     upload_date: Date,
+    //     // uploaded_by: {
+    //     //     type: mongoose.Schema.Types.ObjectId,
+    //     //     ref: "User",
+    //     // },
+    // },
 });
 
 module.exports = { AttendSession };

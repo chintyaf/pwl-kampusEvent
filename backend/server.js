@@ -10,6 +10,11 @@ app.use(
     express.static(path.join(__dirname, "data", "qr-code"))
 );
 
+app.use(
+    "/data/certificates",
+    express.static(path.join(__dirname, "data", "certificates"))
+);
+
 // Serve public folder
 app.use("/files", express.static(path.join(__dirname, "data")));
 
