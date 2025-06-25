@@ -4,24 +4,10 @@ const authController = require("../controllers/authController");
 const eventController = require("../controllers/EventsController");
 const financeController = require("../controllers/FinanceController");
 const eventRegistController = require("../controllers/EventRegisterController");
-const { createRegistration, getAllRegistrations, updatePaymentStatus } = require('../controllers/registrationController');
-
-// Rute untuk membuat pendaftaran baru
-router.post('/registrations', createRegistration);
-
-// Rute untuk mengambil semua pendaftaran
-router.get('/registrations', getAllRegistrations);
-
-// Rute untuk memperbarui status pembayaran
-router.put('/registrations/payment-status', updatePaymentStatus);
-// Ini yang lama I think
-// router.post("/register", authController.register);
-// router.post("/login", authController.login);
 const staffController = require("../controllers/StaffController");
 const comiteController = require("../controllers/ComiteController");
 const memberController = require("../controllers/memberController");
 const auths = require("../middleware/auth");
-
 const { paymentUpload, certUpload } = require("../middleware/upload");
 
 router.post("/auth/register", authController.register); // Register akun
@@ -34,18 +20,6 @@ router.post("/events/store", eventController.store);
 router.get("/events/:id", eventController.edit);
 router.put("/events/:id", eventController.update);
 
-router.post("/member/event/register", eventRegistController.register);
-const User = require('../models/User');
-
-// GET all users
-router.get('/users', async (req, res) => {
-    try {
-        const users = await User.find();
-        res.json(users); // kirim seluruh data user
-    } catch (error) {
-        res.status(500).json({ error: 'Gagal mengambil data user' });
-    }
-});
 // FINANCE
 // router.put("/finance/:id", financeController.payment);
 
@@ -70,15 +44,10 @@ router.get(
     memberController.registered
 );
 
-// Staff
-// scan QR => update
+// STAFF --  :id => session id
 // router.get("/staff/event-register/:id/register", staffController.viewEvent);
-// :id => session id
+// scan QR => update
 router.post("/staff/re-register", staffController.updateAttendance);
-// router.post("/staff/test-qr", staffController.testQR);
-
-// MEMBER
-// View attendees of an event
 
 // COMITE
 router.get("/comite/:user_id/events/:event_id", comiteController.viewAttendees); //

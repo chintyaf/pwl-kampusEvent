@@ -12,98 +12,9 @@ exports.view = async (req, res) => {
     }
 };
 
-// exports.register = async (req, res) => {
-//     console.log(req.body);
-
-//     const { user_id, event_id, payment_method } = req.body;
-//     let sessions = [];
-
-//     try {
-//         sessions = JSON.parse(req.body.sessions); // karena dikirim dari Laravel sebagai string
-//     } catch (e) {
-//         return res.status(400).json({ message: "Invalid sessions format." });
-//     }
-
-//     // Validasi dasar
-//     if (
-//         !user_id ||
-//         !event_id ||
-//         !Array.isArray(sessions) ||
-//         sessions.length === 0
-//     ) {
-//         return res
-//             .status(400)
-//             .json({ message: "Missing required registration data." });
-//     }
-
-//     // Ambil path file dari multer
-//     const proofImageUrl = req.file ? req.file.path : null;
-
-//     const attending_session = sessions.map((s) => ({
-//         session_id: s.id,
-//     }));
-
-//     // Simpan registrasi baru
-//     const eventReg = new EventRegister({
-//         user_id,
-//         event_id,
-//         attending_session,
-//         payment: {
-//             method: payment_method,
-//             proof_image_url: proofImageUrl,
-//         },
-//     });
-
-//     // await eventReg.save();
-
-//     const event = await Event.findById(event_id);
-//     if (!event) return res.status(404).json({ message: "Event not found." });
-
-//     let sessionModified = false;
-//     for (const s of sessions) {
-//         const session = event.session.find(
-//             (sess) => sess._id.toString() === s.id.toString()
-//         );
-//         if (session) {
-//             const alreadyRegistered = session.attending_user.some(
-//                 (u) => u.user.toString() === user_id.toString()
-//             );
-//             if (!alreadyRegistered) {
-//                 session.attending_user.push({
-//                     user: user_id,
-//                     status: "absent",
-//                     certificate: {},
-//                 });
-//                 session.total_participants =
-//                     (session.total_participants || 0) + 1;
-//                 sessionModified = true;
-//             }
-//         } else {
-//             console.warn(`Session ID ${s.id} not found in event.`);
-//         }
-//     }
-
-//     // if (sessionModified) await event.save();
-
-//     return res.status(201).json({
-//         message:
-//             "Successfully registered, please wait for payment confirmation.",
-//         // registration_id: eventReg._id,
-//     });
-
-//     try {
-//     } catch (err) {
-//         console.error("Error registering for event:", err);
-//         return res
-//             .status(500)
-//             .json({ message: "Server error during registration." });
-//     }
-// };
-
 exports.register = async (req, res) => {
     try {
-        console.log("Incoming Body:", req.body);
-
+        console.log("Incoming Body:", req);
         const { user_id, event_id, payment_method } = req.body;
         let sessions = [];
 
