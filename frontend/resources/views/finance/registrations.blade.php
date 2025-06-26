@@ -53,8 +53,9 @@ function fetchPayments() {
             data.forEach(item => {
                 const row = `
                     <tr>
-                        <td>${item.user_id}</td>
-                        <td>${item.event_id}</td>
+                        <td>${item.user_id?.name || '-'}</td>
+                        <td>${item.event_id?.name || '-'}</td>
+
                         <td>${item.payment.status}</td>
                         <td>${item.payment.method}</td>
                         <td><img src="/${item.payment.proof_image_url}" width="80"/></td>

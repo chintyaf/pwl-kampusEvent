@@ -65,7 +65,7 @@
     <!-- Modal Tambah Akun Panitia/Finance -->
 <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="/register" method="POST" class="modal-content">
+    <form action="/register" id="createTeamForm" method="POST" class="modal-content">
         @csrf
         <div class="modal-header">
             <h5 class="modal-title" id="createUserModalLabel">Buat Akun Tim</h5>
@@ -202,6 +202,29 @@
 
 {{-- Custom JavaScript untuk dashboard --}}
 @section('scripts')
+
+        <script>
+document.getElementById("createTeamForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    fetch("/admin/register-team", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Berhasil buat akun!");
+        // Optional: close modal, refresh data, dll
+    })
+    .catch(err => {
+        alert("Gagal membuat akun.");
+    });
+});
+</script>
     <script>
         // Auto-refresh statistics setiap 30 detik
         setInterval(function() {

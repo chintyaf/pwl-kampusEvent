@@ -73,6 +73,8 @@ Route::middleware(['auth.api:admin'])->group(function () {
     Route::get('users/member', [AdminController::class, 'listMembers'])->name('admin.list-member');
     Route::get('/admin/users', [AdminController::class, 'getAllUsers'])->name('admin.users');
 
+    Route::post('/admin/register-team', [AdminController::class, 'registerTeam']);
+
 
     // Membuat akun baru
     Route::post('users/finance', [AdminController::class, 'createFinanceUser'])->name('admin.create-finance');

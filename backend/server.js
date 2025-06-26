@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+// const userRoutes = require("./routes/userRoutes");
+// app.use("/api", userRoutes);
 
 app.use(
     "/data/qr-code",
