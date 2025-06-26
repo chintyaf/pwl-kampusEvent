@@ -54,24 +54,17 @@ class AdminController extends Controller
      * Mengambil daftar semua user dari database
      */
     public function manageUsers()
-    {
-        try {
-            // Mengambil daftar semua user dari API
-            $response = Http::get($this->apiBaseUrl . '/admin/users');
+{
+    try {
+        $response = Http::get($this->apiBaseUrl . '/users');
+        $users = $response->successful() ? $response->json() : [];
 
-            if ($response->successful()) {
-                $users = $response->json()['data'];
-            } else {
-                $users = [];
-            }
-
-            return view('admin.manage-users', compact('users'));
-
-        } catch (\Exception $e) {
-            Log::error('Error fetching users: ' . $e->getMessage());
-            return view('admin.manage-users', ['users' => []]);
-        }
+        return view('admin.manage-users', compact('users'));
+    } catch (\Exception $e) {
+        Log::error('Error fetching users: ' . $e->getMessage());
+        return view('admin.manage-users', ['users' => []]);
     }
+}
 
     /**
      * Menampilkan daftar member

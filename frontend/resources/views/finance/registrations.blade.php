@@ -1,148 +1,152 @@
- @extends('layouts.back')
+@extends('layouts.back')
+
+@section('title', 'Registrasi Peserta')
 
 @section('content')
-<div class="container">
-    <h2>Daftar Pembayaran Event</h2>
-    <table id="paymentTable" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Event ID</th>
-                <th>Status</th>
-                <th>Metode</th>
-                <th>Bukti</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+<div class="container-fluid py-4">
+    <h4>Daftar Registrasi Peserta</h4>
+    <div class="table-responsive">
+        <table id="registrationsTable" class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>No</th>
+                    <th>Nama Peserta</th>
+                    <th>Email</th>
+                    <th>Event</th>
+                    <th>Status</th>
+                    <th>Metode</th>
+                    <th>Bukti</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="8" class="text-center">Memuat data...</td></tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<!-- Modal untuk Detail -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+<!-- Modal Detail -->
+<div class="modal fade" id="statusModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Detail Pembayaran</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>User ID:</strong> <span id="detailUser"></span></p>
-        <p><strong>Event ID:</strong> <span id="detailEvent"></span></p>
-        <p><strong>Status:</strong> <span id="detailStatus"></span></p>
-        <p><strong>Metode:</strong> <span id="detailMethod"></span></p>
-        <img id="detailImage" src="" class="img-fluid" />
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-success" onclick="updateStatus('approved')">Approve</button>
-        <button class="btn btn-danger" onclick="updateStatus('rejected')">Reject</button>
-      </div>
-    </div>
+    <form class="modal-content" id="statusForm">
+        <div class="modal-header">
+            <h5 class="modal-title">Update Status Pembayaran</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="selectedId">
+            <p><strong>Nama:</strong> <span id="modalName"></span></p>
+            <p><strong>Event:</strong> <span id="modalEvent"></span></p>
+            <div class="mb-3">
+                <label>Status Pembayaran</label>
+                <select id="statusSelect" class="form-select" required>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </form>
   </div>
 </div>
+@endsection
 
+@section('scripts')
 <script>
-let selectedId = null;
+let registrations = [];
 
-function fetchPayments() {
-    fetch("/event-register/view-payment")
+document.addEventListener('DOMContentLoaded', () => {
+    loadRegistrations();
+
+    document.getElementById('statusForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const id = document.getElementById('selectedId').value;
+        const status = document.getElementById('statusSelect').value;
+        updateStatus(id, status);
+    });
+});
+
+function loadRegistrations() {
+    fetch('http://localhost:3000/event-register/view-payment')
         .then(res => res.json())
         .then(data => {
-            const tbody = document.querySelector("#paymentTable tbody");
-            tbody.innerHTML = "";
-            data.forEach(item => {
-                const row = `
-                    <tr>
-                        <td>${item.user_id?.name || '-'}</td>
-                        <td>${item.event_id?.name || '-'}</td>
-
-                        <td>${item.payment.status}</td>
-                        <td>${item.payment.method}</td>
-                        <td><img src="/${item.payment.proof_image_url}" width="80"/></td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" onclick="viewDetail('${item._id}')">Detail</button>
-                        </td>
-                    </tr>
-                `;
-                tbody.innerHTML += row;
-            });
+            registrations = data;
+            renderTable(data);
+        })
+        .catch(err => {
+            console.error("Gagal ambil data:", err);
+            const tbody = document.querySelector("#registrationsTable tbody");
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">Gagal memuat data.</td></tr>';
         });
 }
 
-function viewDetail(id) {
-    selectedId = id;
-    fetch(`/event-register/view-payment/${id}`)
-        .then(res => res.json())
-        .then(item => {
-            document.getElementById("detailUser").textContent = item.user_id;
-            document.getElementById("detailEvent").textContent = item.event_id;
-            document.getElementById("detailStatus").textContent = item.payment.status;
-            document.getElementById("detailMethod").textContent = item.payment.method;
-            document.getElementById("detailImage").src = "/" + item.payment.proof_image_url;
-            new bootstrap.Modal(document.getElementById('paymentModal')).show();
-        });
+function renderTable(data) {
+    const tbody = document.querySelector('#registrationsTable tbody');
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center">Tidak ada registrasi.</td></tr>';
+        return;
+    }
+
+    data.forEach((item, index) => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.user_id?.name || '-'}</td>
+                <td>${item.user_id?.email || '-'}</td>
+                <td>${item.event_id?.name || '-'}</td>
+                <td><span class="badge bg-${getStatusColor(item.payment.status)}">${item.payment.status}</span></td>
+                <td>${item.payment.method.toUpperCase()}</td>
+                <td><img src="/${item.payment.proof_image_url}" width="80"/></td>
+                <td>
+                    <button class="btn btn-sm btn-primary" onclick="openStatusModal('${item._id}')">Update</button>
+                </td>
+            </tr>
+        `;
+    });
 }
 
-function updateStatus(status) {
-    if (!selectedId) return;
-    fetch(`/event-register/view-payment/${selectedId}/update`, {
+function getStatusColor(status) {
+    switch (status) {
+        case 'approved': return 'success';
+        case 'pending': return 'warning';
+        case 'rejected': return 'danger';
+        default: return 'secondary';
+    }
+}
+
+function openStatusModal(id) {
+    const reg = registrations.find(r => r._id === id);
+    if (!reg) return;
+
+    document.getElementById('selectedId').value = id;
+    document.getElementById('modalName').textContent = reg.user_id?.name || '-';
+    document.getElementById('modalEvent').textContent = reg.event_id?.name || '-';
+    document.getElementById('statusSelect').value = reg.payment.status;
+
+    new bootstrap.Modal(document.getElementById('statusModal')).show();
+}
+
+function updateStatus(id, status) {
+    fetch(`http://localhost:3000/event-register/view-payment/${id}/update`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
     })
     .then(res => res.json())
     .then(resp => {
-        alert(resp.message || "Berhasil memperbarui status.");
-        fetchPayments();
-        bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+        bootstrap.Modal.getInstance(document.getElementById('statusModal')).hide();
+        loadRegistrations();
+    })
+    .catch(err => {
+        alert("Gagal update status.");
     });
 }
-
-document.addEventListener("DOMContentLoaded", fetchPayments);
 </script>
 @endsection
-
-
-{{--@section('title', 'Daftar Pembayaran')
-
-@section('content')
-    <div class="container">
-        <h2>Daftar Pembayaran</h2>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Nama Event</th>
-                <th>Nama Member</th>
-                <th>Email Member</th>
-                <th>Status Pembayaran</th>
-                <th>Aksi</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($registrations as $registration)
-                <tr>
-                    <td>{{ $registration['eventId']['name'] }}</td>
-                    <td>{{ $registration['memberName'] }}</td>
-                    <td>{{ $registration['memberEmail'] }}</td>
-                    <td>{{ $registration['paymentStatus'] }}</td>
-                    <td>
-                        <form action="{{ route('finance.update.status', $registration['id']) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <select name="paymentStatus" class="form-control">
-                                <option value="pending" {{ $registration['paymentStatus'] == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="paid" {{ $registration['paymentStatus'] == 'paid' ? 'selected' : '' }}>Paid</option>
-                                <option value="verified" {{ $registration['paymentStatus'] == 'verified' ? 'selected' : '' }}>Verified</option>
-                                <option value="rejected" {{ $registration['paymentStatus'] == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                            </select>
-                            <button type="submit" class="btn btn-success mt-2">Update Status</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-@endsection --}}
